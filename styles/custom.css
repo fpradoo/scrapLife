@@ -1,0 +1,296 @@
+body {
+	background-color: #34495e;
+	overflow-x: hidden;
+}
+.navbar-default .navbar-nav > .active > a .caret {
+  	border-top-color: #FFF;
+  	border-bottom-color: #FFF;
+}
+.navbar-default .navbar-nav > .dropdown > a:hover .caret,
+.navbar-default .navbar-nav > .dropdown > a:focus .caret {
+  	border-top-color: #FFF;
+  	border-bottom-color: #FFF;
+}
+.navbar-default .navbar-brand {
+	color: #FFF;
+	font-size: 20px;
+	font-weight: 100;
+}
+.navbar-toggle {
+	margin: 0 20px 0 21px;
+}
+.navbar-default .navbar-toggle:before {
+	color: #EEE;
+}
+.navbar-default .navbar-nav > .dropdown > a .caret {
+  	border-top-color: #FFF;
+  	border-bottom-color: #FFF;	
+}
+.navbar-nav > li > a {
+	padding: 15px 11px;
+}
+.row {
+	background-color: #fff;
+	margin-bottom: 15px;
+}
+.row.section {
+	border-top: 10px solid #31344B;
+}
+.jumbotron h4 {
+	color: #000;
+}
+.container {
+	max-width: 970px;
+}
+.col-md-5, .col-md-7 {
+	padding-left: 0;
+	padding-right: 0;
+}
+.row.with-background {
+	background-color: #616b75;
+}
+img { 
+	width: 100%;
+}
+.jumbotron.square {
+	border-radius: 0;
+	font-size: 15px;
+	margin-bottom: 0;
+}
+.jumbotron.square > h4 {
+	color: #000;
+}
+.jumbotron.square.header {
+	background-color: #009f87;
+}
+
+#bio .jumbotron.square > p {
+	font-size: 15px;
+}
+.jumbotron {
+	margin-bottom: 0;
+}
+.jumbotron.square > p {
+	font-size: 18px;
+}
+.side.jumbotron.square {
+	background-color: #616b75;
+}
+.navbar-default {
+	background-color: #282828;
+	color: #FFF;
+}
+.navbar-default > a {
+	color: #FFF;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+	color: #009f87;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+	background-color: #fff;
+	color: #000;
+}
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+	margin-right: 45px;
+}
+h1, h2, h3, h4 {
+	font-family: "Fjalla One", Helvetica, sans-serif;
+	text-transform: uppercase;
+	color: #FFF;
+}
+h1 {
+	font-size: 45px;
+}
+h2 {
+	font-size: 24px;
+	margin-top: 0;
+}
+h3 {
+	font-size: 16px;
+}
+#about > p {
+	color: #FFF;
+}
+.dark {
+	background-color: #444869;
+}
+.dark > p {
+	color: #fff;
+}
+.light { 
+	background-color: #EEE;
+	color: #000;
+}
+.top {
+	margin-top: 53px;
+}
+.row.top {
+	margin-bottom: 0;
+}
+.navbar-default .navbar-nav > li {
+	font-family: "Fjalla One", Helvetica, sans-serif;
+	text-transform: uppercase;
+}
+.navbar-default .navbar-nav > li > a {
+	color: #fff;
+}
+.side > h2 {
+	margin-top: 0!important;
+}
+#portfolio .row {
+	background-color: #EEE;
+}
+.tile > h4 {
+	font-size: 16px;
+}
+.tile > p {
+	font-size: 14px;
+}
+#portfolio-wrapper {
+	position: relative;
+	margin-top: 20px;
+}
+.project-item {
+    float: left;
+    margin: 0 40px 40px 0;
+    width: 175px;
+}
+.project-photo {}
+.project-title {
+    border-bottom: 5px solid #009F87;
+    font-family: "Fjalla One",Helvetica,sans-serif;
+    height: 35px;
+    line-height: 35px;
+    margin-bottom:5px;
+    font-size: 92%;
+    overflow: hidden;
+}
+.project-description {
+	font-family: "Helvetica Neue", Arial, sans-serif;
+	font-size: 12px;
+	height: 85px;
+}
+.project-type {
+	background-color: #009f87;
+	border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	width: auto;
+	padding: 5px;
+	text-align: center;
+	color: #fff;
+	font-weight: bold;
+	float: left;
+	font-size: 12px;
+	margin-bottom: 30px;
+}
+.project-photo img {
+	width: 175px;
+	height: 175px;
+	border: 1px solid #000;
+}
+h2.bg-primary {
+	padding: 10px;
+	line-height: 1.25em;
+	font-weight: 300;
+}
+.jumbotron.header a {
+	color: #eee!important;
+}
+.jumbotron h1, .jumbotron .h1 {
+	font-size: 49px;
+}
+.jumbotron.header {
+	color: #eee;
+}
+.jumbotron.callout {
+	border-top: 10px solid #31344B;
+	border-bottom: 10px solid #31344B
+}
+.hella-large-quote {
+	bottom: -25px;
+	color: #024037;
+	font-family: "Fjalla One","Helvetica Neue",sans-serif;
+	font-size: 60px;
+	left: 10px;
+	margin-right: 20px;
+	position: relative;
+}
+.hella-large-quote.last {
+	font-size: 30px;
+	left: 10px;
+	line-height: 0;
+	position: relative;
+	top: 20px;
+}
+blockquote {
+	background-color: #03CEAF;
+	border-radius: 0 10px 0 10px;
+	-webkit-border-radius: 0 10px 0 10px;
+	-moz-border-radius: 0 10px 0 10px;
+	font-size: 16px;
+	line-height: 24px;
+	padding: 25px;
+	color: #000;
+}
+.testimonial {
+	padding-bottom: 15px;
+}
+.testimonial-author {
+	background-color: #FFFFFF;
+	border: 2px solid #000000;
+	display: block;
+	float: right;
+	font-size: 12px;
+	padding: 5px;
+	position: relative;
+	text-align: right;
+	top: -45px;
+	right: 10px;
+	width: auto;
+}
+.bg-primary > a {
+	color: #EEE;
+}
+form {
+	margin-bottom: 20px;
+}
+.footer > .jumbotron {
+	background-color: #282828;
+}
+.footer > .jumbotron p {
+	font-size: 16px;
+	color: #EEE;
+}
+.link-item {
+	position: relative;
+	width: auto;
+	font-size: 12px;
+	display: block;
+	overflow: hidden;
+	margin-bottom: 5px;
+}
+.link-title {
+	float: left;
+}
+.link-text {
+	float: right;
+}
+.readmore {
+	color: #2d2d2d;
+	font-size: 14px;
+}
+.blockquote-reverse {
+	padding: 40px;
+	font-size: 18px;
+	color: #2d2d2d;
+}
+blockquote .label-primary {
+	font-size: 16px
+}
+blockquote footer a {
+	color: #FFF;
+}
+blockquote footer a:hover {
+	color: #000;
+}
