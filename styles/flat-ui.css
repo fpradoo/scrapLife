@@ -4815,7 +4815,7 @@ select[multiple].navbar-input {
 @media (min-width: 768px) {
   .navbar-nav + .navbar-form.navbar-left,
   .navbar-form.navbar-right:last-child {
-    width: 260px;
+    width: 460px;
   }
 }
 .navbar-form .form-control,
