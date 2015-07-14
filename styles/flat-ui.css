@@ -418,7 +418,7 @@ body {
   font-family: "Lato", Helvetica, Arial, sans-serif;
   font-size: 18px;
   line-height: 1.72222;
-  color: #34495e;
+  color: #d4d4d4;
   background-color: #ffffff;
 }
 a {
@@ -529,7 +529,7 @@ h6,
 p {
   font-size: 18px;
   line-height: 1.72222;
-  margin: 0 0 15px;
+  margin: 0 0;
 }
 .lead {
   margin-bottom: 30px;
@@ -585,7 +585,7 @@ a.text-info:hover {
 }
 .bg-primary {
   color: #ffffff;
-  background-color: #34495e;
+  background-color: #ffadad;
 }
 a.bg-primary:hover {
   background-color: #222f3d;
@@ -1440,7 +1440,7 @@ fieldset[disabled] .btn-link:focus {
   padding: 3px 20px;
 }
 .select .btn .dropdown-menu li:not(.disabled) > a:hover small {
-  color: rgba(255, 255, 255, 0.004);
+  color: #858585;
 }
 .select .btn .dropdown-menu li > a {
   min-height: 20px;
@@ -1459,8 +1459,8 @@ fieldset[disabled] .btn-link:focus {
   cursor: default;
 }
 .select .caret {
-  border-bottom-color: #ffffff;
-  border-top-color: #ffffff;
+  border-bottom-color: #858585;
+  border-top-color: #858585;
 }
 legend {
   display: block;
@@ -3685,7 +3685,7 @@ fieldset[disabled] .twitter-typeahead .tt-hint {
   color: #ffffff;
 }
 .dropdown-menu li > a {
-  color: rgba(52, 73, 94, 0.75);
+  color: black;
   padding: 6px 15px 8px;
   text-decoration: none;
   -webkit-transition: background-color 0.25s;
@@ -3707,7 +3707,7 @@ fieldset[disabled] .twitter-typeahead .tt-hint {
 .dropdown-menu li > a:active,
 .dropdown-menu li > a:focus {
   background: #e1e4e7;
-  color: inherit;
+  color: #858585;
   outline: none;
 }
 .dropdown-menu li > a.highlighted {
@@ -4675,7 +4675,7 @@ a.list-group-item.active > .badge,
   font-size: 24px;
   line-height: 1.042;
   font-weight: 700;
-  padding: 14px 21px;
+  padding: 16px 21px;
 }
 .navbar-brand > [class*="fui-"] {
   font-size: 19px;
@@ -4725,12 +4725,13 @@ a.list-group-item.active > .badge,
 }
 .navbar-nav {
   margin: 0;
+  padding-left: 60px;
 }
 .navbar-nav > li > a {
   font-size: 16px;
   padding: 15px 21px;
   line-height: 23px;
-  font-weight: 700;
+  font-weight: lighter;
 }
 .navbar-nav .dropdown-toggle .caret {
   border-top-color: #16a085;
@@ -4974,7 +4975,7 @@ select[multiple].navbar-form .btn {
   -webkit-font-smoothing: subpixel-antialiased;
 }
 .navbar-default {
-  background-color: #ecf0f1;
+  background-color: #d4d4d4;
 }
 .navbar-default .navbar-brand {
   color: #34495e;

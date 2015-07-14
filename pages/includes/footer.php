@@ -1,12 +1,15 @@
 		<div class="row footer">
 			<div class="jumbotron callout">
 				<div class="container">
-					<div class="col-md-8">
-						<h3>Thank you for visiting.</h3>
+					
+						<!--
+						<h3>Esto es un footer.</h3>
+						-->
 						<p>
-						Mario Starks is a creative technologist, senior web developer, and digital strategist expert currently based in New York City. He has over 8 years work experience supporting web application development, project management, technical writing, and digital strategy. Mario is currently Design Technologist for <a href="http://www.doberman.se/" target="_blank">Doberman New York</a>. If you're interested in speaking about new product development opportunities, writing or speaking opportunities, or other creative project collaborations, contact Mario at mario.starks@gmail.com.
+						&copy; AlconanSoft. Todos los derechos reservados.
 						</p>
-					</div>				  
+						
+					<!-- Enlaces a redes Sociales					
 					<div class="col-md-4">
 						<h3>Follow Mario Starks</h3>
 						<div id="links" class="well">
@@ -32,6 +35,7 @@
 							</div>
 						</div>
 					</div>
+					-->
 				</div>
 			</div>
 		</div>
