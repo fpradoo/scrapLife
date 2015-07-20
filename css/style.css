@@ -1,0 +1,281 @@
+*{
+	margin:0;
+	padding: 0;
+	list-style:none;
+	text-decoration:none;
+	font-family: 'Calibri';
+}
+
+a{
+	color: #FFF;
+}
+
+a:hover{
+	color: #999999;
+}
+
+body{
+	background: #FFF;
+}
+
+/* Inicio header*/
+header{
+	background:#FF2EA2;
+	height: 60px;
+	color: #fff;
+	text-transform: uppercase;
+	width: 100%;
+}
+
+header>div.menu{
+	margin: 0px 70px;
+	padding: 20px 0px;
+	width: 1240px;
+	background: #FF2EA2;
+	height: 20px;
+}
+
+header>div.menu>div{
+	float: left;
+	padding: 0px 30px;
+}
+
+header>div.menu>div.sep{
+	padding: 0px 20px;
+}
+
+header>div.menu>div.redes{ /* Menu Rollover Redes y Productos */
+	float: right;
+}
+
+header>div.menu>div.redes ul li ul, header>div.menu>div.products ul li ul { /* Menu Rollover Redes y Productos */
+	display:none;
+}
+
+header>div.menu>div.redes li:hover>ul, header>div.menu>div.products li:hover>ul{ /* Menu Rollover Redes y Productos */
+	display: block;
+	background-color: #fff;
+	padding: 10px 24px;
+}
+
+header>div.menu>div.redes li:hover>ul{
+	position: absolute;
+	right: 60px;
+	padding: 10px 20px;
+}
+
+div.redes>ul>li>ul>li>a.fb{ /* Menu Redes */
+	background: url(img/fb.png) no repeat;
+}
+
+div.redes>ul>li>ul>li>a.fb:hover{
+	background: url(img/fb.rollover.png) no repeat;
+}
+
+
+div.redes>ul>li>ul>li>a.itg{
+	background: url(img/itg.png) no repeat;
+}
+
+div.redes>ul>li>ul>li>a.itg:hover{
+	background: url(img/itg.rollover.png) no repeat;
+}
+
+div.redes>ul>li>ul>li>a.ptrst{
+	background: url(img/ptrst.png) no repeat;
+}
+
+div.redes>ul>li>ul>li>a.ptrst:hover{
+	background: url(img/ptrst.rollover.png) no repeat;
+}
+
+header>div.menu>div.products li:hover>ul{
+	position: absolute;
+	top: 45px;
+	left: 504px;
+	width: 100px;
+}
+
+div.products>ul>li>ul>li>a {
+	color: #FF2EA2;
+}
+
+div.products>ul>li>ul>li>a:hover {
+	color: #999999;
+}
+
+div.products>ul>li>ul>li {
+	padding: 5px 0px;
+}
+
+div.products>ul>li>a>p {
+	padding-right: 20px;
+	float: left;
+}
+
+div.products>ul>li>a>img{
+	position: absolute;
+	padding-top: 7px;
+}
+
+div.products>ul>li {
+	height: 100px;
+}
+
+header>div.menu>div.input-mail{ /* Suscribite  */
+	padding: 0px 50px;
+}
+
+input[type="submit"] { /* Suscribite: Input Boton */
+	background-color: #FF2EA2;
+	border: 0;
+	color: #fff;
+	font-family: calibri;
+	text-transform: uppercase;
+	padding-left: 10px;
+	font-size: 1em;
+}
+
+input[type="text"] { /* Suscribite: Input Text */
+	border: 0;
+	height: 25px;
+	color: #999999;
+}
+
+input[placeholder="Mail"] {
+	padding-left: 20px;
+}
+
+/* Fin header */
+
+/* Inicio Index main */
+div.index-main{
+	position: absolute;
+	margin-bottom: 50px;
+}
+
+section.slider {
+	margin: 0 auto;
+	height: 449.67px;
+	width: 1349px;;
+}
+
+section.slider>div {
+	width: 390px;
+	height: 253px;
+}
+
+div.index-main>section.slider>div {
+	float: left;
+	color: #FF2EA2;
+	font-size: 1.2em;
+}
+
+section.slider>div>div.text {
+	margin: 200px 0px 0px 50px;
+}
+
+section.slider>div>div.text {
+	margin: 200px 0px 0px 50px;
+	background-color: #fff;
+	padding: 5px 18px;
+	width: 250px;
+}
+
+div.step-one {
+	background: url(img/index-buy-1.jpg) no-repeat;
+	background-size: 100%;
+}
+
+div.step-two {
+	background: url(img/index-buy-2.jpg) no-repeat;
+	background-size: 100%;
+}
+
+div.step-three {
+	background: url(img/index-buy-3.jpg) no-repeat;
+	background-size: 100%;
+}
+
+div.index-main>section.slider>div>div>nav {
+	float: left;
+	margin-right: 10px;
+	background: #FF2EA2;
+	color: #FFF;
+	border-radius: 3em;
+	height: 20px;
+	width: 20px;
+	text-align: center;
+	font-size: 0.8em;
+}
+
+/* Que hacemos */
+section.que-hacemos>h1 {
+	text-align: center;
+	color: #FF2EA2;
+	text-transform: uppercase;
+	margin: 30px 0px;
+	font-size: 1.8em;
+}
+
+div.index-main>section.slider>div>div>span {
+	text-transform: uppercase;
+}
+
+section.que-hacemos>div.text {
+	margin: 0px 80px;
+    -webkit-column-count: 3; /* Chrome, Safari, Opera */
+    -moz-column-count: 3; /* Firefox */
+    column-count: 3;
+
+	-webkit-column-gap: 30px; /* Chrome, Safari, Opera */
+    -moz-column-gap: 30px; /* Firefox */
+    column-gap: 30px;
+}
+
+section.que-hacemos>div.items-que-hacemos>span{
+	float: left;
+	text-align: center;
+	margin: 0px 70px;
+}
+
+section.que-hacemos>div.items-que-hacemos>span>nav {
+	margin-bottom: 12px;
+}
+
+section.que-hacemos>div.items-que-hacemos {
+	padding: 30px;
+	font-size: 1.3em;
+	text-transform: uppercase;
+	color: #FF2EA2;
+	width: 1172px;
+	text-align: center;
+	margin: 0px auto;
+	height: 290px;
+}
+
+section.que-hacemos>div.items-que-hacemos>span>img {
+	border-radius: 130px;
+	height: 250px;
+}
+
+section.que-hacemos>div.items-que-hacemos>span>img:hover {
+	border-radius: 0px;
+}
+
+/* Fin main */
+
+/* Inicio footer */
+
+footer {
+	background: #E5E5E5;
+	text-align: center;
+	font-size: 0.9em;
+	color: #7F7F7F;
+	padding: 0.5em 0em;
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+}
+
+/* Fin footer */

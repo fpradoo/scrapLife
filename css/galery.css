@@ -1,0 +1,12 @@
+div.galery-main{
+	position: absolute;
+	margin: 55px 95px;
+	width: 1160px;
+}
+
+div.galery-main>div>span>h1 {
+	text-transform: uppercase;
+	color: #FF2EA2;
+	float: left;
+	font-size: 2em;
+}

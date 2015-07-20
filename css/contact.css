@@ -1,0 +1,64 @@
+div.contact-main{
+	position: absolute;
+	margin: 55px 95px;
+	width: 1160px;
+}
+
+div.contact-main>div>span>h1 {
+	text-transform: uppercase;
+	color: #FF2EA2;
+	float: left;
+	font-size: 2em;
+}
+
+div.contact-main>div>span>form {
+	margin-top: 20px;
+}
+
+div.contact-main>div>span>form>input[type="text"] {
+	margin: 4px 0px;
+	width: 400px;
+	padding-left: 15px;
+	border: solid 1.3px;
+}
+
+input[name="message"] {
+	height: 100px;
+}
+
+div.contact-main>div>span>p.ubicacion{
+	margin-top: 20px;
+	color: #FF2EA2;
+}
+
+div.contact-main>div>span.text{
+	float: left;
+	margin-right: 50px;
+}
+
+/*Google Map*/
+span.google-map {
+	display: inline-block;
+}
+
+div.contact-main>span.google-map>iframe {
+	height: 413px;
+	width: 700px;
+}
+/*Fin Google Map*/
+
+div.decoration>img {
+	height: 206;
+}
+
+div.decoration>img.pri {
+	margin-right: 14px;
+}
+
+div.decoration>img.in {
+	margin: auto 14px;
+}
+
+div.decoration>img.ult {
+  margin-left: 14px;
+}

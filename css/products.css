@@ -1,0 +1,148 @@
+div.main {
+	position: absolute;
+	margin: 55px 95px;
+	width: 1160px;
+}
+
+div.main>span>h1 {
+	text-transform: uppercase;
+	color: #FF2EA2;
+	float: left;
+	font-size: 2em;
+}
+
+div.main>span>select {
+	margin-top: 9px;
+	margin-left: 20px;
+	font-size: 1em;
+	width: 140px;
+}
+
+div.main>div {
+	margin-top: 20px;
+	width: 529px;
+	float: left;
+}
+
+div.main>span {
+	display: inline-block;
+}
+
+span.choise>span>h2, span.image-description  {
+	margin-top: 30px;
+	color: #FF2EA2;
+	text-transform: uppercase;
+	font-size: 1.2em;
+}
+
+div.main>div {
+	margin-right: 50px;
+}
+
+div.radio, div.check{
+	margin-top: 8px;
+	width: 228px;
+  }
+  
+/*Select choise*/
+span.choise-item>select {
+	width: 145px;
+	margin: 10px 0px;
+	font-size: 1em;
+}
+/*Fin Select choise*/
+
+/*Input radio y check*/
+div.radio>span, div.check>span {
+	float: left;
+	width: 90px;
+	margin: 5px 0px;
+	padding-right: 17px;
+}
+
+input[type="radio"], input[type="checkbox"] {
+	float: left;
+}
+
+h3.choise{
+	margin-top: 20px;
+	color: #4C4C4C;
+}
+
+h3.pri{
+	margin-top: 10px;
+}
+
+div.radio>span>p, div.check>span>p {
+	margin-top: -4px;
+	margin-left: 22px;
+}
+/*Fin Input radio y check*/
+
+span.choise>span {
+	float: left;
+}
+
+span.image-description {
+	margin-left: 15px;
+}
+
+span.image-description>img {
+	width: 285px;
+}
+
+
+/*Box Carrito compras*/
+div.carrito-compras {
+	border: solid #7F7F7F 1.5px;
+	border-radius: 1em;
+	color: #4C4C4C;
+}
+
+div.carrito-compras>span {
+	padding: 30px 40px;
+	display: inline-block;
+	width: 440px;
+}
+
+div.carrito-compras>span>div>h3.title {
+	font-size: 1.5em;
+	color: #4C4C4C;
+	float: left;
+}
+
+div.carrito-compras>span>div>img {
+	margin-left: 333px;
+}
+
+div.price-item{
+	margin-top: 20px;
+}
+
+div.price-item>h4{
+	font-size: 1.2em;
+	color: #FF2EA2;
+}
+
+div.price-item>p{
+	padding-top: 5px;
+}
+
+hr.price{
+	margin: 20px 0px ;
+	width: 30px;
+}
+
+div.carrito-compras>span>h5{
+	font-size: 1.5em;
+	color: #4C4C4C;
+}
+
+div.carrito-compras>span>input[type="submit"] {
+	width: 440px;
+	text-transform: uppercase;
+	height: 25px;
+	margin: 10px 0px;
+}
+
+
