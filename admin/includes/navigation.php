@@ -1,8 +1,9 @@
-<nav class="navbar navbar-defaut navbar-fixed-top">
-	<div class="container">
-		<a href="/index.php" class="navbar-brand"> Scrap Life</a>
-		<ul class="nav navbar-nav">
-			<li><a href="categorias.php">Categorias</a></li>
-		</ul>
+<body>
+<header>
+	<div class="menu">
+		<div><a href="#">Scrap Life ADMIN</a></div>
+		<div class="sep">|</div>
+
+		<div><a href="categorias.php">Categorias</a></div>
 	</div>
-</nav>
+</header>

@@ -11,6 +11,7 @@
     
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
     <link rel="stylesheet" type="text/css" href="css/galery.css"/>
+    <link rel="stylesheet" type="text/css" href="css/slider.css"/>
     <link rel="shortcut icon" href="/.ico">
 </head>
 
@@ -47,9 +48,9 @@
 				<ul>
 					<li><a href="#"><img src="img/dropdown.png" /></a>
 						<ul>
-							<li><a class="fb" href="#" target="_blank"></a></li>
-							<li><a class="itg" href="#" target="_blank"></a></li>
-							<li><a class="ptrst" href="#" target="_blank"></a></li>
+							<li class="fb"><a href="#" target="_blank"></a></li>
+							<li class="itg"><a href="#" target="_blank"></a></li>
+							<li class="ptrst"><a href="#" target="_blank"></a></li>
 						</ul>
 					</li>
 				</ul>
@@ -69,11 +70,36 @@
 				<p>Los cuadernos están realizados con papel bookcel de 80 gr. Cosidos a mano y encuadernados artesanalmente. Los cuadernos personalizados son exclusivos y diseñados especialmente para vos.</p>
 			</span>
 		</div>
+		<div>
+			<div class="container">
+				<div id="slides">
+				  <img src="img/slider.jpg" alt="#">
+				  <img src="img/slider.jpg" alt="#">
+				  <img src="img/slider.jpg" alt="#">
+				  <img src="img/slider.jpg" alt="#">
+				  <a href="#" class="slidesjs-previous slidesjs-navigation"><i class="icon-chevron-left icon-large"></i></a>
+				  <a href="#" class="slidesjs-next slidesjs-navigation"><i class="icon-chevron-right icon-large"></i></a>
+				</div>
+			  </div>
+			</div>
 	</div>
 
 	
 	<footer>
 	<p>Copyright 2015.</p>
 	</footer>
+
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="js/jquery.slides.min.js"></script>
+
+	<script>
+		$(function() {
+		$('#slides').slidesjs({
+			width: 940,
+			height: 528,
+			navigation: false
+			});
+		});
+	</script>
 
 </body>

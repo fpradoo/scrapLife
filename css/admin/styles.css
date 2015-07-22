@@ -1,0 +1,149 @@
+/* Inicio header*/
+header{
+	background:#FF2EA2;
+	height: 60px;
+	color: #fff;
+	text-transform: uppercase;
+	width: 100%;
+}
+
+header>div.menu{
+	margin: 0px 70px;
+	padding: 20px 0px;
+	width: 1240px;
+	background: #FF2EA2;
+	height: 20px;
+}
+
+header>div.menu>div{
+	float: left;
+	padding: 0px 30px;
+}
+
+header>div.menu>div.sep{
+	padding: 0px 20px;
+}
+
+header>div.menu>div.redes{ /* Menu Rollover Redes y Productos */
+	float: right;
+}
+
+header>div.menu>div.redes ul li ul, header>div.menu>div.products ul li ul { /* Menu Rollover Redes y Productos */
+	display:none;
+}
+
+header>div.menu>div.redes li:hover>ul, header>div.menu>div.products li:hover>ul{ /* Menu Rollover Redes y Productos */
+	display: block;
+	background-color: #fff;
+	padding: 10px 24px;
+}
+
+header>div.menu>div.redes li:hover>ul{
+	position: absolute;
+	right: 60px;
+	padding: 10px 20px;
+}
+
+div.redes>ul>li>ul>li>a.fb{ /* Menu Redes */
+	background: url(img/fb.png) no repeat;
+}
+
+div.redes>ul>li>ul>li>a.fb:hover{
+	background: url(img/fb.rollover.png) no repeat;
+}
+
+
+div.redes>ul>li>ul>li>a.itg{
+	background: url(img/itg.png) no repeat;
+}
+
+div.redes>ul>li>ul>li>a.itg:hover{
+	background: url(img/itg.rollover.png) no repeat;
+}
+
+div.redes>ul>li>ul>li>a.ptrst{
+	background: url(img/ptrst.png) no repeat;
+}
+
+div.redes>ul>li>ul>li>a.ptrst:hover{
+	background: url(img/ptrst.rollover.png) no repeat;
+}
+
+header>div.menu>div.products li:hover>ul{
+	position: absolute;
+	top: 45px;
+	left: 504px;
+	width: 100px;
+}
+
+div.products>ul>li>ul>li>a {
+	color: #FF2EA2;
+}
+
+div.products>ul>li>ul>li>a:hover {
+	color: #999999;
+}
+
+div.products>ul>li>ul>li {
+	padding: 5px 0px;
+}
+
+div.products>ul>li>a>p {
+	padding-right: 20px;
+	float: left;
+}
+
+div.products>ul>li>a>img{
+	position: absolute;
+	padding-top: 7px;
+}
+
+div.products>ul>li {
+	height: 100px;
+}
+
+header>div.menu>div.input-mail{ /* Suscribite  */
+	padding: 0px 50px;
+}
+
+input[type="submit"] { /* Suscribite: Input Boton */
+	background-color: #FF2EA2;
+	border: 0;
+	color: #fff;
+	font-family: calibri;
+	text-transform: uppercase;
+	padding-left: 10px;
+	font-size: 1em;
+}
+
+input[type="text"] { /* Suscribite: Input Text */
+	border: 0;
+	height: 25px;
+	color: #999999;
+}
+
+input[placeholder="Mail"] {
+	padding-left: 20px;
+}
+
+/* Fin header */
+
+/* Inicio footer */
+
+footer {
+	background: #E5E5E5;
+	text-align: center;
+	font-size: 0.9em;
+	color: #7F7F7F;
+	padding: 0.5em 0em;
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+}
+
+/* Fin footer */
+
+.table-auto{
+	width: auto;
+	margin: 0 auto;
+}

@@ -7,6 +7,26 @@ div.galery-main{
 div.galery-main>div>span>h1 {
 	text-transform: uppercase;
 	color: #FF2EA2;
-	float: left;
 	font-size: 2em;
+}
+
+div.galery-main>div {
+	width: 270px;
+	float: left;
+}
+
+div.galery-main>div>span.text>select {
+	width: 155px;
+	margin: 15px 0px;
+	font-size: 1em;
+}
+
+div.galery-main>div>span.text>p {
+	width: 230px;
+}
+
+/*slider*/
+
+div.galery-main>div>div.container>div#slides {
+	width: 900px;
 }

@@ -145,4 +145,10 @@ div.carrito-compras>span>input[type="submit"] {
 	margin: 10px 0px;
 }
 
+/*retoque menu Redes
+
+header>div.menu>div.redes li:hover>ul {
+	right: 65px;
+}*/
+
 
