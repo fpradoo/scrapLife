@@ -3,37 +3,44 @@
 	require_once'../admin/core/functions.php';
 	include 'includes/head.php';
 	include 'includes/navigation.php';
-	checkAndInsertProducto();
-	deleteProducto()
-	
+	//changeCategoriaPorAjax();
+		
 ?>
-<h2 class="text-center">Categorias</h2>
 <div class="text-center">
-	<form class="form-inline" action="categorias.php" method="post">
-		<div class="form-group">
-			<label for="categoria">Agregar una categoria:</label>
-			<input type="text" name="categoria" id="categoria" class="form-control" value="<?php echo ((isset($_POST['categoria']))?$_POST['categoria']:''); ?>"; />
-			<input type="submit" name="add_submit" id="categoria" class="btn btn-success" value="Agregar categoria"; />
-		</div>
-	
-	</form>
+	<h2 class="text-center">Categorias</h2>
+	<select onchange="showCategorias(this.value)">
+		<option>Seleccionar producto</option>
+		<?php getProductosParaSelect(); ?>
+	</select>
 </div><hr>
 <table class="table table-bordered table-striped table-auto">
 	<thead>
 		<th>
 		</th>
 		<th>
-		Categorias
+		Categorias seccion interna
+		</th>
+		<th>
+		</th>
+	</thead>
+	<tbody id="categoriasInternas">
+		<?php getCategoriaPorProductoInterno(); ?>
+	</tbody>
+</table><hr>
+<table class="table table-bordered table-striped table-auto">
+	<thead>
+		<th>
+		</th>
+		<th>
+		Categoria seccion externa
 		</th>
 		<th>
 		</th>
 	</thead>
 	<tbody>
-		
-			<?php getCategorias(); ?>
-		
+		<?php getCategoriaPorProductoExterno(); ?>
 	</tbody>
-</table>
+</table><hr>
 <?php
 	include 'includes/footer.php';
 ?>
