@@ -46,7 +46,8 @@
 					<input type="submit" value="Suscribite!">
 				</form>
 			</div>
-
+			
+			<div><a href="/admin">Log in</a></div>
 			<div class="redes">
 				<ul>
 					<li><a href="#"><img src="/img/dropdown.png" /></a>

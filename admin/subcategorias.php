@@ -3,32 +3,23 @@
 	require_once'../admin/core/functions.php';
 	include 'includes/head.php';
 	include 'includes/navigation.php';	
+	deleteSubcategoria();
 ?>
 
 <div class="text-center">
 	<h2 class="text-center">Subcategorias</h2>
-	<select>
+	<select onchange="showCategoriasEnSelect(this.value)">
 		<option>Seleccionar producto</option>
 		<?php getProductosParaSelect(); ?>
 	</select>
-	<select>
+	<select id="categoriasPorProducto" onchange="showSeccionSubcategorias(this.value)">
 		<option>Seleccionar categoria</option>
 	</select>
 </div><hr>
-<table class="table table-bordered table-striped table-auto">
-	<thead>
-		<th>
-		</th>
-		<th>
-		Subcategorias
-		</th>
-		<th>
-		</th>
-	</thead>
-	<tbody>
-		<?php getSubcategoriasPorCategoria(); ?>
-	</tbody>
-</table><hr>
+
+	<span id="seccionSubcategorias">
+	</span>
+	
 <?php
 	include 'includes/footer.php';
 ?>

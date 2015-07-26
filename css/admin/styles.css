@@ -106,22 +106,6 @@ header>div.menu>div.input-mail{ /* Suscribite  */
 	padding: 0px 50px;
 }
 
-input[type="submit"] { /* Suscribite: Input Boton */
-	background-color: #FF2EA2;
-	border: 0;
-	color: #fff;
-	font-family: calibri;
-	text-transform: uppercase;
-	padding-left: 10px;
-	font-size: 1em;
-}
-
-input[type="text"] { /* Suscribite: Input Text */
-	border: 0;
-	height: 25px;
-	color: #999999;
-}
-
 input[placeholder="Mail"] {
 	padding-left: 20px;
 }
