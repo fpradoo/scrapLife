@@ -4,22 +4,13 @@
 	include 'includes/head.php';
 	include 'includes/navigation.php';	
 	deleteSubcategoria();
+	getSelectsSubcategorias();
 ?>
 
-<div class="text-center">
-	<h2 class="text-center">Subcategorias</h2>
-	<select onchange="showCategoriasEnSelect(this.value)">
-		<option>Seleccionar producto</option>
-		<?php getProductosParaSelect(); ?>
-	</select>
-	<select id="categoriasPorProducto" onchange="showSeccionSubcategorias(this.value)">
-		<option>Seleccionar categoria</option>
-	</select>
-</div><hr>
-
-	<span id="seccionSubcategorias">
-	</span>
+<span id="seccionSubcategorias">
+</span>
 	
 <?php
+	botonAgregarSubcategoria();
 	include 'includes/footer.php';
 ?>

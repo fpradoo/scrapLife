@@ -10,6 +10,7 @@ function getProductos(){
 		$run_productos = mysqli_query($db, $get_all_productos);
 		
 		echo"
+		<hr>
 			<table class='table table-bordered table-striped table-auto text-center'>
 				<thead>				
 					<th class='text-center'>
@@ -98,6 +99,24 @@ function getProductosParaSelect(){
 			";
 		}
 	}
+}
+
+function getProductosParaSelectFormularioNuevo(){
+	$db = callDb();
+	
+	$get_all_productos = 'Select * FROM productos order by Titulo';
+	$run_productos = mysqli_query($db, $get_all_productos);
+	
+	while($row_productos=mysqli_fetch_array($run_productos)){
+		
+		$productos_id = $row_productos['id'];
+		$productos_titulo = ucfirst($row_productos['titulo']);
+		
+		echo "		
+		<option value='$productos_id'>$productos_titulo</option>
+		";
+	}
+	
 }
 
 function showEditProducto(){
@@ -327,8 +346,8 @@ function showEditCategoria(){
 						<label for='tip_cat'>Tipo de categoria:</label>
 						<select name='tip_cat' id='tip_cat'>
 							<option value='0'>Seleccione tipo de categoria</option>
-							<option value='1'>Interna</option>
-							<option value='2'>Externa</option>
+							<option value='1'>Externa</option>
+							<option value='2'>Interna</option>
 						</select> 
 					</div>
 					<div class='form-group'>
@@ -359,27 +378,47 @@ function showEditCategoria(){
 }
 
 function showAddCategoria(){
+	
 	if(isset($_POST['add_submit'])){
 		echo"
-			<h1>Editar producto </h1>
-			<div style='width:60%; margin-left:20px;'>
-			<form role='form' action='productos.php' method='post'>
+		<h1>Agregar categoria </h1>
+		<div style='width:60%; margin-left:20px;'>
+			<form role='form' action='categorias.php' method='post'>
+				<div class='form-group'>
+					<label for='id_producto'>Pertenece al producto:</label>
+					<select name='id_producto' id='id_producto'>
+						<option value='0'>Seleccione</option>
+		";
+		getProductosParaSelectFormularioNuevo();
+		
+		echo"
+					</select> 
+				</div>
 				<div class='form-group'>
 					<label for='titulo'>Titulo:</label>
 					<input name='titulo' type='text' class='form-control' id='titulo' value=''>
 				</div>
 				<div class='form-group'>
-					<label for='descripcion'>Descripción:</label>
-					<textarea class='form-control' rows='3' name='descripcion' id='descripcion'></textarea> 
+					<label for='tip_cat'>Tipo de categoria:</label>
+					<select name='tip_cat' id='tip_cat'>
+						<option value='0'>Seleccione</option>
+						<option value='1'>Externa</option>
+						<option value='2'>Interna</option>
+					</select> 
 				</div>
 				<div class='form-group'>
-					<label for='precio'>Precio:</label>
-					<input name='precio' type='text' class='form-control' id='precio' value=''>
+					<label for='tip_op'>Tipo de operación:</label>
+					<select name='tip_op' id='tip_op'>
+						<option value='0'>Seleccione</option>
+						<option value='1'>Simple</option>
+						<option value='2'>Multiple</option>
+					</select>
 				</div>
-				<div class='form-group'>
-					<input name='activo' id='activo' type='checkbox'> Activo
+				<div class='checkbox'>
+					<label><input name='activo' id='activo' type='checkbox'> Activo</label>
 				</div>
-				<button name='add_producto' type='submit' class='btn btn-default'>Guardar</button>
+				<input type='hidden' name='categoria_id' value=''>
+				<button name='add_categoria' type='submit' class='btn btn-default'>Guardar</button>
 			</form>
 		</div><hr>
 		";
@@ -391,43 +430,34 @@ function addCategoria(){
 	$db = callDb();
 	
 	$errores = array();
-	if(isset($_POST['add_producto'])){
-		
-		
+	if(isset($_POST['add_categoria'])){
 		//Check datos
-		$titulo_producto = sanitize($_POST['titulo']);
-		if($titulo_producto == ''){
-			$errores[] .='Es necesario agregarle un titulo al producto';
-		}
-		
-		$descripcion_producto = sanitize($_POST['descripcion']);
-		if($descripcion_producto == ''){
-			$errores[] .='Es necesario agregarle una descripción al producto';
-		}
-		
-		$precio_producto = sanitize($_POST['precio']);
-		if($precio_producto == ''){
-			$errores[] .='Es necesario agregarle un precio al producto';
+		$titulo_categoria = sanitize($_POST['titulo']);
+		if($titulo_categoria == ''){
+			$errores[] .='Es necesario agregarle un titulo a la categoria';
 		}
 		
 		(int)$activo = (isset($_POST['activo'])) ? '1' : '0';
 		
+		$id_producto_padre = $_POST['id_producto'];
+		$tipo_cat = $_POST['tip_cat'];
+		$tipo_op = $_POST['tip_op'];		
+		
 		//Si ya existe en bd
-		$sql = "SELECT * FROM productos where Titulo = '$titulo_producto'";
+		$sql = "SELECT * FROM categorias where Titulo = '$titulo_categoria'";
 		$result = $db->query($sql);
 		$count = mysqli_num_rows($result);
 		if($count > 0){
-			$errores[] .='El producto que intenta agregar ya existe';
+			$errores[] .='La categoria que intenta agregar ya existe';
 		}
 		
 		
 		if(!empty($errores)){
 			echo mostrarErrores($errores);
 			}else{
-			$sql = "INSERT INTO productos (titulo, descripcion, precio, activo) VALUES ('$titulo_producto', '$descripcion_producto', '$precio_producto', $activo)";
+			$sql = "INSERT INTO categorias (Titulo, tipo_cat, tipo_op, id_producto, activo) VALUES ('$titulo_categoria', '$tipo_cat', '$tipo_op', '$id_producto_padre', $activo)";
 			$db->query($sql);
-		}
-			
+		}			
 	}
 }
 
@@ -454,8 +484,78 @@ function editCategoria(){
 			echo mostrarErrores($errores);
 			}else{
 			$sql = "UPDATE categorias SET titulo='$titulo_categoria', tipo_cat='$tipo_categoria', tipo_op='$operacion_categoria', activo=$activo WHERE id = '$id_categoria'";
-			var_dump($sql);
 			$db->query($sql);
 		}		
 	}
 }
+
+function botonAgregarCategoria(){
+	if(!isset($_GET['edit']) && !isset($_POST['add_submit'])){
+		echo"
+		<div class='text-center'>
+			<form class='form-inline' action='categorias.php' method='post'>
+				<div class='form-group'>			
+				<input type='submit' name='add_submit' id='categoria' class='btn btn-success' value='Agregar categoria' />
+				</div>	
+			</form>
+		</div><hr>
+		";
+	}
+}
+
+function showSelectCategorias(){
+	if(!isset($_GET['edit']) && !isset($_POST['add_submit'])){
+		echo"
+		<div class='text-center'>
+			<h2 class='text-center'>Categorias</h2>
+			<select onchange='showSeccionesCategorias(this.value)'>
+				<option>Seleccionar producto</option>
+		";
+		
+		getProductosParaSelect();
+
+		echo"
+			</select>
+		</div><hr>
+		";	
+	}
+}
+
+function getSelectsSubcategorias(){
+	if(!isset($_GET['edit']) && !isset($_POST['add_submit'])){
+
+	echo"
+	<div class='text-center'>
+		<h2 class='text-center'>Subcategorias</h2>
+		<select onchange='showCategoriasEnSelect(this.value)'>
+			<option>Seleccionar producto</option>
+				
+	";
+	
+	getProductosParaSelect();
+	
+	echo"
+	</select>
+		<select id='categoriasPorProducto' onchange='showSeccionSubcategorias(this.value)'>
+			<option>Seleccionar categoria</option>
+		</select>
+	</div><hr>
+	";
+	}
+}
+
+function botonAgregarSubcategoria(){
+	if(!isset($_GET['edit']) && !isset($_POST['add_submit'])){
+		echo"
+		<div class='text-center'>
+			<form class='form-inline' action='subcategorias.php' method='post'>
+				<div class='form-group'>			
+				<input type='submit' name='add_submit' id='subcategoria' class='btn btn-success' value='Agregar Subcategoria' />
+				</div>	
+			</form>
+		</div><hr>
+		";
+	}
+}
+
+?>

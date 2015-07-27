@@ -12,9 +12,14 @@
 			die();
 		}
 		
+		if (!$db->set_charset("utf8")) {
+			
+		} else {
+			
+		}
+		
 		return $db;
 	}
 	
 	require_once '../config.php';
-	require_once BASEURL.'/helpers/helpers.php';
 ?>

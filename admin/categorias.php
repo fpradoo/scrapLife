@@ -5,17 +5,16 @@
 	include 'includes/navigation.php';
 	deleteCategoria();
 	showEditCategoria();
-	editCategoria();	
+	editCategoria();
+	showAddCategoria();
+    addCategoria();
+	showSelectCategorias();	
 ?>
-<div class="text-center">
-	<h2 class="text-center">Categorias</h2>
-	<select onchange="showSeccionesCategorias(this.value)">
-		<option>Seleccionar producto</option>
-		<?php getProductosParaSelect(); ?>
-	</select>
-</div><hr>
+
 <span id="seccionesCategorias">
 </span>
+
 <?php
+	botonAgregarCategoria();
 	include 'includes/footer.php';
 ?>

@@ -7,16 +7,8 @@
 	showAddProducto();
 	deleteProducto();
 	addProducto();
-	editProducto();		
-?>
-<hr>
-
-
-<?php 
+	editProducto();
 	getProductos();
-	botonAgregarProducto();	
-?>
-	
-<?php
-	include 'includes/footer.php';
+	botonAgregarProducto();
+	include 'includes/footer.php';	
 ?>

@@ -16,7 +16,7 @@ function showSeccionesCategorias(str) {
             }
         }
 		console.log(xmlhttp.responseText);
-        xmlhttp.open("GET","/admin/ajaxRecall.php?q="+str+"&func=1",true);
+        xmlhttp.open("GET","/admin/core/ajaxRecall.php?q="+str+"&func=1",true);
         xmlhttp.send();
     }
 }
@@ -40,7 +40,7 @@ function showCategoriasEnSelect(str) {
             }
         }
 		console.log(xmlhttp.responseText);
-        xmlhttp.open("GET","/admin/ajaxRecall.php?q="+str+"&func=2",true);
+        xmlhttp.open("GET","/admin/core/ajaxRecall.php?q="+str+"&func=2",true);
         xmlhttp.send();
     }
 }
@@ -63,7 +63,7 @@ function showSeccionSubcategorias(str) {
             }
         }
 		console.log(xmlhttp.responseText);
-        xmlhttp.open("GET","/admin/ajaxRecall.php?q="+str+"&func=3",true);
+        xmlhttp.open("GET","/admin/core/ajaxRecall.php?q="+str+"&func=3",true);
         xmlhttp.send();
     }
 }
