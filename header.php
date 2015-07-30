@@ -47,7 +47,7 @@
 				</form>
 			</div>
 			
-			<div><a href="/admin">Log in</a></div>
+			<div><a href="/admin/login.php">Log in</a></div>
 			<div class="redes">
 				<ul>
 					<li><a href="#"><img src="/img/dropdown.png" /></a>

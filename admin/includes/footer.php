@@ -1,5 +1,2 @@
-	<footer>
-	<p>Copyright 2015.</p>
-	</footer>
-
+	 <div class="panel-footer text-center">Panel footer</div>
 </body>

@@ -10,21 +10,17 @@ function getProductos(){
 		$run_productos = mysqli_query($db, $get_all_productos);
 		
 		echo"
-		<hr>
-			<table class='table table-bordered table-striped table-auto text-center'>
-				<thead>				
-					<th class='text-center'>
-						Titulo
-					</th>
-					<th>
-						Editar
-					</th>
-					<th>
-						Eliminar
-					</th>
+			<div class='container'>			            
+			  <table class='table table-condensed table-striped table-bordered'>
+				<thead>
+				  <tr>
+					<th>Titulo</th>
+					<th>Editar</th>
+					<th>Borrar</th>
+				  </tr>
 				</thead>
 				<tbody>
-		";
+			";
 		
 		while($row_productos=mysqli_fetch_array($run_productos)){
 			
@@ -43,12 +39,13 @@ function getProductos(){
 					<a href='productos.php?delete=$productos_id' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-remove-sign'></span></a>
 				</td>			
 			</tr>
-		";
+			";
 		}
 
 		echo"
-			</tbody>
-		</table><hr>
+				</tbody>
+			  </table>
+			</div>
 		";
 	}
 }
@@ -283,7 +280,7 @@ function botonAgregarProducto(){
 				<input type='submit' name='add_submit' id='producto' class='btn btn-success' value='Agregar producto' />
 				</div>	
 			</form>
-		</div><hr>
+		</div>
 		";
 	}
 }
@@ -525,8 +522,8 @@ function getSelectsSubcategorias(){
 	if(!isset($_GET['edit']) && !isset($_POST['add_submit'])){
 
 	echo"
-	<div class='text-center'>
 		<h2 class='text-center'>Subcategorias</h2>
+		<hr><div class='text-center'>
 		<select onchange='showCategoriasEnSelect(this.value)'>
 			<option>Seleccionar producto</option>
 				
@@ -539,9 +536,29 @@ function getSelectsSubcategorias(){
 		<select id='categoriasPorProducto' onchange='showSeccionSubcategorias(this.value)'>
 			<option>Seleccionar categoria</option>
 		</select>
-	</div><hr>
+		</div><hr>
+		
 	";
 	}
+}
+
+function getSelectSubcategoriaParaAdd(){
+	
+	echo"
+		<hr><div class='form-group'>
+		<select onchange='showCategoriasEnSelect(this.value)'>
+			<option>Seleccionar producto</option>
+	";
+	
+	getProductosParaSelectFormularioNuevo();
+	
+	echo"
+		</select>
+		<select name='categoria' id='categoriasPorProducto' onchange=''>
+			<option>Seleccionar categoria</option>
+		</select>
+	</div>
+	";	
 }
 
 function botonAgregarSubcategoria(){
@@ -555,6 +572,141 @@ function botonAgregarSubcategoria(){
 			</form>
 		</div><hr>
 		";
+	}
+}
+
+function showEditSubcategoria(){
+	$db = callDb();
+	
+	if(isset($_GET['edit'])&&!empty($_GET['edit'])){
+		
+		$subcategoria_edit = (int)$_GET['edit'];
+		$subcategoria_edit = sanitize($subcategoria_edit);
+		
+		$get_subcategoria = "Select * FROM detalles_categorias where id = '$subcategoria_edit'";
+		$run_subcategoria = mysqli_query($db, $get_subcategoria);
+		
+		while($row_subcategoria=mysqli_fetch_array($run_subcategoria)){
+			
+			$subcategoria_id = $row_subcategoria['id'];
+			$subcategoria_titulo = ucfirst($row_subcategoria['titulo']);	
+			$subcategoria_precio = $row_subcategoria['precio_adicional'];
+			$activo = ($row_subcategoria['activo'] == 1) ? 'checked' : '';
+			
+			echo"
+				<h1>Editar subcategoria </h1>
+				<div style='width:60%; margin-left:20px;'>
+				<form role='form' action='subcategorias.php' method='post'>
+					<div class='form-group'>
+						<label for='titulo'>Titulo:</label>
+						<input name='titulo' type='text' class='form-control' id='titulo' value='$subcategoria_titulo'>
+					</div>
+					<div class='form-group'>
+						<label for='precio'>Precio:</label>
+						<input name='precio' type='text' class='form-control' id='precio' value='$subcategoria_precio'>
+					</div>
+					<div class='checkbox'>
+						<label><input name='activo' id='activo' type='checkbox' $activo> Activo</label>
+					</div>
+					<input type='hidden' name='subcategoria_id' value='$subcategoria_id'>
+					<button name='edit_subcategoria' type='submit' class='btn btn-default'>Guardar</button>
+				</form>
+			</div><hr>
+			";
+		}
+	}
+}
+
+function showAddSubcategoria(){
+	
+	if(isset($_POST['add_submit'])){
+		echo"
+			<h1>Agregar subcategoria </h1>
+			<div style='width:60%; margin-left:20px;'>
+			<form role='form' action='subcategorias.php' method='post'>
+		";	
+		
+		getSelectSubcategoriaParaAdd();
+		
+		echo"
+				<div class='form-group'>
+					<label for='titulo'>Titulo:</label>
+					<input name='titulo' type='text' class='form-control' id='titulo' value=''>
+				</div>
+				<div class='form-group'>
+					<label for='precio'>Precio:</label>
+					<input name='precio' type='text' class='form-control' id='precio' value=''>
+				</div>
+				<div class='checkbox'>
+					<label><input name='activo' id='activo' type='checkbox' > Activo</label>
+				</div>
+				<input type='hidden' name='categoria_id' value=''>
+				<button name='add_subcategoria' type='submit' class='btn btn-default'>Guardar</button>
+			</form>
+		</div><hr>
+		";
+	}
+}
+
+function addSubcategoria(){
+	
+	$db = callDb();
+	
+	$errores = array();
+	if(isset($_POST['add_subcategoria'])){
+		//Check datos
+		$titulo_subcategoria = sanitize($_POST['titulo']);
+		if($titulo_subcategoria == ''){
+			$errores[] .='Es necesario agregarle un titulo a la subcategoria';
+		}
+		
+		(int)$activo = (isset($_POST['activo'])) ? '1' : '0';
+		
+		$id_categoria_padre = $_POST['categoria'];
+		$precio = $_POST['precio'];
+		
+		//Si ya existe en bd
+		$sql = "SELECT * FROM categorias where Titulo = '$titulo_subcategoria'";
+		$result = $db->query($sql);
+		$count = mysqli_num_rows($result);
+		if($count > 0){
+			$errores[] .='La subcategoria que intenta agregar ya existe';
+		}
+		
+		
+		if(!empty($errores)){
+			echo mostrarErrores($errores);
+			}else{
+			$sql = "INSERT INTO detalles_categorias (titulo, cat_id, precio_adicional, activo) VALUES ('$titulo_subcategoria', '$id_categoria_padre', '$precio', $activo)";
+			$db->query($sql);
+		}			
+	}
+}
+
+function editSubcategoria(){
+	
+	$db = callDb();
+	
+	$errores = array();
+	if(isset($_POST['edit_subcategoria'])){
+		//Check datos
+		$titulo_subcategoria = sanitize($_POST['titulo']);
+		if($titulo_subcategoria == ''){
+			$errores[] .='Es necesario agregarle un titulo a la categoria';
+		}
+		
+		$precio = $_POST['precio'];
+		
+		(int)$activo = (isset($_POST['activo'])) ? '1' : '0';
+		
+		$id_subcategoria = $_POST['subcategoria_id'];
+				
+		if(!empty($errores)){
+			echo mostrarErrores($errores);
+			}else{
+			$sql = "UPDATE detalles_categorias SET titulo='$titulo_subcategoria', precio_adicional='$precio', activo=$activo WHERE id = '$id_subcategoria'";
+			$db->query($sql);
+		}		
 	}
 }
 

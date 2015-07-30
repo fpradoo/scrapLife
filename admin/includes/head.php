@@ -10,7 +10,6 @@
     <meta name="keywords" content=" ">    
     
 	<link rel="stylesheet" type="text/css" href="/css/admin/bootstrap.css"/>
-	<link rel="stylesheet" type="text/css" href="/css/admin/styles.css"/>	
 	<script src="/js/jquery1.11.3.js"></script> 
 	<script src="/js/admin/bootstrap.js"></script>
 	<script src="/js/admin/ajaxFunctions.js"></script> 
