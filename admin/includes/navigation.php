@@ -1,3 +1,8 @@
+<?php
+	include_once 'includes/db_connect.php';
+	include_once 'includes/functions.php';
+	sec_session_start();
+?>
 <body>
 <!--<header>
 	<div class="menu">
@@ -34,14 +39,14 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuarios <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Ver usuarios</a></li>
+            <li><a href="/admin/usuarios.php">Ver usuarios</a></li>
             <li><a href="/admin/register.php">Nuevos usuarioss</a></li>
           </ul>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>User actual</li>
-		<li><a href="/admin/logout.php">Cerrar sesión</a></li>
+        <li class="userActual"><?php echo $_SESSION['username'] ?></li>
+		<li><a href="/admin/includes/logout.php">Cerrar sesión</a></li>
 	  </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

@@ -37,11 +37,11 @@ if (login_check($mysqli) == true) {
 			<form action="includes/process_login.php" method="post" name="login_form">
 				<div class='form-group'>
 					<label for='titulo'>Correo electrónico:</label>
-					<input type="text" name="email" class='form-control' id='titulo' />
+					<input type="text" name="email" class='form-control' id='titulo' required />
 				</div>
 				<div class='form-group'>
 					<label for='password'>Contraseña:</label>
-					<input class='form-control' type="password" name="password" id="password"/>
+					<input class='form-control' type="password" name="password" id="password" required />
 				</div>
 				<input class="btn btn-default" type="button" type="button" value="Login" onclick="formhash(this.form, this.form.password);">
 			</form>

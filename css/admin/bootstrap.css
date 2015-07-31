@@ -130,6 +130,7 @@ input[type="reset"],
 input[type="submit"] {
   -webkit-appearance: button;
   cursor: pointer;
+  margin-top: 15px;
 }
 button[disabled],
 html input[disabled] {
@@ -1266,10 +1267,14 @@ h6 .small,
 h1,
 .h1 {
   font-size: 36px;
+  margin-bottom: 32px;
+  margin-top: 30px;
 }
 h2,
 .h2 {
   font-size: 30px;
+  margin-bottom: 32px;
+  margin-top: 30px;
 }
 h3,
 .h3 {
@@ -6017,7 +6022,7 @@ button.close {
 }
 @media (min-width: 768px) {
   .modal-dialog {
-    width: 600px;
+    width: 35%;
     margin: 30px auto;
   }
   .modal-content {

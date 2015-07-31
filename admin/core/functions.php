@@ -10,6 +10,7 @@ function getProductos(){
 		$run_productos = mysqli_query($db, $get_all_productos);
 		
 		echo"
+			<h1 class='text-center'>Productos</h1>
 			<div class='container'>			            
 			  <table class='table table-condensed table-striped table-bordered'>
 				<thead>
@@ -46,7 +47,7 @@ function getProductos(){
 				</tbody>
 			  </table>
 			</div>
-		";
+		";		
 	}
 }
 
@@ -141,15 +142,15 @@ function showEditProducto(){
 				<form role='form' action='productos.php' method='post'>
 					<div class='form-group'>
 						<label for='titulo'>Titulo:</label>
-						<input name='titulo' type='text' class='form-control' id='titulo' value='$producto_titulo'>
+						<input name='titulo' type='text' class='form-control' id='titulo' value='$producto_titulo' required>
 					</div>
 					<div class='form-group'>
 						<label for='descripcion'>Descripción:</label>
-						<textarea class='form-control' rows='3' name='descripcion' id='descripcion'>$producto_descripcion</textarea> 
+						<textarea class='form-control' rows='3' name='descripcion' id='descripcion' required>$producto_descripcion</textarea> 
 					</div>
 					<div class='form-group'>
 						<label for='precio'>Precio:</label>
-						<input name='precio' type='text' class='form-control' id='precio' value='$producto_precio'>
+						<input name='precio' type='number' class='form-control' id='precio' value='$producto_precio' required>
 					</div>
 					<div class='checkbox'>
 						<label><input name='activo' id='activo' type='checkbox' $activo> Activo</label>
@@ -157,7 +158,7 @@ function showEditProducto(){
 					<input type='hidden' name='producto_id' value='$producto_id'>
 					<button name='edit_producto' type='submit' class='btn btn-default'>Guardar</button>
 				</form>
-			</div><hr>
+			</div>
 			";
 		}
 	}
@@ -171,22 +172,22 @@ function showAddProducto(){
 			<form role='form' action='productos.php' method='post'>
 				<div class='form-group'>
 					<label for='titulo'>Titulo:</label>
-					<input name='titulo' type='text' class='form-control' id='titulo' value=''>
+					<input name='titulo' type='text' class='form-control' id='titulo' required>
 				</div>
 				<div class='form-group'>
 					<label for='descripcion'>Descripción:</label>
-					<textarea class='form-control' rows='3' name='descripcion' id='descripcion'></textarea> 
+					<textarea class='form-control' rows='3' name='descripcion' id='descripcion' required></textarea> 
 				</div>
 				<div class='form-group'>
 					<label for='precio'>Precio:</label>
-					<input name='precio' type='text' class='form-control' id='precio' value=''>
+					<input name='precio' type='number' class='form-control' id='precio' required>
 				</div>
 				<div class='form-group'>
 					<input name='activo' id='activo' type='checkbox'> Activo
 				</div>
 				<button name='add_producto' type='submit' class='btn btn-default'>Guardar</button>
 			</form>
-		</div><hr>
+		</div>
 		";
 	}
 }
@@ -303,12 +304,22 @@ function deleteSubcategoria(){
 	$db = callDb();
 	
 	if(isset($_GET['delete'])&&!empty($_GET['delete'])){
-
+		
 		$subcategoria_delete = (int)$_GET['delete'];
 		$subcategoria_delete = sanitize($subcategoria_delete);
+		
+		$get_imagen = "Select imagen FROM detalles_categorias where id = '$subcategoria_delete'";
+		$run_imagen = mysqli_query($db, $get_imagen);
+		
+		while($row_imagen=mysqli_fetch_array($run_imagen)){
+			$target_dir = "D:/www/scrapLife/admin/imagesUpload/";
+			$target_file = $target_dir . $row_imagen['imagen'];
+			unlink($target_file);
+		}
+		
 		$sql = "DELETE FROM detalles_categorias where id = '$subcategoria_delete'"; 
 		$db->query($sql);
-		header('Location: subcategorias.php');
+		header("Location: subcategorias.php");
 	}
 }
 
@@ -337,20 +348,20 @@ function showEditCategoria(){
 				<form role='form' action='categorias.php' method='post'>
 					<div class='form-group'>
 						<label for='titulo'>Titulo:</label>
-						<input name='titulo' type='text' class='form-control' id='titulo' value='$categoria_titulo'>
+						<input name='titulo' type='text' class='form-control' id='titulo' value='$categoria_titulo' required>
 					</div>
 					<div class='form-group'>
 						<label for='tip_cat'>Tipo de categoria:</label>
-						<select name='tip_cat' id='tip_cat'>
-							<option value='0'>Seleccione tipo de categoria</option>
+						<select name='tip_cat' id='tip_cat' required>
+							<option value=''>Seleccione</option>
 							<option value='1'>Externa</option>
 							<option value='2'>Interna</option>
 						</select> 
 					</div>
 					<div class='form-group'>
 						<label for='tip_op'>Tipo de operación:</label>
-						<select name='tip_op' id='tip_op'>
-							<option value='0'>Seleccione tipo de operación</option>
+						<select name='tip_op' id='tip_op' required>
+							<option value=''>Seleccione</option>
 							<option value='1'>Simple</option>
 							<option value='2'>Multiple</option>
 						</select>
@@ -361,7 +372,7 @@ function showEditCategoria(){
 					<input type='hidden' name='categoria_id' value='$categoria_id'>
 					<button name='edit_categoria' type='submit' class='btn btn-default'>Guardar</button>
 				</form>
-			</div><hr>
+			</div>
 			";
 		}
 		
@@ -383,8 +394,8 @@ function showAddCategoria(){
 			<form role='form' action='categorias.php' method='post'>
 				<div class='form-group'>
 					<label for='id_producto'>Pertenece al producto:</label>
-					<select name='id_producto' id='id_producto'>
-						<option value='0'>Seleccione</option>
+					<select name='id_producto' id='id_producto' required>
+						<option value=''>Seleccione</option>
 		";
 		getProductosParaSelectFormularioNuevo();
 		
@@ -393,31 +404,32 @@ function showAddCategoria(){
 				</div>
 				<div class='form-group'>
 					<label for='titulo'>Titulo:</label>
-					<input name='titulo' type='text' class='form-control' id='titulo' value=''>
+					<input name='titulo' type='text' class='form-control' id='titulo' value='' required>
 				</div>
 				<div class='form-group'>
 					<label for='tip_cat'>Tipo de categoria:</label>
-					<select name='tip_cat' id='tip_cat'>
-						<option value='0'>Seleccione</option>
+					<select name='tip_cat' id='tip_cat' required>
+						<option value=''>Seleccione</option>
 						<option value='1'>Externa</option>
 						<option value='2'>Interna</option>
 					</select> 
 				</div>
 				<div class='form-group'>
 					<label for='tip_op'>Tipo de operación:</label>
-					<select name='tip_op' id='tip_op'>
-						<option value='0'>Seleccione</option>
+					<select name='tip_op' id='tip_op' required>
+						<option value=''>Seleccione</option>
 						<option value='1'>Simple</option>
 						<option value='2'>Multiple</option>
 					</select>
 				</div>
+				
 				<div class='checkbox'>
 					<label><input name='activo' id='activo' type='checkbox'> Activo</label>
 				</div>
 				<input type='hidden' name='categoria_id' value=''>
 				<button name='add_categoria' type='submit' class='btn btn-default'>Guardar</button>
 			</form>
-		</div><hr>
+		</div>
 		";
 	}
 }
@@ -495,7 +507,7 @@ function botonAgregarCategoria(){
 				<input type='submit' name='add_submit' id='categoria' class='btn btn-success' value='Agregar categoria' />
 				</div>	
 			</form>
-		</div><hr>
+		</div>
 		";
 	}
 }
@@ -513,7 +525,7 @@ function showSelectCategorias(){
 
 		echo"
 			</select>
-		</div><hr>
+		</div>
 		";	
 	}
 }
@@ -523,7 +535,7 @@ function getSelectsSubcategorias(){
 
 	echo"
 		<h2 class='text-center'>Subcategorias</h2>
-		<hr><div class='text-center'>
+		<div class='text-center'>
 		<select onchange='showCategoriasEnSelect(this.value)'>
 			<option>Seleccionar producto</option>
 				
@@ -533,10 +545,10 @@ function getSelectsSubcategorias(){
 	
 	echo"
 	</select>
-		<select id='categoriasPorProducto' onchange='showSeccionSubcategorias(this.value)'>
+		<select class='topSelects' id='categoriasPorProducto' onchange='showSeccionSubcategorias(this.value)'>
 			<option>Seleccionar categoria</option>
 		</select>
-		</div><hr>
+		</div>
 		
 	";
 	}
@@ -545,17 +557,17 @@ function getSelectsSubcategorias(){
 function getSelectSubcategoriaParaAdd(){
 	
 	echo"
-		<hr><div class='form-group'>
-		<select onchange='showCategoriasEnSelect(this.value)'>
-			<option>Seleccionar producto</option>
+		<div class='form-group'>
+		<select onchange='showCategoriasEnSelect(this.value)' required>
+			<option value=''>Seleccionar producto</option>
 	";
 	
 	getProductosParaSelectFormularioNuevo();
 	
 	echo"
 		</select>
-		<select name='categoria' id='categoriasPorProducto' onchange=''>
-			<option>Seleccionar categoria</option>
+		<select name='categoria' id='categoriasPorProducto' required>
+			<option value=''>Seleccionar categoria</option>
 		</select>
 	</div>
 	";	
@@ -570,7 +582,7 @@ function botonAgregarSubcategoria(){
 				<input type='submit' name='add_submit' id='subcategoria' class='btn btn-success' value='Agregar Subcategoria' />
 				</div>	
 			</form>
-		</div><hr>
+		</div>
 		";
 	}
 }
@@ -592,18 +604,23 @@ function showEditSubcategoria(){
 			$subcategoria_titulo = ucfirst($row_subcategoria['titulo']);	
 			$subcategoria_precio = $row_subcategoria['precio_adicional'];
 			$activo = ($row_subcategoria['activo'] == 1) ? 'checked' : '';
+			$imagen = $row_subcategoria['imagen'];
 			
 			echo"
 				<h1>Editar subcategoria </h1>
 				<div style='width:60%; margin-left:20px;'>
-				<form role='form' action='subcategorias.php' method='post'>
+				<form role='form' action='subcategorias.php' method='post' enctype='multipart/form-data'>
 					<div class='form-group'>
 						<label for='titulo'>Titulo:</label>
-						<input name='titulo' type='text' class='form-control' id='titulo' value='$subcategoria_titulo'>
+						<input name='titulo' type='text' class='form-control' id='titulo' value='$subcategoria_titulo' required>
 					</div>
 					<div class='form-group'>
 						<label for='precio'>Precio:</label>
-						<input name='precio' type='text' class='form-control' id='precio' value='$subcategoria_precio'>
+						<input name='precio' type='number' class='form-control' id='precio' value='$subcategoria_precio' required>
+					</div>
+					<div class='form-group'>
+						<input class='file' type='file' name='fileToUpload' id='fileToUpload'>
+						<button type='button' class='btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>Ver imagen actual</button>
 					</div>
 					<div class='checkbox'>
 						<label><input name='activo' id='activo' type='checkbox' $activo> Activo</label>
@@ -611,7 +628,12 @@ function showEditSubcategoria(){
 					<input type='hidden' name='subcategoria_id' value='$subcategoria_id'>
 					<button name='edit_subcategoria' type='submit' class='btn btn-default'>Guardar</button>
 				</form>
-			</div><hr>
+			</div>
+			<div class='modal fade' id='myModal' role='dialog'>
+				<div class='modal-dialog'>
+					<img src='/admin/imagesUpload/$imagen' class='img-thumbnail'>
+				</div>
+			</div>
 			";
 		}
 	}
@@ -623,7 +645,7 @@ function showAddSubcategoria(){
 		echo"
 			<h1>Agregar subcategoria </h1>
 			<div style='width:60%; margin-left:20px;'>
-			<form role='form' action='subcategorias.php' method='post'>
+			<form role='form' action='subcategorias.php' method='post' enctype='multipart/form-data'>
 		";	
 		
 		getSelectSubcategoriaParaAdd();
@@ -631,11 +653,14 @@ function showAddSubcategoria(){
 		echo"
 				<div class='form-group'>
 					<label for='titulo'>Titulo:</label>
-					<input name='titulo' type='text' class='form-control' id='titulo' value=''>
+					<input name='titulo' type='text' class='form-control' id='titulo' value='' required>
 				</div>
 				<div class='form-group'>
 					<label for='precio'>Precio:</label>
-					<input name='precio' type='text' class='form-control' id='precio' value=''>
+					<input name='precio' type='number' class='form-control' id='precio' value='' required>
+				</div>
+				<div class='form-group'>
+					<input class='file' type='file' name='fileToUpload' id='fileToUpload' required>
 				</div>
 				<div class='checkbox'>
 					<label><input name='activo' id='activo' type='checkbox' > Activo</label>
@@ -643,7 +668,7 @@ function showAddSubcategoria(){
 				<input type='hidden' name='categoria_id' value=''>
 				<button name='add_subcategoria' type='submit' class='btn btn-default'>Guardar</button>
 			</form>
-		</div><hr>
+		</div>
 		";
 	}
 }
@@ -673,11 +698,51 @@ function addSubcategoria(){
 			$errores[] .='La subcategoria que intenta agregar ya existe';
 		}
 		
+		//Gestion de la imagen
+		$target_dir = "D:/www/scrapLife/admin/imagesUpload/";
+		$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+		$uploadOk = 1;
+		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+		// Check if image file is a actual image or fake image
+		if(isset($_POST["submit"])) {
+			$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+			if($check !== false) {
+				echo "File is an image - " . $check["mime"] . ".";
+				$uploadOk = 1;
+			} else {
+				$errores[] .='El archivo que intenta subir no es una imagen';
+				$uploadOk = 0;
+			}
+		}
+		
+		// Check if file already exists
+		if (file_exists($target_file)) {
+			$errores[] .='La imagen que intenta subir ya existe';
+			$uploadOk = 0;
+		} 
+		
+		// Check file size
+		if ($_FILES["fileToUpload"]["size"] > 500000) {
+			$errores[] .='La imagen que intenta subir es muy grande';
+			$uploadOk = 0;
+		}
+		// Allow certain file formats
+		if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+		&& $imageFileType != "gif" ) {
+			$errores[] .='Los unicos formatos permitidos son jpg, png, jpeg y gif';
+			$uploadOk = 0;
+		}
+		// Check if $uploadOk is set to 0 by an error
+		if ($uploadOk == 1) {
+			move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+		}
+		
+		$nombreDeLaImagen = basename($_FILES["fileToUpload"]["name"]);
 		
 		if(!empty($errores)){
 			echo mostrarErrores($errores);
 			}else{
-			$sql = "INSERT INTO detalles_categorias (titulo, cat_id, precio_adicional, activo) VALUES ('$titulo_subcategoria', '$id_categoria_padre', '$precio', $activo)";
+			$sql = "INSERT INTO detalles_categorias (titulo, cat_id, precio_adicional, imagen, activo) VALUES ('$titulo_subcategoria', '$id_categoria_padre', '$precio', '$nombreDeLaImagen', $activo)";
 			$db->query($sql);
 		}			
 	}
@@ -700,13 +765,122 @@ function editSubcategoria(){
 		(int)$activo = (isset($_POST['activo'])) ? '1' : '0';
 		
 		$id_subcategoria = $_POST['subcategoria_id'];
+		$nombreDeLaImagen = '';
+		if(isset($_FILES["fileToUpload"]["name"])){
+			//Gestion de la imagen
+			$target_dir = "D:/www/scrapLife/admin/imagesUpload/";
+			$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+			$uploadOk = 1;
+			$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+			// Check if image file is a actual image or fake image
+			if(isset($_POST["submit"])) {
+				$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+				if($check !== false) {
+					echo "File is an image - " . $check["mime"] . ".";
+					$uploadOk = 1;
+				} else {
+					$errores[] .='El archivo que intenta subir no es una imagen';
+					$uploadOk = 0;
+				}
+			}
+			
+			// Check if file already exists
+			if (file_exists($target_file)) {
+				$errores[] .='La imagen que intenta subir ya existe';
+				$uploadOk = 0;
+			} 
+			
+			// Check file size
+			if ($_FILES["fileToUpload"]["size"] > 500000) {
+				$errores[] .='La imagen que intenta subir es muy grande';
+				$uploadOk = 0;
+			}
+			// Allow certain file formats
+			if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+			&& $imageFileType != "gif" ) {
+				$errores[] .='Los unicos formatos permitidos son jpg, png, jpeg y gif';
+				$uploadOk = 0;
+			}
+			// Check if $uploadOk is set to 0 by an error
+			if ($uploadOk == 1) {
+				move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+			}
+			
+			$nombreDeLaImagen = basename($_FILES["fileToUpload"]["name"]);
+		}
+		
 				
 		if(!empty($errores)){
 			echo mostrarErrores($errores);
 			}else{
-			$sql = "UPDATE detalles_categorias SET titulo='$titulo_subcategoria', precio_adicional='$precio', activo=$activo WHERE id = '$id_subcategoria'";
+			if($nombreDeLaImagen != ''){	
+				$sql = "UPDATE detalles_categorias SET titulo='$titulo_subcategoria', precio_adicional='$precio', imagen='$nombreDeLaImagen', activo=$activo WHERE id = '$id_subcategoria'";
+			}else{
+				$sql = "UPDATE detalles_categorias SET titulo='$titulo_subcategoria', precio_adicional='$precio', activo=$activo WHERE id = '$id_subcategoria'";
+			}
 			$db->query($sql);
 		}		
+	}
+}
+
+function getUsuarios(){
+	//if(!isset($_GET['edit']) && !isset($_POST['add_submit'])){	
+		$db = callDb();
+		
+		$get_all_usuarios = 'Select * FROM members';
+		$run_usuarios = mysqli_query($db, $get_all_usuarios);
+		
+		echo"
+			<h2 class='text-center'>Usuarios</h2>
+			<div class='container'>			            
+			  <table class='table table-condensed table-striped table-bordered'>
+				<thead>
+				  <tr>
+					<th>Mail</th>
+					<th>Editar</th>
+					<th>Borrar</th>
+				  </tr>
+				</thead>
+				<tbody>
+			";
+		
+		while($row_usuarios=mysqli_fetch_array($run_usuarios)){
+			
+			$usuarios_id = $row_usuarios['id'];
+			$usuarios_mail= ucfirst($row_usuarios['email']);
+			
+			echo "
+			<tr>
+				<td>
+					$usuarios_mail
+				</td>
+				<td>
+					<a href='usuarios.php?edit=$usuarios_id' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-pencil'></span></a>
+				</td>
+				<td>
+					<a href='usuarios.php?delete=$usuarios_id' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-remove-sign'></span></a>
+				</td>			
+			</tr>
+			";
+		}
+
+		echo"
+				</tbody>
+			  </table>
+			</div>
+		";
+	//}
+}
+
+function deleteUsuario(){
+	$db = callDb();
+	
+	if(isset($_GET['delete'])&&!empty($_GET['delete'])){
+		$usuario_delete = (int)$_GET['delete'];
+		$usuario_delete = sanitize($usuario_delete);
+		$sql = "DELETE FROM members where id = '$usuario_delete'"; 
+		$db->query($sql);
+		header('Location: usuarios.php');
 	}
 }
 

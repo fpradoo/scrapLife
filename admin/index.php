@@ -16,7 +16,7 @@
 	<header id="headerIndexAdmin" class="jumbotron hero-spacer text-center">
 		<h1>Bienvenido al administrador de ScrapLife!</h1>
 		<p>Aqui podrá editar los productos, sus categorias y sus subcategorias.</p>
-		<p><a class="btn btn-primary btn-large" href='productos.php'>Ver productos actuales!</a>
+		<p><a class="btn btn-primary btn-large" href='productos.php'>Ver productos actuales</a>
 		</p>
 	</header>
 

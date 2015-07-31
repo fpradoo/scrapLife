@@ -41,17 +41,21 @@ function changeSeccionesCategorias(){
 		}
 		
 		echo "
-		<table class='table table-bordered table-striped table-auto text-center'>
+		<div class='container'>	
+		<h2>Categorias internas</h2>
+		<table class='table table-condensed table-striped table-bordered'>
 			<thead>
-				<th>
-				Editar
-				</th>
-				<th>
-				Eliminar
-				</th>
-				<th class='text-center'>
-				Titulo
-				</th>
+				<tr>
+					<th>
+					Titulo
+					</th>
+					<th>
+					Editar
+					</th>
+					<th>
+					Eliminar
+					</th>
+				</tr>
 			</thead>
 			<tbody>
 		";
@@ -63,34 +67,37 @@ function changeSeccionesCategorias(){
 			echo "
 			<tr>
 				<td>
+					$categorias_titulo
+				</td>
+				<td>
 					<a href='categorias.php?edit=$categorias_id' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-pencil'></span></a>
 				</td>
 				<td>
 					<a href='categorias.php?delete=$categorias_id' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-remove-sign'></span></a>
-				</td>
-				<td>
-					$categorias_titulo
 				</td>
 			</tr>
 			";		
 		}	
 		echo"	
 			</tbody>
-		</table><hr>
+		</table>
 		";
 		
 		echo"
-		<table class='table table-bordered table-striped table-auto text-center'>
+		<h2>Categorias externas</h2>
+		<table class='table table-condensed table-striped table-bordered'>
 			<thead>
-				<th>
-				Editar
-				</th>
-				<th>
-				Eliminar
-				</th>
-				<th class='text-center'>
-				Titulo
-				</th>
+				<tr>
+					<th>
+					Titulo
+					</th>
+					<th>
+					Editar
+					</th>
+					<th>
+					Eliminar
+					</th>
+				</tr>
 			</thead>
 			<tbody>
 		";
@@ -102,13 +109,13 @@ function changeSeccionesCategorias(){
 			echo "
 			<tr>
 				<td>
+					$categorias_titulo
+				</td>
+				<td>
 					<a href='categorias.php?edit=$categorias_id' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-pencil'></span></a>
 				</td>
 				<td>
 					<a href='categorias.php?delete=$categorias_id' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-remove-sign'></span></a>
-				</td>
-				<td>
-					$categorias_titulo
 				</td>
 			</tr>
 			";		
@@ -116,8 +123,9 @@ function changeSeccionesCategorias(){
 
 		echo"
 			</tbody>
-		</table><hr>
-		";		
+		</table>
+		</div>
+		";
 	}	
 }
 
@@ -158,17 +166,20 @@ function changeSeccionSubcategoriaPorCategoria(){
 		$run_categorias = mysqli_query($db, $get_all_subcategorias_by_categoria);
 		
 		echo"
-			<table class='table table-bordered table-striped table-auto text-center'>
+			<div class='container'>
+				<table class='table table-condensed table-striped table-bordered'>
 				<thead>
-					<th>
-					Editar
-					</th>
-					<th>
-					Eliminar
-					</th>
-					<th class='text-center'>
-					Titulo
-					</th>
+					<tr>
+						<th>
+						Titulo
+						</th>
+						<th>
+						Editar
+						</th>
+						<th>
+						Eliminar
+						</th>
+					</tr>
 				</thead>
 				<tbody>
 			";
@@ -181,13 +192,13 @@ function changeSeccionSubcategoriaPorCategoria(){
 			echo "
 			<tr>
 				<td>
+					$subcategorias_titulo
+				</td>
+				<td>
 					<a href='subcategorias.php?edit=$subcategorias_id' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-pencil'></span></a>
 				</td>
 				<td>
 					<a href='subcategorias.php?delete=$subcategorias_id' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-remove-sign'></span></a>
-				</td>
-				<td>
-					$subcategorias_titulo
 				</td>
 			</tr>
 		";
@@ -195,7 +206,8 @@ function changeSeccionSubcategoriaPorCategoria(){
 		
 		echo"		
 			</tbody>
-		</table><hr>
+		</table>
+		</div>
 		";
 	}	
 }
