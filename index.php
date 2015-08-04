@@ -1,5 +1,7 @@
-<?php include ("/header.php");?>
-
+<?php 
+	include_once ("/includes/header.php");
+	include_once ("/includes/navigation.php");
+?>
 	<div class="index-main">
 		<section class="slider">
 			<div class="step-one">
@@ -59,4 +61,4 @@ Puedes visitar nuestro taller para apreciar todos los materiales que utilizamos 
 		</section>
 	</div>
 
-<?php include ("/footer.php");?>
+<?php include_once("/includes/footer.php");?>

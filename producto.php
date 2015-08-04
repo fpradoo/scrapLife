@@ -1,4 +1,7 @@
-<?php include ("/header.php");?>
+<?php 
+	include_once ("/includes/header.php");
+	include_once ("/includes/navigation.php");
+?>
 
 	<div class="main">
 		<span>
@@ -12,6 +15,7 @@
 		<div>
 			<span class="description">
 				<p>Los cuadernos están realizados con papel bookcel de 80 gr. Cosidos a mano y encuadernados artesanalmente. Los cuadernos personalizados son exclusivos y diseñados especialmente para vos.</p>
+				<img src="/img/product.jpg" />			
 			</span>
 			<span class="choise">
 				<span class="choise-item">
@@ -25,19 +29,20 @@
 					<div class="radio">
 						<span><input type="radio" name="check" value="1"><p>Item</p></span>
 						<span><input type="radio" name="check" value="2"><p>Otro Item</p></span>
+						<div class="clear"></div>
 					</div>
-					<br>
 					<h3 class="choise">Titulo2</h3>
 					<div class="check">
 						<span><input type="checkbox" name="check" value="1"><p>Item</p></span>
 						<span><input type="checkbox" name="check" value="2"><p>Item</p></span>
 						<span><input type="checkbox" name="check" value="3"><p>Otro Item</p></span> 
 						<span><input type="checkbox" name="check" value="4"><p>Otro Item</p></span> 
-						<span><input type="checkbox" name="check" value="5"><p>Item</p></span> 
+						<span><input type="checkbox" name="check" value="5"><p>Item</p></span>
+						<div class="clear"></div>
 					</div>
 				</span>
 				<span class="image-description">
-					<img src="img/product.jpg" />
+					<img src="/img/product.jpg" />
 				</span>
 			</span>
 		</div>
@@ -45,7 +50,7 @@
 			<span>
 				<div>
 					<h3 class="title">Pedidos</h3>
-					<img src="img/carrito-compras.png" />
+					<img src="/img/carrito-compras.png" />
 				</div>
 				<br>
 				<hr>
@@ -62,4 +67,4 @@
 		</div>
 	</div>
 	
-<?php include ("/footer.php");?>
+<?php include_once("/includes/footer.php");?>

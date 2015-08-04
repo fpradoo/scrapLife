@@ -16,5 +16,4 @@
 		return $db;
 	}
 	
-	require_once '../config.php';
 ?>

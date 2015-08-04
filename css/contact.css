@@ -6,7 +6,7 @@ div.contact-main{
 
 div.contact-main>div>span>h1 {
 	text-transform: uppercase;
-	color: #FF2EA2;
+	color: #00CCCC;
 	float: left;
 	font-size: 2em;
 }
@@ -35,7 +35,7 @@ div.contact-main>div>span>form>input[type="submit"] {
 
 div.contact-main>div>span>p.ubicacion{
 	margin-top: 20px;
-	color: #FF2EA2;
+	color: #00CCCC;
 }
 
 div.contact-main>div>span.text{

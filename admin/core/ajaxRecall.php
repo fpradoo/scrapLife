@@ -40,92 +40,107 @@ function changeSeccionesCategorias(){
 			$arrayCategoriasExternas[] = $categoria_externa;	
 		}
 		
-		echo "
-		<div class='container'>	
-		<h2>Categorias internas</h2>
-		<table class='table table-condensed table-striped table-bordered'>
-			<thead>
-				<tr>
-					<th>
-					Titulo
-					</th>
-					<th>
-					Editar
-					</th>
-					<th>
-					Eliminar
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-		";
-		
-		foreach ($arrayCategoriasInternas as $row_categoria) {
-			$categorias_id = $row_categoria['Id'];
-			$categorias_titulo = ucfirst($row_categoria['Titulo']);
-			
+		if(!empty($arrayCategoriasInternas)){
 			echo "
-			<tr>
-				<td>
-					$categorias_titulo
-				</td>
-				<td>
-					<a href='categorias.php?edit=$categorias_id' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-pencil'></span></a>
-				</td>
-				<td>
-					<a href='categorias.php?delete=$categorias_id' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-remove-sign'></span></a>
-				</td>
-			</tr>
-			";		
-		}	
-		echo"	
-			</tbody>
-		</table>
-		";
-		
-		echo"
-		<h2>Categorias externas</h2>
-		<table class='table table-condensed table-striped table-bordered'>
-			<thead>
-				<tr>
-					<th>
-					Titulo
-					</th>
-					<th>
-					Editar
-					</th>
-					<th>
-					Eliminar
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-		";
-		
-		foreach ($arrayCategoriasExternas as $row_categoria) {
-			$categorias_id = $row_categoria['Id'];
-			$categorias_titulo = ucfirst($row_categoria['Titulo']);
+			<div class='container'>	
+			<h2>Categorias internas</h2>
+			<table class='table table-condensed table-striped table-bordered'>
+				<thead>
+					<tr>
+						<th>
+						Titulo
+						</th>
+						<th>
+						Editar
+						</th>
+						<th>
+						Eliminar
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+			";
 			
-			echo "
-			<tr>
-				<td>
-					$categorias_titulo
-				</td>
-				<td>
-					<a href='categorias.php?edit=$categorias_id' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-pencil'></span></a>
-				</td>
-				<td>
-					<a href='categorias.php?delete=$categorias_id' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-remove-sign'></span></a>
-				</td>
-			</tr>
-			";		
+			foreach ($arrayCategoriasInternas as $row_categoria) {
+				$categorias_id = $row_categoria['Id'];
+				$categorias_titulo = ucfirst($row_categoria['Titulo']);
+				
+				echo "
+				<tr>
+					<td>
+						$categorias_titulo
+					</td>
+					<td>
+						<a href='categorias.php?edit=$categorias_id' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-pencil'></span></a>
+					</td>
+					<td>
+						<a href='categorias.php?delete=$categorias_id' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-remove-sign'></span></a>
+					</td>
+				</tr>
+				";		
+			}	
+			echo"	
+				</tbody>
+			</table>
+			</div>
+			";
 		}
+		
+		if(!empty($arrayCategoriasExternas)){
+			echo"
+			<div class='container'>	
+			<h2>Categorias externas</h2>
+			<table class='table table-condensed table-striped table-bordered'>
+				<thead>
+					<tr>
+						<th>
+						Titulo
+						</th>
+						<th>
+						Editar
+						</th>
+						<th>
+						Eliminar
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+			";
+			
+			foreach ($arrayCategoriasExternas as $row_categoria) {
+				$categorias_id = $row_categoria['Id'];
+				$categorias_titulo = ucfirst($row_categoria['Titulo']);
+				
+				echo "
+				<tr>
+					<td>
+						$categorias_titulo
+					</td>
+					<td>
+						<a href='categorias.php?edit=$categorias_id' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-pencil'></span></a>
+					</td>
+					<td>
+						<a href='categorias.php?delete=$categorias_id' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-remove-sign'></span></a>
+					</td>
+				</tr>
+				";		
+			}
 
-		echo"
-			</tbody>
-		</table>
-		</div>
-		";
+			echo"
+				</tbody>
+			</table>
+			</div>
+			";
+		}
+		
+		if(empty($arrayCategoriasInternas) && empty($arrayCategoriasExternas)){
+			echo"
+			<br />
+			<div class='alert alert-danger text-center' role='alert'>
+				No se encontraron categorias existentes para este producto
+			</div>
+			";
+		}
 	}	
 }
 
@@ -141,7 +156,7 @@ function changeCategoriaPorProducto(){
 		$get_all_categorias_by_producto_and_externa = "Select * FROM categorias c INNER JOIN tipo_cat tc ON tc.id = c.tipo_cat where id_producto = '$producto_edit' AND tc.tipo_cat = 'externa' ORDER BY Titulo";
 		$run_categorias = mysqli_query($db, $get_all_categorias_by_producto_and_externa);
 		
-		echo "<option value='0'>Seleccione categoria</option>";
+		echo "<optgroup label = 'Externas'>";
 		while($row_categorias=mysqli_fetch_array($run_categorias)){
 			
 			$categorias_id = $row_categorias['Id'];
@@ -151,6 +166,22 @@ function changeCategoriaPorProducto(){
 			<option value='$categorias_id'>$categorias_titulo</option>
 		";
 		}
+		echo "</optgroup>";
+		
+		$get_all_categorias_by_producto_and_externa = "Select * FROM categorias c INNER JOIN tipo_cat tc ON tc.id = c.tipo_cat where id_producto = '$producto_edit' AND tc.tipo_cat = 'interna' ORDER BY Titulo";
+		$run_categorias = mysqli_query($db, $get_all_categorias_by_producto_and_externa);
+		
+		echo "<optgroup label = 'Internas'>";
+		while($row_categorias=mysqli_fetch_array($run_categorias)){
+			
+			$categorias_id = $row_categorias['Id'];
+			$categorias_titulo = ucfirst($row_categorias['Titulo']);
+			
+			echo "
+			<option value='$categorias_id'>$categorias_titulo</option>
+		";
+		}
+		echo "</optgroup>";
 	}	
 }
 

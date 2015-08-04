@@ -1,3 +1,7 @@
+div.clear{
+	clear: both;
+}
+
 div.main {
 	position: absolute;
 	margin: 55px 95px;
@@ -6,7 +10,7 @@ div.main {
 
 div.main>span>h1 {
 	text-transform: uppercase;
-	color: #FF2EA2;
+	color: #00CCCC;
 	float: left;
 	font-size: 2em;
 }
@@ -31,11 +35,30 @@ div.main>span {
     position: absolute;
 }
 
+span.description {
+    display: inline-block;
+}
+
+span.description>p {
+    width: 43%;
+    float: left;
+    margin-right: 2em;
+}
+
 span.choise>span>h2, span.image-description  {
 	margin-top: 30px;
-	color: #FF2EA2;
+	color: #00CCCC;
 	text-transform: uppercase;
 	font-size: 1.2em;
+}
+
+span.choise {
+    width: 459px;
+    margin-top: 2em;
+    display: inline-block;
+    border: solid 1px;
+    border-radius: 1em;
+    padding: 0em 2em 2em 2em;
 }
 
 div.radio, div.check{
@@ -45,7 +68,7 @@ div.radio, div.check{
   
 /*Select choise*/
 span.choise-item>select {
-	width: 145px;
+	width: 200px;
 	margin: 10px 0px;
 	font-size: 1em;
 }
@@ -83,11 +106,13 @@ span.choise>span {
 }
 
 span.image-description {
-	margin-left: 15px;
+	margin-left: 31px;
 }
 
 span.image-description>img {
-	width: 285px;
+    width: 200px;
+    /*width: 180px;*/
+    margin-top: 80px;
 }
 
 
@@ -120,7 +145,7 @@ div.price-item{
 
 div.price-item>h4{
 	font-size: 1.2em;
-	color: #FF2EA2;
+	color: #FF9999;
 }
 
 div.price-item>p{

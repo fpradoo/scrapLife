@@ -24,7 +24,7 @@ body>div{
 
 /* Inicio header*/
 header{
-	background:#FF2EA2;
+	background:#FF9999;
 	height: 60px;
 	color: #fff;
 	text-transform: uppercase;
@@ -37,7 +37,7 @@ header>div.menu{
 	margin: 0px 70px;
 	padding: 20px 0px;
 	width: 1240px;
-	background: #FF2EA2;
+	background: #FF9999;
 	height: 20px;
 }
 
@@ -109,7 +109,7 @@ header>div.menu>div.products li:hover>ul{
 }
 
 div.products>ul>li>ul>li>a {
-	color: #FF2EA2;
+	color: #FF9999;
 }
 
 div.products>ul>li>ul>li>a:hover {
@@ -139,7 +139,7 @@ header>div.menu>div.input-mail{ /* Suscribite  */
 }
 
 input[type="submit"] { /* Suscribite: Input Boton */
-	background-color: #FF2EA2;
+	background: #FF9999;
 	border: 0;
 	color: #fff;
 	font-family: calibri;
@@ -180,16 +180,12 @@ section.slider>div {
 
 div.index-main>section.slider>div {
 	float: left;
-	color: #FF2EA2;
+	color: #FF9999;
 	font-size: 1.2em;
 }
 
-/*section.slider>div>div.text {
-	margin: 200px 0px 0px 50px;
-}*/
 
 section.slider>div>div>div.text {
-	/*margin: 200px 0px 0px 50px;*/
 	background-color: #fff;
 	padding: 5px 10px;
 	width: 250px;
@@ -253,7 +249,7 @@ div.step-three {
 div.index-main>section.slider>div>div>div>nav {
 	float: left;
 	margin-right: 10px;
-	background: #FF2EA2;
+	background: #FF9999;
 	color: #FFF;
 	border-radius: 3em;
 	-moz-border-radius: 3em; /*para Firefox*/
@@ -267,7 +263,7 @@ div.index-main>section.slider>div>div>div>nav {
 /* Que hacemos */
 section.que-hacemos>p {
 	text-align: center;
-	color: #FF2EA2;
+	color: #00CCCC;
 	text-transform: uppercase;
 	margin: 40px 0px;
 	font-size: 2.15em;
@@ -303,7 +299,7 @@ section.que-hacemos>div.items-que-hacemos {
 	padding: 30px;
 	font-size: 1.3em;
 	text-transform: uppercase;
-	color: #FF2EA2;
+	color: #00CCCC;
 	width: 1172px;
 	text-align: center;
 	margin: 0px auto;

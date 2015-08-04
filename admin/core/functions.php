@@ -59,7 +59,17 @@ function deleteProducto(){
 
 		$producto_delete = (int)$_GET['delete'];
 		$producto_delete = sanitize($producto_delete);
-		$sql = "DELETE p, c, dc FROM productos p INNER JOIN categorias c ON p.id = c.id_producto INNER JOIN detalles_categorias dc ON c.Id = dc.cat_id WHERE p.id = '$producto_delete'";
+	
+		$get_imagen = "Select imagen FROM detalles_categorias where id = '$producto_delete'";
+		$run_imagen = mysqli_query($db, $get_imagen);
+		
+		while($row_imagen=mysqli_fetch_array($run_imagen)){
+			$target_dir = "D:/www/scrapLife/admin/imagesUpload/";
+			$target_file = $target_dir . $row_imagen['imagen'];
+			unlink($target_file);
+		}
+		
+		$sql = "DELETE p, c, dc FROM productos p LEFT OUTER JOIN categorias c ON p.id = c.id_producto LEFT OUTER JOIN detalles_categorias dc ON c.Id = dc.cat_id WHERE p.id = '$producto_delete'";
 		$db->query($sql);
 		header('Location: productos.php');
 	}		
@@ -135,11 +145,12 @@ function showEditProducto(){
 			$producto_descripcion = ucfirst($row_producto['descripcion']);
 			$producto_precio = $row_producto['precio'];
 			$activo = ($row_producto['activo'] == 1) ? 'checked' : '';
+			$imagen = $row_producto['imagen'];
 			
 			echo"
 				<h1>Editar producto </h1>
 				<div style='width:60%; margin-left:20px;'>
-				<form role='form' action='productos.php' method='post'>
+				<form role='form' action='productos.php' method='post' enctype='multipart/form-data'>
 					<div class='form-group'>
 						<label for='titulo'>Titulo:</label>
 						<input name='titulo' type='text' class='form-control' id='titulo' value='$producto_titulo' required>
@@ -152,12 +163,21 @@ function showEditProducto(){
 						<label for='precio'>Precio:</label>
 						<input name='precio' type='number' class='form-control' id='precio' value='$producto_precio' required>
 					</div>
+					<div class='form-group'>
+						<input class='file' type='file' name='fileToUpload' id='fileToUpload'>
+						<button type='button' class='btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>Ver imagen actual</button>
+					</div>
 					<div class='checkbox'>
 						<label><input name='activo' id='activo' type='checkbox' $activo> Activo</label>
 					</div>
 					<input type='hidden' name='producto_id' value='$producto_id'>
 					<button name='edit_producto' type='submit' class='btn btn-default'>Guardar</button>
 				</form>
+			</div>
+			<div class='modal fade' id='myModal' role='dialog'>
+				<div class='modal-dialog'>
+					<img src='/admin/imagesUpload/$imagen' class='img-thumbnail'>
+				</div>
 			</div>
 			";
 		}
@@ -169,7 +189,7 @@ function showAddProducto(){
 		echo"
 			<h1>Editar producto </h1>
 			<div style='width:60%; margin-left:20px;'>
-			<form role='form' action='productos.php' method='post'>
+			<form role='form' action='productos.php' method='post' enctype='multipart/form-data'>
 				<div class='form-group'>
 					<label for='titulo'>Titulo:</label>
 					<input name='titulo' type='text' class='form-control' id='titulo' required>
@@ -181,6 +201,9 @@ function showAddProducto(){
 				<div class='form-group'>
 					<label for='precio'>Precio:</label>
 					<input name='precio' type='number' class='form-control' id='precio' required>
+				</div>
+				<div class='form-group'>
+					<input class='file' type='file' name='fileToUpload' id='fileToUpload' required>
 				</div>
 				<div class='form-group'>
 					<input name='activo' id='activo' type='checkbox'> Activo
@@ -226,11 +249,46 @@ function addProducto(){
 			$errores[] .='El producto que intenta agregar ya existe';
 		}
 		
+		//Gestion de la imagen
+		$target_dir = "D:/www/scrapLife/admin/imagesUpload/";
+		$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+		$uploadOk = 1;
+		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+		// Check if image file is a actual image or fake image
+		if(isset($_POST["submit"])) {
+			$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+			if($check !== false) {
+				echo "File is an image - " . $check["mime"] . ".";
+				$uploadOk = 1;
+			} else {
+				$errores[] .='El archivo que intenta subir no es una imagen';
+				$uploadOk = 0;
+			}
+		}
+				
+		// Check file size
+		if ($_FILES["fileToUpload"]["size"] > 500000) {
+			$errores[] .='La imagen que intenta subir es muy grande';
+			$uploadOk = 0;
+		}
+		// Allow certain file formats
+		if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+		&& $imageFileType != "gif" ) {
+			$errores[] .='Los unicos formatos permitidos son jpg, png, jpeg y gif';
+			$uploadOk = 0;
+		}
+		// Check if $uploadOk is set to 0 by an error
+		if ($uploadOk == 1) {
+			move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+		}
+		
+		$nombreDeLaImagen = basename($_FILES["fileToUpload"]["name"]);
+		
 		
 		if(!empty($errores)){
 			echo mostrarErrores($errores);
 			}else{
-			$sql = "INSERT INTO productos (titulo, descripcion, precio, activo) VALUES ('$titulo_producto', '$descripcion_producto', '$precio_producto', $activo)";
+			$sql = "INSERT INTO productos (titulo, descripcion, precio, imagen, activo ) VALUES ('$titulo_producto', '$descripcion_producto', '$precio_producto', '$nombreDeLaImagen', $activo)";
 			$db->query($sql);
 		}
 			
@@ -250,23 +308,59 @@ function editProducto(){
 		}
 		
 		$descripcion_producto = sanitize($_POST['descripcion']);
-		if($descripcion_producto == ''){
-			$errores[] .='Es necesario agregarle una descripción al producto';
-		}
-		
 		$precio_producto = sanitize($_POST['precio']);
-		if($precio_producto == ''){
-			$errores[] .='Es necesario agregarle un precio al producto';
-		}
-		
 		(int)$activo = (isset($_POST['activo'])) ? '1' : '0';
-		
 		$id_producto = $_POST['producto_id'];
+		
+		$nombreDeLaImagen = '';
+		if($_FILES["fileToUpload"]["name"] != ''){
+			//Gestion de la imagen
+			$target_dir = "D:/www/scrapLife/admin/imagesUpload/";
+			$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+			$uploadOk = 1;
+			$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+			// Check if image file is a actual image or fake image
+			if(isset($_POST["submit"])) {
+				$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+				if($check !== false) {
+					echo "File is an image - " . $check["mime"] . ".";
+					$uploadOk = 1;
+				} else {
+					$errores[] .='El archivo que intenta subir no es una imagen';
+					$uploadOk = 0;
+				}
+			}
+						
+			// Check file size
+			if ($_FILES["fileToUpload"]["size"] > 500000) {
+				$errores[] .='La imagen que intenta subir es muy grande';
+				$uploadOk = 0;
+			}
+			// Allow certain file formats
+			if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+			&& $imageFileType != "gif" ) {
+				$errores[] .='Los unicos formatos permitidos son jpg, png, jpeg y gif';
+				$errores[] .= $imageFileType;
+				$errores[] .= $_FILES["fileToUpload"]["name"];
+				$uploadOk = 0;
+			}
+			// Check if $uploadOk is set to 0 by an error
+			if ($uploadOk == 1) {
+				move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+			}
+			
+			$nombreDeLaImagen = basename($_FILES["fileToUpload"]["name"]);
+		}
 				
 		if(!empty($errores)){
 			echo mostrarErrores($errores);
 			}else{
-			$sql = "UPDATE productos SET titulo='$titulo_producto', precio='$precio_producto', descripcion='$descripcion_producto', activo=$activo WHERE id = '$id_producto'";
+				if($nombreDeLaImagen != ''){
+					$sql = "UPDATE productos SET titulo='$titulo_producto', precio='$precio_producto', descripcion='$descripcion_producto', imagen='$nombreDeLaImagen', activo=$activo WHERE id = '$id_producto'";
+				}else{
+					$sql = "UPDATE productos SET titulo='$titulo_producto', precio='$precio_producto', descripcion='$descripcion_producto', activo=$activo WHERE id = '$id_producto'";
+				}
+			
 			$db->query($sql);
 		}		
 	}
@@ -293,9 +387,20 @@ function deleteCategoria(){
 
 		$categoria_delete = (int)$_GET['delete'];
 		$categoria_delete = sanitize($categoria_delete);
-		$sql = "DELETE c, dc FROM categorias c INNER JOIN detalles_categorias dc ON c.Id = dc.cat_id WHERE c.Id = '$categoria_delete'"; 
-		$db->query($sql);
-		header('Location: categorias.php');
+		$sqlSelect = "SELECT * FROM categorias WHERE Id = '$categoria_delete'";
+		$run_productos = mysqli_query($db, $sqlSelect);
+		while($row_productos=mysqli_fetch_array($run_productos)){	
+			$productos_id_padre = $row_productos['id_producto'];
+		}
+		
+		$sql = "DELETE c, dc FROM categorias c LEFT OUTER JOIN detalles_categorias dc ON c.Id = dc.cat_id WHERE c.Id = '$categoria_delete'"; 
+		$db->query($sql);		
+		
+		echo"
+		<script>
+			showSeccionesCategorias($productos_id_padre);
+		</script>
+		";
 	}
 	
 }
@@ -317,9 +422,19 @@ function deleteSubcategoria(){
 			unlink($target_file);
 		}
 		
+		$sqlSelect = "SELECT * FROM detalles_categorias WHERE id = '$subcategoria_delete'";
+		$run_productos = mysqli_query($db, $sqlSelect);
+		while($row_productos=mysqli_fetch_array($run_productos)){	
+			$categoria_id_padre = $row_productos['cat_id'];
+		}
+		
 		$sql = "DELETE FROM detalles_categorias where id = '$subcategoria_delete'"; 
 		$db->query($sql);
-		header("Location: subcategorias.php");
+		echo"
+		<script>
+			showSeccionSubcategorias($categoria_id_padre);
+		</script>
+		";	
 	}
 }
 
@@ -442,31 +557,20 @@ function addCategoria(){
 	if(isset($_POST['add_categoria'])){
 		//Check datos
 		$titulo_categoria = sanitize($_POST['titulo']);
-		if($titulo_categoria == ''){
-			$errores[] .='Es necesario agregarle un titulo a la categoria';
-		}
-		
 		(int)$activo = (isset($_POST['activo'])) ? '1' : '0';
 		
 		$id_producto_padre = $_POST['id_producto'];
 		$tipo_cat = $_POST['tip_cat'];
 		$tipo_op = $_POST['tip_op'];		
-		
-		//Si ya existe en bd
-		$sql = "SELECT * FROM categorias where Titulo = '$titulo_categoria'";
-		$result = $db->query($sql);
-		$count = mysqli_num_rows($result);
-		if($count > 0){
-			$errores[] .='La categoria que intenta agregar ya existe';
-		}
-		
-		
-		if(!empty($errores)){
-			echo mostrarErrores($errores);
-			}else{
-			$sql = "INSERT INTO categorias (Titulo, tipo_cat, tipo_op, id_producto, activo) VALUES ('$titulo_categoria', '$tipo_cat', '$tipo_op', '$id_producto_padre', $activo)";
-			$db->query($sql);
-		}			
+				
+		$sql = "INSERT INTO categorias (Titulo, tipo_cat, tipo_op, id_producto, activo) VALUES ('$titulo_categoria', '$tipo_cat', '$tipo_op', '$id_producto_padre', $activo)";
+		$db->query($sql);
+
+		echo"
+		<script>
+			showSeccionesCategorias($id_producto_padre);
+		</script>
+		";		
 	}
 }
 
@@ -476,25 +580,28 @@ function editCategoria(){
 	
 	$errores = array();
 	if(isset($_POST['edit_categoria'])){
-		//Check datos
-		$titulo_categoria = sanitize($_POST['titulo']);
-		if($titulo_categoria == ''){
-			$errores[] .='Es necesario agregarle un titulo al producto';
+		$id_categoria = $_POST['categoria_id'];
+		$sqlSelect = "SELECT * FROM categorias WHERE Id = '$id_categoria'";
+		$run_productos = mysqli_query($db, $sqlSelect);
+		while($row_productos=mysqli_fetch_array($run_productos)){	
+			$productos_id_padre = $row_productos['id_producto'];
 		}
 		
+		//Check datos
+		$titulo_categoria = sanitize($_POST['titulo']);
 		$tipo_categoria = $_POST['tip_cat'];
-		$operacion_categoria = $_POST['tip_op'];
-		
+		$operacion_categoria = $_POST['tip_op'];		
 		(int)$activo = (isset($_POST['activo'])) ? '1' : '0';
 		
-		$id_categoria = $_POST['categoria_id'];
-				
-		if(!empty($errores)){
-			echo mostrarErrores($errores);
-			}else{
-			$sql = "UPDATE categorias SET titulo='$titulo_categoria', tipo_cat='$tipo_categoria', tipo_op='$operacion_categoria', activo=$activo WHERE id = '$id_categoria'";
-			$db->query($sql);
-		}		
+		
+		$sql = "UPDATE categorias SET titulo='$titulo_categoria', tipo_cat='$tipo_categoria', tipo_op='$operacion_categoria', activo=$activo WHERE id = '$id_categoria'";
+		$db->query($sql);
+		
+		echo"
+		<script>
+			showSeccionesCategorias($productos_id_padre);
+		</script>
+		";		
 	}
 }
 
@@ -517,7 +624,7 @@ function showSelectCategorias(){
 		echo"
 		<div class='text-center'>
 			<h2 class='text-center'>Categorias</h2>
-			<select onchange='showSeccionesCategorias(this.value)'>
+			<select id='selectCategoriaByProducto' onchange='showSeccionesCategorias(this.value)'>
 				<option>Seleccionar producto</option>
 		";
 		
@@ -744,7 +851,12 @@ function addSubcategoria(){
 			}else{
 			$sql = "INSERT INTO detalles_categorias (titulo, cat_id, precio_adicional, imagen, activo) VALUES ('$titulo_subcategoria', '$id_categoria_padre', '$precio', '$nombreDeLaImagen', $activo)";
 			$db->query($sql);
-		}			
+		}
+		echo"
+		<script>
+			showSeccionSubcategorias($id_categoria_padre);
+		</script>
+		";		
 	}
 }
 
@@ -766,7 +878,7 @@ function editSubcategoria(){
 		
 		$id_subcategoria = $_POST['subcategoria_id'];
 		$nombreDeLaImagen = '';
-		if(isset($_FILES["fileToUpload"]["name"])){
+		if($_FILES["fileToUpload"]["name"] != ''){
 			//Gestion de la imagen
 			$target_dir = "D:/www/scrapLife/admin/imagesUpload/";
 			$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -809,7 +921,12 @@ function editSubcategoria(){
 			$nombreDeLaImagen = basename($_FILES["fileToUpload"]["name"]);
 		}
 		
-				
+		$sqlSelect = "SELECT * FROM detalles_categorias WHERE id = '$id_subcategoria'";
+		$run_productos = mysqli_query($db, $sqlSelect);
+		while($row_productos=mysqli_fetch_array($run_productos)){	
+			$categoria_id_padre = $row_productos['cat_id'];
+		}
+		
 		if(!empty($errores)){
 			echo mostrarErrores($errores);
 			}else{
@@ -819,7 +936,13 @@ function editSubcategoria(){
 				$sql = "UPDATE detalles_categorias SET titulo='$titulo_subcategoria', precio_adicional='$precio', activo=$activo WHERE id = '$id_subcategoria'";
 			}
 			$db->query($sql);
-		}		
+		}
+			
+		echo"
+		<script>
+			showSeccionSubcategorias($categoria_id_padre);
+		</script>
+		";	
 	}
 }
 
