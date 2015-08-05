@@ -20,6 +20,24 @@ function getProductosParaSelect(){
 	}	
 }
 
+function getProductosParaNavigation(){
+	
+	$db = callDb();
+	
+	$get_all_productos = 'Select * FROM productos order by Titulo';
+	$run_productos = mysqli_query($db, $get_all_productos);
+	
+	while($row_productos=mysqli_fetch_array($run_productos)){
+		
+		$productos_id = $row_productos['id'];
+		$productos_titulo = ucfirst($row_productos['titulo']);
+		
+		echo "		
+		<li><a href='/producto.php'>$productos_titulo</a></li>
+		";
+	}	
+}
+
 function getProductosParaSelectFormularioNuevo(){
 	$db = callDb();
 	

@@ -5,58 +5,62 @@
 ?>
 
 	<div class="main">
-		<span>
-			<h1>Cuadernos</h1>
-			<select name="products">
-				<?php getProductosParaSelect(); ?>
-			</select>
-		</span>
-		<div>
-			<span class="description">
-				<p>Los cuadernos están realizados con papel bookcel de 80 gr. Cosidos a mano y encuadernados artesanalmente. Los cuadernos personalizados son exclusivos y diseñados especialmente para vos.</p>
-				<img src="/img/product.jpg" />			
-			</span>
+		<div id='producto'>
+		<span class='choise spanProducto'>
 			<span>
-				<span>
-					<h2 class="categorias">Sección</h2>
-					<select name="item-choise">
-						<option value="1">Item</option>
-						<option value="2">Item</option>
-						<option value="3">Item</option>
-					</select>
-					<span class="choise">
-					<h3 class="pri choise">Titulo</h3>
-					<div>
-						<div class="radio">
-							<span><input type="radio" name="check" value="1"><p>Item</p></span>
-							<span><input type="radio" name="check" value="2"><p>Otro Item</p></span>
-						</div>
-						<div class="imageOptionDiv">
-							<img class="imageOption" src="/img/product.jpg" />
-						</div>
-					</div>
-					</span>
-					<span class="choise">
-					<h3 class="choise">Titulo2</h3>
-					<div>
-						<div class="check">
-							<span><input type="checkbox" name="check" value="1"><p>Item</p></span>
-							<span><input type="checkbox" name="check" value="2"><p>Item</p></span>
-							<span><input type="checkbox" name="check" value="3"><p>Otro Item</p></span> 
-							<span><input type="checkbox" name="check" value="4"><p>Otro Item</p></span> 
-							<span><input type="checkbox" name="check" value="5"><p>Item</p></span>
-						</div>
-						<div class="imageOptionDiv">
-							<img class="imageOption" src="/img/product.jpg" />
-						</div>
-					</div>
-					</span>
-				</span>
-				<span class="image-description">
-					
-					
-				</span>
+				<h1 class='tituloProducto'>Cuadernos</h1>
+				<select class='productosList' name='products' onchange='showProductoSelect(this.value)'>
+					<?php getProductosParaSelect(); ?>
+				</select>
 			</span>
+				<span class="description">
+					<p>Los cuadernos están realizados con papel bookcel de 80 gr. Cosidos a mano y encuadernados artesanalmente. Los cuadernos personalizados son exclusivos y diseñados especialmente para vos.</p>
+					<img class='imagenProducto' src="/img/product.jpg" />			
+				</span>
+		</span>
+			
+				<span>
+					<span>
+						<h2 class="categorias tituloProducto">Sección</h2>
+						<select class='seccionList' name="item-choise">
+							<option value="1">Item</option>
+							<option value="2">Item</option>
+							<option value="3">Item</option>
+						</select>
+						<span class="choise">
+						<h3 class="pri choise">Titulo</h3>
+						<div>
+							<div class="radio">
+								<span><input type="radio" name="check" value="1"><p>Item</p></span>
+								<span><input type="radio" name="check" value="2"><p>Otro Item</p></span>
+							</div>
+							<div class="imageOptionDiv">
+								<img class="imageOption" src="/img/product.jpg" />
+							</div>
+						</div>
+						</span>
+						<span class="choise">
+						<h3 class="choise">Titulo2</h3>
+						<div>
+							<div class="check">
+								<span><input type="checkbox" name="check" value="1"><p>Item</p></span>
+								<span><input type="checkbox" name="check" value="2"><p>Item</p></span>
+								<span><input type="checkbox" name="check" value="3"><p>Otro Item</p></span> 
+								<span><input type="checkbox" name="check" value="4"><p>Otro Item</p></span> 
+								<span><input type="checkbox" name="check" value="5"><p>Item</p></span>
+							</div>
+							<div class="imageOptionDiv">
+								<img class="imageOption" src="/img/product.jpg" />
+							</div>
+						</div>
+						</span>
+					</span>
+					<span class="image-description">
+						
+						
+					</span>
+				</span>
+			
 		</div>
 		<div class="carrito-compras">
 			<span>

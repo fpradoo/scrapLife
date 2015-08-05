@@ -37,6 +37,7 @@ div.main>span {
 
 span.description {
     display: inline-block;
+	margin-top: 17px;
 }
 
 span.description>p {
@@ -196,3 +197,37 @@ h2.categorias{
 
 }
 
+img.imagenProducto{
+	width: 50%;
+}
+
+span.spanProducto{
+	 margin-top: 0em;
+}
+
+h1.tituloProducto{
+    color: #00cccc;
+    float: left;
+    font-size: 2em;
+    text-transform: uppercase;
+}
+
+select.productosList {
+    font-size: 1em;
+    margin-left: 20px;
+    margin-top: 9px;
+    width: 140px;
+}
+
+h2.tituloProducto{
+    color: #00cccc;
+    font-size: 1.2em;
+    margin-top: 30px;
+    text-transform: uppercase;
+}
+select.seccionList {
+    font-size: 1em;
+    margin: 10px 0;
+    width: 200px;
+}
+    

@@ -1,3 +1,7 @@
+<?php
+	include_once ("/core/functions.php");
+?>
+
 <body>
 
 	<header>
@@ -12,9 +16,7 @@
 				<ul>
 					<li><a href="#"><p>Productos</p><img src="/img/dropdown.png"/></a>
 						<ul>
-							<li><a href="/producto.php">Cuadernos</a></li>
-							<li><a href="/producto.php">Libros</a></li>
-							<li><a href="/producto.php">Albumes</a></li>
+							<?php getProductosParaNavigation(); ?>
 						</ul>
 					</li>
 				</ul>
