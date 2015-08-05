@@ -63,7 +63,8 @@ span.choise {
 
 div.radio, div.check{
 	margin-top: 8px;
-	width: 228px;
+	width: 40%;
+	float: left;
   }
   
 /*Select choise*/
@@ -175,4 +176,23 @@ header>div.menu>div.redes li:hover>ul {
 	right: 65px;
 }*/
 
+div.{
+	width: 60%;
+	float:right;
+}
+
+img.imageOption{
+	width: 60%;
+	float: right;
+}
+
+div.imageOptionDiv{
+	width:60%;
+	float: right;
+}
+
+h2.categorias{
+	margin-top:30px;
+
+}
 

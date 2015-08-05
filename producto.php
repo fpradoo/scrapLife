@@ -1,15 +1,14 @@
 <?php 
 	include_once ("/includes/header.php");
 	include_once ("/includes/navigation.php");
+	include_once ("/core/functions.php");	
 ?>
 
 	<div class="main">
 		<span>
 			<h1>Cuadernos</h1>
 			<select name="products">
-				<option>Cuadernos</option>
-				<option>Libros</option>
-				<option>Albumes</option>
+				<?php getProductosParaSelect(); ?>
 			</select>
 		</span>
 		<div>
@@ -17,32 +16,45 @@
 				<p>Los cuadernos están realizados con papel bookcel de 80 gr. Cosidos a mano y encuadernados artesanalmente. Los cuadernos personalizados son exclusivos y diseñados especialmente para vos.</p>
 				<img src="/img/product.jpg" />			
 			</span>
-			<span class="choise">
-				<span class="choise-item">
-					<h2>Elegí tu combo</h2>
+			<span>
+				<span>
+					<h2 class="categorias">Sección</h2>
 					<select name="item-choise">
 						<option value="1">Item</option>
 						<option value="2">Item</option>
 						<option value="3">Item</option>
 					</select>
+					<span class="choise">
 					<h3 class="pri choise">Titulo</h3>
-					<div class="radio">
-						<span><input type="radio" name="check" value="1"><p>Item</p></span>
-						<span><input type="radio" name="check" value="2"><p>Otro Item</p></span>
-						<div class="clear"></div>
+					<div>
+						<div class="radio">
+							<span><input type="radio" name="check" value="1"><p>Item</p></span>
+							<span><input type="radio" name="check" value="2"><p>Otro Item</p></span>
+						</div>
+						<div class="imageOptionDiv">
+							<img class="imageOption" src="/img/product.jpg" />
+						</div>
 					</div>
+					</span>
+					<span class="choise">
 					<h3 class="choise">Titulo2</h3>
-					<div class="check">
-						<span><input type="checkbox" name="check" value="1"><p>Item</p></span>
-						<span><input type="checkbox" name="check" value="2"><p>Item</p></span>
-						<span><input type="checkbox" name="check" value="3"><p>Otro Item</p></span> 
-						<span><input type="checkbox" name="check" value="4"><p>Otro Item</p></span> 
-						<span><input type="checkbox" name="check" value="5"><p>Item</p></span>
-						<div class="clear"></div>
+					<div>
+						<div class="check">
+							<span><input type="checkbox" name="check" value="1"><p>Item</p></span>
+							<span><input type="checkbox" name="check" value="2"><p>Item</p></span>
+							<span><input type="checkbox" name="check" value="3"><p>Otro Item</p></span> 
+							<span><input type="checkbox" name="check" value="4"><p>Otro Item</p></span> 
+							<span><input type="checkbox" name="check" value="5"><p>Item</p></span>
+						</div>
+						<div class="imageOptionDiv">
+							<img class="imageOption" src="/img/product.jpg" />
+						</div>
 					</div>
+					</span>
 				</span>
 				<span class="image-description">
-					<img src="/img/product.jpg" />
+					
+					
 				</span>
 			</span>
 		</div>
