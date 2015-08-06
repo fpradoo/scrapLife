@@ -4,7 +4,7 @@ div.clear{
 
 div.main {
 	position: absolute;
-	margin: 55px 95px;
+	margin: 0px 95px;
 	width: 1160px;
 }
 
@@ -54,12 +54,9 @@ span.choise>span>h2, span.image-description  {
 }
 
 span.choise {
-    width: 459px;
+    width: auto;
     margin-top: 2em;
     display: inline-block;
-    border: solid 1px;
-    border-radius: 1em;
-    padding: 0em 2em 2em 2em;
 }
 
 div.radio, div.check{
@@ -79,7 +76,7 @@ span.choise-item>select {
 /*Input radio y check*/
 div.radio>span, div.check>span {
 	float: left;
-	width: 90px;
+	width: 120px;
 	margin: 5px 0px;
 	padding-right: 17px;
 }
@@ -89,12 +86,8 @@ input[type="radio"], input[type="checkbox"] {
 }
 
 h3.choise{
-	margin-top: 20px;
 	color: #4C4C4C;
-}
-
-h3.pri{
-	margin-top: 10px;
+	margin-bottom: 15px;
 }
 
 div.radio>span>p, div.check>span>p {
@@ -183,7 +176,7 @@ div.{
 }
 
 img.imageOption{
-	width: 60%;
+	width: 85%;
 	float: right;
 }
 
@@ -230,4 +223,13 @@ select.seccionList {
     margin: 10px 0;
     width: 200px;
 }
-    
+
+span.categorias{
+    display: inline-block;
+    padding: 1em 2em 1em;
+    width: 459px;
+ }
+ 
+ span.aclaracion{
+	margin-left:20px;
+ }

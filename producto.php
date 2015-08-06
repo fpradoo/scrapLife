@@ -9,7 +9,7 @@
 		<span class='choise spanProducto'>
 			<span>
 				<h1 class='tituloProducto'>Cuadernos</h1>
-				<select class='productosList' name='products' onchange='showProductoSelect(this.value)'>
+				<select id='products' class='productosList' name='products' onchange='showProductoSelect(this.value)'>
 					<?php getProductosParaSelect(); ?>
 				</select>
 			</span>
@@ -17,50 +17,20 @@
 					<p>Los cuadernos están realizados con papel bookcel de 80 gr. Cosidos a mano y encuadernados artesanalmente. Los cuadernos personalizados son exclusivos y diseñados especialmente para vos.</p>
 					<img class='imagenProducto' src="/img/product.jpg" />			
 				</span>
-		</span>
-			
-				<span>
-					<span>
-						<h2 class="categorias tituloProducto">Sección</h2>
-						<select class='seccionList' name="item-choise">
-							<option value="1">Item</option>
-							<option value="2">Item</option>
-							<option value="3">Item</option>
-						</select>
-						<span class="choise">
-						<h3 class="pri choise">Titulo</h3>
-						<div>
-							<div class="radio">
-								<span><input type="radio" name="check" value="1"><p>Item</p></span>
-								<span><input type="radio" name="check" value="2"><p>Otro Item</p></span>
-							</div>
-							<div class="imageOptionDiv">
-								<img class="imageOption" src="/img/product.jpg" />
-							</div>
-						</div>
-						</span>
-						<span class="choise">
-						<h3 class="choise">Titulo2</h3>
-						<div>
-							<div class="check">
-								<span><input type="checkbox" name="check" value="1"><p>Item</p></span>
-								<span><input type="checkbox" name="check" value="2"><p>Item</p></span>
-								<span><input type="checkbox" name="check" value="3"><p>Otro Item</p></span> 
-								<span><input type="checkbox" name="check" value="4"><p>Otro Item</p></span> 
-								<span><input type="checkbox" name="check" value="5"><p>Item</p></span>
-							</div>
-							<div class="imageOptionDiv">
-								<img class="imageOption" src="/img/product.jpg" />
-							</div>
-						</div>
-						</span>
-					</span>
-					<span class="image-description">
-						
-						
-					</span>
-				</span>
-			
+		</span>			
+
+		<span>
+			<h2 class="categorias tituloProducto">Secciones</h2>
+			<select class='seccionList' name="item-choise" onchange='showCategoriasDeProducto(this.value)'>
+				<option selected value=''>Seleccione</option>
+				<option value="2">Interna</option>
+				<option value="1">Externa</option>
+			</select>
+			<span class='aclaracion'>Elija que sección del producto desea editar.</span>
+			<span id='categoria'>
+				
+			</span>
+		</span>			
 		</div>
 		<div class="carrito-compras">
 			<span>
@@ -71,13 +41,10 @@
 				<br>
 				<hr>
 					<div class="price-item">
-						<h4 class="title-buy">Cuaderno $150</h4>
-						<p>Item + $50</p>
-						<p>Otro Item + $120</p>
-						<p>Item + $30</p>
+						<h4 class="title-buy">Todavia no hay productos seleccionados</h4>
 					</div>
 				<hr class="price">
-				<h5>Total: $330</h5>
+				<h5>Total: </h5>
 				<input type="submit" value="Aceptar Pago">
 			</span>
 		</div>

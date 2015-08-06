@@ -10,7 +10,7 @@ if(isset($_GET['func'])&&!empty($_GET['func'])){
         showProductoSelect();
         break;
     case 2:
-        changeCategoriaPorProducto();
+        showCategoriaByProduct();
         break;
 	case 3:
         changeSeccionSubcategoriaPorCategoria();
@@ -39,69 +39,38 @@ function showProductoSelect(){
 			
 			echo "
 			<span class='choise spanProducto'>
-			<span>
+				<span>
 				<h1 class='tituloProducto'>$productos_titulo</h1>
-				<select class='productosList' name='products' onChange='showProductoSelect(this.value)'>
+				<select class='productosList' id='products' name='products' onChange='showProductoSelect(this.value)'>
 			";
 			
-			getProductosParaSelect();
+			getProductosParaSelect($producto_edit);
 			
 			echo"
-				</select>
-			</span>
-			
+					</select>
+				</span>
 				<span class='description'>
 					<p>$productos_descripcion.</p>
-					<img style='width:50%' src='/admin/imagesUpload/$productos_imagen' />			
+					<img class='imagenProducto' src='/admin/imagesUpload/$productos_imagen' />			
 				</span>
 			</span>
-			<div>	
-				<span>
-					<span>
-						<h2 class='categorias tituloProducto'>Sección</h2>
-						<select class='seccionList' name='item-choise'>
-							<option value='1'>Item</option>
-							<option value='2'>Item</option>
-							<option value='3'>Item</option>
-						</select>
-						<span class='choise'>
-						<h3 class='pri choise'>Titulo</h3>
-						<div>
-							<div class='radio'>
-								<span><input type='radio' name='check' value='1'><p>Item</p></span>
-								<span><input type='radio' name='check' value='2'><p>Otro Item</p></span>
-							</div>
-							<div class='imageOptionDiv'>
-								<img class='imageOption' src='/img/product.jpg' />
-							</div>
-						</div>
-						</span>
-						<span class='choise'>
-						<h3 class='choise'>Titulo2</h3>
-						<div>
-							<div class='check'>
-								<span><input type='checkbox' name='check' value='1'><p>Item</p></span>
-								<span><input type='checkbox' name='check' value='2'><p>Item</p></span>
-								<span><input type='checkbox' name='check' value='3'><p>Otro Item</p></span> 
-								<span><input type='checkbox' name='check' value='4'><p>Otro Item</p></span> 
-								<span><input type='checkbox' name='check' value='5'><p>Item</p></span>
-							</div>
-							<div class='imageOptionDiv'>
-								<img class='imageOption' src='/img/product.jpg' />
-							</div>
-						</div>
-						</span>
-					</span>
-					<span class='image-description'>
-					</span>
-				</span>
-			</div>
+			<span>
+				<h2 class='categorias tituloProducto'>Secciones</h2>
+				<select id='products' class='seccionList' name='item-choise' onchange='showCategoriasDeProducto(this.value)'>
+					<option selected value=''>Seleccione</option>
+					<option value='2'>Interna</option>
+					<option value='1'>Externa</option>
+				</select>
+				<span class='aclaracion'>Elija que sección del producto desea editar.</span>
+			</span>
+			<span id='categoria'>				
+			</span>
 			";
 		}
 	}	
 }
 
-function getProductosParaSelect(){
+function getProductosParaSelect($prod_id){
 	
 	$db = iniciarBD();
 	
@@ -113,10 +82,75 @@ function getProductosParaSelect(){
 		$productos_id = $row_productos['id'];
 		$productos_titulo = ucfirst($row_productos['titulo']);
 		
-		echo "		
-		<option value='$productos_id'>$productos_titulo</option>
-		";
+		if($prod_id == $productos_id ){
+			echo "		
+				<option value='$productos_id' selected>$productos_titulo</option>
+			";
+		}else{
+			echo "		
+				<option value='$productos_id'>$productos_titulo</option>
+			";			
+		}
+		
 	}	
+}
+
+function showCategoriaByProduct(){
+	
+	$db = iniciarBD();
+	
+	if(isset($_GET['q'])&&!empty($_GET['q'])){
+		
+		$tipo_seccion = (int)$_GET['q'];
+		$tipo_seccion = sanitize($tipo_seccion);
+		$id_prod_padre = $_GET['idpadre'];
+		
+		$get_categorias = "Select * FROM categorias WHERE id_producto = $id_prod_padre AND tipo_cat = $tipo_seccion";
+		$run_categorias = mysqli_query($db, $get_categorias);
+		
+		while($row_categorias=mysqli_fetch_array($run_categorias)){
+			
+			$categoria_titulo = ucfirst($row_categorias['Titulo']);
+			$categoria_id = $row_categorias['Id'];
+			$categoria_operacion = $row_categorias['tipo_op'];
+			
+			echo"
+			<hr>
+				<span class='categorias'>
+				<div>						
+					<div class='check'>
+					<h3 class='pri choise'>$categoria_titulo</h3>
+			";		
+			
+			$get_subcategorias = "Select * FROM detalles_categorias WHERE cat_id = $categoria_id";
+			$run_subcategorias = mysqli_query($db, $get_subcategorias);
+		
+			while($row_subcategorias=mysqli_fetch_array($run_subcategorias)){
+				
+				$subcategoria_id = $row_subcategorias['id'];
+				$subcategoria_titulo = ucfirst($row_subcategorias['titulo']);
+				
+				if($categoria_operacion == 1){
+					echo"
+					<span><input type='radio' name='check' value='$subcategoria_id'><p>$subcategoria_titulo</p></span>
+					";
+					}else{
+					echo"
+					<span><input type='checkbox' name='check' value='$subcategoria_id'><p>$subcategoria_titulo</p></span>	
+					";	
+				}
+			}
+			
+			echo"
+				</div>
+					<div class='imageOptionDiv'>
+						<img class='imageOption' src='/img/product.jpg' />
+					</div>
+				</div>
+				</span>
+			";
+		}	
+	}
 }
 
 function changeCategoriaPorProducto(){
