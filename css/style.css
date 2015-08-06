@@ -136,6 +136,7 @@ div.products>ul>li {
 
 header>div.menu>div.input-mail{ /* Suscribite  */
 	padding: 0px 50px;
+	margin-top: -2px;
 }
 
 input[type="submit"] { /* Suscribite: Input Boton */
@@ -166,7 +167,63 @@ div.index-main{
 	margin-bottom: 50px;
 }
 
-section.slider {
+div.index-main>section.step { /* Inicio PASOS */
+    width: 910px;
+    margin: 3em auto;
+    min-height: 165px;
+}
+
+div.index-main>section.step>a {
+    background: url("/img/scraplife-logo.jpg") no-repeat center;
+    width: 164px;
+    height: 164px;
+    display: inline-block;
+    float: left;
+    margin-right: 2em;
+}
+
+div.index-main>section.step>h1 {
+    font-size: 3em;
+    color: #00CCCC;
+    padding-top: 0.4em;
+	text-align: center;
+}
+
+div.index-main>section.step>div {
+    display: inline-block;
+    margin-top: 1.2em;
+    margin-left: 1em;
+}
+
+div.index-main>section.step>div>div>span {
+    float: left;
+    background-color: #FF9999;
+    color: #fff;
+    padding: 0.4em 0.8em;
+    font-size: 1.2em;
+    border-radius: 4em;
+    margin-right: 0.4em;
+	
+	box-shadow: -3px 4px 2px #EFEFEF;
+	-webkit-box-shadow: -3px 4px 2px #EFEFEF;
+	-moz-box-shadow: -3px 4px 2px #EFEFEF;
+}
+
+div.index-main>section.step>div>div {
+    display: inline-block;
+    width: 230px;
+}
+
+div.index-main>section.step>div>div>p {
+    font-size: 1.2em;
+    margin-top: 0.3em;
+    color: #999999;
+    text-transform: uppercase;
+}
+
+
+
+section.slider { /* Inicio banner de PASOS */
 	margin: 0 auto;
 	height: 325px;
 	width: 1240px;
@@ -258,15 +315,15 @@ div.index-main>section.slider>div>div>div>nav {
 	width: 20px;
 	text-align: center;
 	font-size: 0.8em;
-}
+} /* Fin banner de PASOS */
 
 /* Que hacemos */
-section.que-hacemos>p {
-	text-align: center;
-	color: #00CCCC;
-	text-transform: uppercase;
-	margin: 40px 0px;
-	font-size: 2.15em;
+section.que-hacemos>h1 {
+    text-align: center;
+    color: #00CCCC;
+    text-transform: uppercase;
+    margin: 40px 0px;
+    font-size: 2.5em;
 }
 
 div.index-main>section.slider>div>div>span {
@@ -306,12 +363,12 @@ section.que-hacemos>div.items-que-hacemos {
 	height: 290px;
 }
 
-section.que-hacemos>div.items-que-hacemos>span>img {
+section.que-hacemos>div.items-que-hacemos>span>a>img {
 	border-radius: 130px;
 	height: 250px;
 }
 
-section.que-hacemos>div.items-que-hacemos>span>img:hover {
+section.que-hacemos>div.items-que-hacemos>span>a>img:hover {
 	border-radius: 0px;
 }
 

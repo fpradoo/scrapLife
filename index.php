@@ -3,38 +3,30 @@
 	include_once ("/includes/navigation.php");
 ?>
 	<div class="index-main">
-		<section class="slider">
-			<div class="step-one">
-				<div class="background-opacity">
-					<p>SCRAP LIFE adapta esta técnica al formato digital, con diseños exclusivos para armar tu álbum de Recuerdos. Impreso en papel ilustración, cosidos y encuadernados artesanalmente.</p>
-					<div class="text one">
-						<nav>1</nav>
-						<span>Paso uno de la compra</span>
-					</div>
+		<section class="step">
+			<a href="/index.php"></a>
+			<h1>Recuerdos con Historia</h1>
+			<div>
+				<div>
+					<span>1</span>
+					<p>Elegí tu cuaderno</p>
 				</div>
-			</div>
-			<div class="step-two">
-				<div class="background-opacity">
-					<p>SCRAP LIFE adapta esta técnica al formato digital, con diseños exclusivos para armar tu álbum de Recuerdos. Impreso en papel ilustración, cosidos y encuadernados artesanalmente.</p>
-					<div class="text two">
-						<nav>2</nav>
-						<span>Paso dos de la compra</span>
-					</div>
+				<div>
+					<span>2</span>
+					<p>Pedí el estampado</p>
 				</div>
-			</div>
-			<div class="step-three">
-				<div class="background-opacity">
-					<p>SCRAP LIFE adapta esta técnica al formato digital, con diseños exclusivos para armar tu álbum de Recuerdos. Impreso en papel ilustración, cosidos y encuadernados artesanalmente.</p>
-					<div class="text three">
-						<nav>3</nav>
-						<span>Paso tres de la compra</span>
-					</div>
+				<div>
+					<span>3</span>
+					<p>Recibilo en tu casa</p>
 				</div>
 			</div>
 		</section>
+		<section>
+		<?php 	include_once ("/slider.php"); ?>
+		</section>
 		
 		<section class="que-hacemos">
-			<p>¿Qué hacemos?</p>
+			<h1>¿Qué hacemos?</h1>
 			<div class="text">
 				<p>Scrap Life es un taller de encuadernación artesanal que realiza todo tipo de encuadernaciones cosidas a mano combinando papeles y telas especiales.
 Realizamos álbumes de Recuerdos en impresión digital.

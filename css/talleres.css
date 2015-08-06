@@ -1,0 +1,95 @@
+div.talleres>div>h1 {
+    color: #00CCCC;
+    display: inline-block;
+    margin-right: 0.7em;
+}
+
+a.contacto-talleres {
+    padding: 0.5em;
+    background-color: #FF9999;
+    position: absolute;
+}
+
+div.talleres>section {
+    margin: 2em 0em;
+}
+
+div.talleres>section>img {
+    float: left;
+    width: 500px;
+    height: 305px;
+}
+
+div.talleres>section>div {
+    display: inline-block;
+    width: 620px;
+    margin-left: 40px;
+    min-height: 305px;
+}
+
+div.talleres>section>div>h2 {
+    color: #00CCCC;
+    text-transform: uppercase;
+    font-size: 2.8em;
+    line-height: 0.8em;
+}
+
+div.talleres>section>div>p {
+    margin: 1em 0em;
+}
+
+div.talleres>section>div>p.materiales {
+    text-transform: uppercase;
+    color: #FF9999;
+    font-size: 1.3em;
+    width: 350px;
+    line-height: 1em;
+}
+
+div.talleres>section>div>span>h3 {
+    color: #00CCCC;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    margin-bottom: 0.5em;
+}
+
+div.talleres>section>div>span>p, div.talleres>section>div>p.aclaracion {
+    font-size: 1.1em;
+}
+
+div.talleres hr {
+    width: 2em;
+    border: solid 1px #00CCCC;
+}
+
+div.talleres hr.float {
+    float: right;
+}
+
+div.talleres>section>div.descripcion-taller {
+    float: left;
+    display: inline-block;
+    width: 500px;
+    margin: 0;
+}
+
+div.talleres>section>div.descripcion-taller>img {
+    width: 500px;
+    height: 305px;
+}
+
+div.talleres>section>div.descripcion-taller>p{
+    -webkit-column-count: 2; /* Chrome, Safari, Opera */
+    -moz-column-count: 2; /* Firefox */
+    column-count: 2;
+
+	-webkit-column-gap: 20px; /* Chrome, Safari, Opera */
+    -moz-column-gap: 20px; /* Firefox */
+    column-gap: 20px;
+}
+
+div.talleres>section>div>h2.aclaracion {
+    text-transform: none;
+    font-size: 1.8em;
+    margin-top: 0.3em;
+}
