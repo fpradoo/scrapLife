@@ -1,6 +1,6 @@
 <?php
-include_once 'db_connect.php';
-include_once 'functions.php';
+	include_once $_SERVER['DOCUMENT_ROOT'].'/admin/includes/db_connect.php';
+	include_once $_SERVER['DOCUMENT_ROOT'].'/admin/includes/functions.php';
  
 sec_session_start(); // Nuestra manera personalizada segura de iniciar sesión PHP.
  

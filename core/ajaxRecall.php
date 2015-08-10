@@ -50,7 +50,7 @@ function showProductoSelect(){
 					</select>
 				</span>
 				<span class='description'>
-					<p>$productos_descripcion.</p>
+					<p>$productos_descripcion</p>
 					<img class='imagenProducto' src='/admin/imagesUpload/$productos_imagen' />			
 				</span>
 			</span>

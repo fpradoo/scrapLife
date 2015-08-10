@@ -1,4 +1,4 @@
-<?php include_once("includes/header.php");?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."includes/header.php");?>
 
 	<div class="main">
 		<span>
@@ -64,4 +64,4 @@
 		</div>
 	</div>
 	
-<?php include_once("includes/footer.php");?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."includes/footer.php");?>

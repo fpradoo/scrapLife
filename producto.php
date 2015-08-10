@@ -1,7 +1,7 @@
 <?php 
-	include_once ("/includes/header.php");
-	include_once ("/includes/navigation.php");
-	include_once ("/core/functions.php");	
+	include_once ($_SERVER['DOCUMENT_ROOT']."/includes/header.php");
+	include_once ($_SERVER['DOCUMENT_ROOT']."/includes/navigation.php");
+	include_once ($_SERVER['DOCUMENT_ROOT']."/core/functions.php");	
 ?>
 
 	<div class="main">
@@ -50,4 +50,4 @@
 		</div>
 	</div>
 	
-<?php include_once("/includes/footer.php");?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/includes/footer.php");?>

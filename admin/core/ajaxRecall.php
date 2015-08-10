@@ -238,7 +238,7 @@ function changeSeccionSubcategoriaPorCategoria(){
 		echo"		
 			</tbody>
 		</table>
-		</div>
+		</div>		
 		";
 	}	
 }

@@ -1,6 +1,6 @@
 <?php
 
-require_once'../core/init.php';	
+	include_once $_SERVER['DOCUMENT_ROOT'].'/core/init.php';
 	
 function getProductos(){
 	if(!isset($_GET['edit']) && !isset($_POST['add_submit'])){	
@@ -64,7 +64,7 @@ function deleteProducto(){
 		$run_imagen = mysqli_query($db, $get_imagen);
 		
 		while($row_imagen=mysqli_fetch_array($run_imagen)){
-			$target_dir = "D:/www/scrapLife/admin/imagesUpload/";
+			$target_dir = $_SERVER['DOCUMENT_ROOT']."/admin/imagesUpload/";
 			$target_file = $target_dir . $row_imagen['imagen'];
 			unlink($target_file);
 		}
@@ -222,7 +222,6 @@ function addProducto(){
 	$errores = array();
 	if(isset($_POST['add_producto'])){
 		
-		
 		//Check datos
 		$titulo_producto = sanitize($_POST['titulo']);
 		if($titulo_producto == ''){
@@ -250,7 +249,7 @@ function addProducto(){
 		}
 		
 		//Gestion de la imagen
-		$target_dir = "D:/www/scrapLife/admin/imagesUpload/";
+		$target_dir = $_SERVER['DOCUMENT_ROOT']."/admin/imagesUpload/";
 		$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 		$uploadOk = 1;
 		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
@@ -267,7 +266,7 @@ function addProducto(){
 		}
 				
 		// Check file size
-		if ($_FILES["fileToUpload"]["size"] > 500000) {
+		if ($_FILES["fileToUpload"]["size"] > 5000000) {
 			$errores[] .='La imagen que intenta subir es muy grande';
 			$uploadOk = 0;
 		}
@@ -315,7 +314,7 @@ function editProducto(){
 		$nombreDeLaImagen = '';
 		if($_FILES["fileToUpload"]["name"] != ''){
 			//Gestion de la imagen
-			$target_dir = "D:/www/scrapLife/admin/imagesUpload/";
+			$target_dir = $_SERVER['DOCUMENT_ROOT']."/admin/imagesUpload/";
 			$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 			$uploadOk = 1;
 			$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
@@ -332,7 +331,7 @@ function editProducto(){
 			}
 						
 			// Check file size
-			if ($_FILES["fileToUpload"]["size"] > 500000) {
+			if ($_FILES["fileToUpload"]["size"] > 5000000) {
 				$errores[] .='La imagen que intenta subir es muy grande';
 				$uploadOk = 0;
 			}
@@ -417,7 +416,7 @@ function deleteSubcategoria(){
 		$run_imagen = mysqli_query($db, $get_imagen);
 		
 		while($row_imagen=mysqli_fetch_array($run_imagen)){
-			$target_dir = "D:/www/scrapLife/admin/imagesUpload/";
+			$target_dir = $_SERVER['DOCUMENT_ROOT']."/admin/imagesUpload/";
 			$target_file = $target_dir . $row_imagen['imagen'];
 			unlink($target_file);
 		}
@@ -643,7 +642,7 @@ function getSelectsSubcategorias(){
 	echo"
 		<h2 class='text-center'>Subcategorias</h2>
 		<div class='text-center'>
-		<select onchange='showCategoriasEnSelect(this.value)'>
+		<select id='productoSubcategorias' onchange='showCategoriasEnSelect(this.value)'>
 			<option>Seleccionar producto</option>
 				
 	";
@@ -665,7 +664,7 @@ function getSelectSubcategoriaParaAdd(){
 	
 	echo"
 		<div class='form-group'>
-		<select onchange='showCategoriasEnSelect(this.value)' required>
+		<select id='productosParaCategorias' onchange='showCategoriasEnSelect(this.value)' required>
 			<option value=''>Seleccionar producto</option>
 	";
 	
@@ -685,7 +684,9 @@ function botonAgregarSubcategoria(){
 		echo"
 		<div class='text-center'>
 			<form class='form-inline' action='subcategorias.php' method='post'>
-				<div class='form-group'>			
+				<div class='form-group'>
+				<input type='hidden' id='hiddenProducto' name='hiddenProducto' value=''>
+				<input type='hidden' id='hiddenCategoria' name='hiddenCategoria' value=''>				
 				<input type='submit' name='add_submit' id='subcategoria' class='btn btn-success' value='Agregar Subcategoria' />
 				</div>	
 			</form>
@@ -777,6 +778,20 @@ function showAddSubcategoria(){
 			</form>
 		</div>
 		";
+		
+		$id_producto_padre = $_POST['hiddenProducto'];
+		$id_categoria_padre = $_POST['hiddenCategoria'];
+		
+		echo"
+			<script>
+				$('#productosParaCategorias').val($id_producto_padre);
+				showCategoriasEnSelect($id_producto_padre);
+				setTimeout(function(){
+					  $('#categoriasPorProducto').val($id_categoria_padre);
+					}, 200);
+			</script>
+		";
+		
 	}
 }
 
@@ -797,16 +812,8 @@ function addSubcategoria(){
 		$id_categoria_padre = $_POST['categoria'];
 		$precio = $_POST['precio'];
 		
-		//Si ya existe en bd
-		$sql = "SELECT * FROM categorias where Titulo = '$titulo_subcategoria'";
-		$result = $db->query($sql);
-		$count = mysqli_num_rows($result);
-		if($count > 0){
-			$errores[] .='La subcategoria que intenta agregar ya existe';
-		}
-		
 		//Gestion de la imagen
-		$target_dir = "D:/www/scrapLife/admin/imagesUpload/";
+		$target_dir = $_SERVER['DOCUMENT_ROOT']."/admin/imagesUpload/";
 		$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 		$uploadOk = 1;
 		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
@@ -822,14 +829,8 @@ function addSubcategoria(){
 			}
 		}
 		
-		// Check if file already exists
-		if (file_exists($target_file)) {
-			$errores[] .='La imagen que intenta subir ya existe';
-			$uploadOk = 0;
-		} 
-		
 		// Check file size
-		if ($_FILES["fileToUpload"]["size"] > 500000) {
+		if ($_FILES["fileToUpload"]["size"] > 5000000) {
 			$errores[] .='La imagen que intenta subir es muy grande';
 			$uploadOk = 0;
 		}
@@ -854,7 +855,7 @@ function addSubcategoria(){
 		}
 		echo"
 		<script>
-			showSeccionSubcategorias($id_categoria_padre);
+			showSeccionSubcategorias($id_categoria_padre, idPadre);						
 		</script>
 		";		
 	}
@@ -880,7 +881,7 @@ function editSubcategoria(){
 		$nombreDeLaImagen = '';
 		if($_FILES["fileToUpload"]["name"] != ''){
 			//Gestion de la imagen
-			$target_dir = "D:/www/scrapLife/admin/imagesUpload/";
+			$target_dir = $_SERVER['DOCUMENT_ROOT']."/admin/imagesUpload/";
 			$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 			$uploadOk = 1;
 			$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
@@ -896,14 +897,8 @@ function editSubcategoria(){
 				}
 			}
 			
-			// Check if file already exists
-			if (file_exists($target_file)) {
-				$errores[] .='La imagen que intenta subir ya existe';
-				$uploadOk = 0;
-			} 
-			
 			// Check file size
-			if ($_FILES["fileToUpload"]["size"] > 500000) {
+			if ($_FILES["fileToUpload"]["size"] > 5000000) {
 				$errores[] .='La imagen que intenta subir es muy grande';
 				$uploadOk = 0;
 			}

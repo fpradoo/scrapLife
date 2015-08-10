@@ -1,6 +1,6 @@
 <?php 
-	include_once ("/includes/header.php");
-	include_once ("/includes/navigation.php");
+	include_once ($_SERVER['DOCUMENT_ROOT']."/includes/header.php");
+	include_once ($_SERVER['DOCUMENT_ROOT']."/includes/navigation.php");
 ?>
 
 	<div class="galery-main">
@@ -42,4 +42,4 @@
 		});
 	</script>
 
-<?php include_once("/includes/footer.php");?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/includes/footer.php");?>

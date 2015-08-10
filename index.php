@@ -1,6 +1,6 @@
 <?php 
-	include_once ("/includes/header.php");
-	include_once ("/includes/navigation.php");
+	include_once ($_SERVER['DOCUMENT_ROOT']."/includes/header.php");
+	include_once ($_SERVER['DOCUMENT_ROOT']."/includes/navigation.php");
 ?>
 	<div class="index-main">
 		<section class="step">
@@ -22,7 +22,8 @@
 			</div>
 		</section>
 		<section>
-		<?php 	include_once ("/slider.php"); ?>
+		
+		<?php include_once ($_SERVER['DOCUMENT_ROOT']."/slider.php"); ?>
 		</section>
 		
 		<section class="que-hacemos">
@@ -53,4 +54,4 @@ Puedes visitar nuestro taller para apreciar todos los materiales que utilizamos 
 		</section>
 	</div>
 
-<?php include_once("/includes/footer.php");?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/includes/footer.php");?>

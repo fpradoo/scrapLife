@@ -1,6 +1,6 @@
 <?php
-include_once 'db_connect.php';
-include_once 'psl-config.php';
+	include_once $_SERVER['DOCUMENT_ROOT'].'/admin/includes/db_connect.php';
+	include_once $_SERVER['DOCUMENT_ROOT'].'/admin/includes/psl-config.php';
  
 $error_msg = "";
  

@@ -1,5 +1,5 @@
 <?php
-include_once 'psl-config.php';
+	include_once $_SERVER['DOCUMENT_ROOT'].'/admin/includes/psl-config.php';
  
 function sec_session_start() {
     $session_name = 'sec_session_id';   // Configura un nombre de sesión personalizado.

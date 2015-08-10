@@ -1,5 +1,5 @@
 <?php
-include_once 'functions.php';
+	include_once $_SERVER['DOCUMENT_ROOT'].'/admin/includes/functions.php';
 sec_session_start();
  
 // Desconfigura todos los valores de sesión.

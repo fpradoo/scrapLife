@@ -1,6 +1,6 @@
 <?php
-include_once 'includes/register.inc.php';
-include_once 'includes/functions.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/admin/includes/register.inc.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/admin/includes/functions.php';
 sec_session_start();
  
 if (login_check($mysqli) == true) {

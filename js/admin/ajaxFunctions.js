@@ -45,7 +45,7 @@ function showCategoriasEnSelect(str) {
     }
 }
 
-function showSeccionSubcategorias(str) {
+function showSeccionSubcategorias(str, idPadre) {
     if (str == "") {
         document.getElementById("seccionSubcategorias").innerHTML = "";
         return;
@@ -62,9 +62,16 @@ function showSeccionSubcategorias(str) {
                 document.getElementById("seccionSubcategorias").innerHTML = xmlhttp.responseText;
             }
         }
+		
+		$("#hiddenProducto" ).val($("#productoSubcategorias" ).val());
+		$("#hiddenCategoria" ).val(str);
+		
 		console.log(xmlhttp.responseText);
         xmlhttp.open("GET","/admin/core/ajaxRecall.php?q="+str+"&func=3",true);
         xmlhttp.send();
     }
 }
+
+
+
 
