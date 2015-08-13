@@ -29,7 +29,7 @@
 					<input type="submit" value="Suscribite!">
 				</form>
 			</div>
-			
+			<div><a href="/talleres.php">Talleres</a></div>
 			<div><a href="/admin/login.php">Log in</a></div>
 			<div class="redes">
 				<ul>

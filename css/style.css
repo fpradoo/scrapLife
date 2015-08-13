@@ -136,7 +136,7 @@ div.products>ul>li {
 
 header>div.menu>div.input-mail{ /* Suscribite  */
 	padding: 0px 50px;
-	margin-top: -2px;
+	margin-top: -16px;
 }
 
 input[type="submit"] { /* Suscribite: Input Boton */
@@ -146,7 +146,9 @@ input[type="submit"] { /* Suscribite: Input Boton */
 	font-family: calibri;
 	text-transform: uppercase;
 	padding-left: 10px;
+	padding-right: 10px;
 	font-size: 1em;
+	float:right;
 }
 
 input[type="text"] { /* Suscribite: Input Text */

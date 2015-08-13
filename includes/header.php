@@ -14,7 +14,9 @@
     <link rel="stylesheet" type="text/css" href="/css/contact.css"/>
     <link rel="stylesheet" type="text/css" href="/css/galery.css"/>
     <link rel="stylesheet" type="text/css" href="/css/slider.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/talleres.css"/>
 	<script src="/js/ajaxFunctions.js"></script> 
+	<script src="/js/jquery1.11.3.js"></script> 
 
     <link rel="shortcut icon" href="/.ico">
 </head>
