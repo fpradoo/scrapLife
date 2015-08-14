@@ -99,7 +99,7 @@ function armarCarrito(){
 			$productos_precio = ucfirst($row_prod['precioProd']);
 			
 			$articulo = array(
-				"id"			=>		$productos_id,
+				"id"			=>		$idUnique,
 				"cantidad"		=>		1,
 				"precio"		=>		$productos_precio,
 				"nombre"		=>		"$productos_titulo",
@@ -115,6 +115,32 @@ function deleteSession(){
 	if(isset($_GET['deleteShopCar'])){
 		$carrito = new Carrito();
 		$carrito->destroy();
+		header('Location: /producto.php');
+	}
+}
+
+function deleteItem(){
+	if(isset($_GET['deleteItem'])){		
+		$id_unique = $_GET['deleteItem'];
+		$carrito = new Carrito();
+		$carrito->remove_producto("$id_unique");
+		header('Location: /producto.php');
+	}
+}
+
+function addItem(){
+	if(isset($_GET['addItem'])){		
+		$idUnique = intval($_GET['addItem']);
+		$carrito = new Carrito();
+		$articulo = array(
+			"id"			=>		null,
+			"cantidad"		=>		1,
+			"precio"		=>		null,
+			"nombre"		=>		null,
+			"opciones"      =>      null,
+			"uniqueId"      =>      $idUnique
+		);
+		$carrito->addItem($articulo);
 		header('Location: /producto.php');
 	}
 }

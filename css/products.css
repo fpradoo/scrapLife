@@ -130,10 +130,6 @@ div.carrito-compras>span>div>h3.title {
 	float: left;
 }
 
-div.carrito-compras>span>div>img {
-	margin-left: 333px;
-}
-
 div.price-item{
 	margin-top: 20px;
 }
@@ -141,10 +137,12 @@ div.price-item{
 div.price-item>h4{
 	font-size: 1.2em;
 	color: #FF9999;
+	float:left;
 }
 
 div.price-item>p{
 	padding-top: 5px;
+	clear:both;
 }
 
 hr.price{
@@ -244,5 +242,45 @@ p.textImage{
  
 span.categoriasCarrito{
 	color:#00B2CA;
+}
 
+img.eliminarCarrito{
+	position:absolute;
+	margin-left: 295px;
+	width: 28px;
+}
+
+img.iconoCarrito{
+	margin-left: 333px;
+}
+
+div.price-item>div>ul>li {
+	float:right;
+}
+
+div.price-item>div>ul>li>a {
+	color:black;
+}
+
+div.price-item>div>ul{
+	display:inline-block;
+}
+
+img.agregarProducto{
+	margin-left: 260px;
+	width: 22px;
+	position:absolute;
+	margin-top:3px;
+}
+
+img.disminuirProducto{
+	margin-left: 260px;
+	width: 28px;
+	position:absolute;
+}
+
+img.eliminarProducto{
+	margin-left: 291px;
+	width: 28px;
+	position:absolute;
 }

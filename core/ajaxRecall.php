@@ -68,8 +68,8 @@ function showProductoSelect(){
 			<span>
 				<div>
 					<h3 class='title'>Pedidos</h3>
-					<img src='/img/carrito-compras.png' />
-					<a href='/producto.php?deleteShopCar=1'><img src='/img/carrito-compras.png' /></a>
+					<a href='/producto.php?deleteShopCar=1'><img class='eliminarCarrito' src='/img/carrito-compras-delete.png' /></a>
+					<img class='iconoCarrito' src='/img/carrito-compras.png' />
 				</div>
 				<br>
 				<hr>
@@ -85,13 +85,17 @@ function showProductoSelect(){
 				$nombre_producto = ucfirst($producto["nombre"]);
 				$precio_producto = $producto["precio"];
 				$cantidad_producto = $producto["cantidad"];
+				$id_producto_enc = $producto["unique_id"];
+				$id_producto = $producto["id"];
 				$totalParcial = 0;
 				$precioPorCantidad = $cantidad_producto * $precio_producto;
 				$total += $precioPorCantidad; 
 				$totalParcial += $precioPorCantidad;
 				echo"
 				<div class='price-item'>
-					<h4 class='title-buy'>$nombre_producto $$precio_producto x$cantidad_producto</h4>				
+					<h4 class='title-buy'>$nombre_producto $$precio_producto x$cantidad_producto</h4>
+						<a href='/producto.php?addItem=$id_producto'><img class='agregarProducto' src='/img/add.png' /></a>
+						<a href='/producto.php?deleteItem=$id_producto_enc'><img class='eliminarProducto' src='/img/carrito-compras-delete.png' /></a>					
 				";
 				
 				foreach($producto["opciones"] as $categorias){

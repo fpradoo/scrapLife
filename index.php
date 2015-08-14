@@ -27,6 +27,13 @@
     
     <script src="js/jquery-1.10.2.min.js"></script>
     <script src="js/modernizr.js"></script>
+	<script>
+		function OpenInNewTab(url) {
+		  var win = window.open(url, '_blank');
+		  win.focus();
+		}
+	</script>
+	
 </head>
 <body>
     
@@ -66,7 +73,8 @@
                             <div class="menu text-right hidden-sm hidden-xs">
                                 <ul>
                                     <li><a href="#home">Home</a></li>
-                                    <li><a href="#services">Servicios</a></li>
+									<li><a class="pointer" onclick="OpenInNewTab('/producto.php')">Productos</a></li>
+									<li><a href="#services">Servicios</a></li>
                                     <li><a href="#portfolio">Galeria</a></li>
                                     <li><a href="#about">Sobre nosotros</a></li>
                                     <li><a href="#contact">Contacto</a></li>
@@ -79,6 +87,7 @@
                         <div class="menu">
                             <ul>
                                 <li><a href="#home">Home</a></li>
+								<li><a href="/producto.php" target="_blank">Productos</a></li>
 								<li><a href="#services">Servicios</a></li>
 								<li><a href="#portfolio">Galeria</a></li>
 								<li><a href="#about">Sobre nosotros</a></li>
