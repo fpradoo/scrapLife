@@ -121,14 +121,17 @@ function showProductoSelect(){
 				";
 
 			}
-		}else{
-			echo"		
-				<h4 class='title-buy'>Todavia no hay productos seleccionados</h4>	
-			";	
-		}
-		echo"</div>
+			echo"</div>
 					<h5>Total: $$total </h5>
 				<input type='submit' value='Aceptar Pago'>
+				";
+		}else{
+			echo"		
+				<h4 class='title-buy' style='clear:both'>Todavia no hay productos seleccionados</h4>
+							
+			";	
+		}
+		echo"
 			</span>
 		</div>";
 		}

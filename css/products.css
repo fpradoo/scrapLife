@@ -162,6 +162,13 @@ div.carrito-compras>span>input[type="submit"] {
 	margin: 10px 0px;
 }
 
+span.opSig {
+	width: 158px;
+	text-transform: uppercase;
+	height: 25px;
+	margin-top: 20px;
+}
+
 /*retoque menu Redes
 
 header>div.menu>div.redes li:hover>ul {
@@ -283,4 +290,8 @@ img.eliminarProducto{
 	margin-left: 291px;
 	width: 28px;
 	position:absolute;
+}
+
+div.specialMargin{
+	margin-top: 10px;
 }
