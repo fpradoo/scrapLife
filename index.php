@@ -29,10 +29,20 @@
     <script src="js/modernizr.js"></script>
 	<script>
 		function OpenInNewTab(url) {
-		  var win = window.open(url, '_blank');
-		  win.focus();
+		  window.location = url;
 		}
+		
+		$('#prod').on('click touchstart', function(){
+			window.location = '/producto.php';
+			alert(a);
+		});
+		
+		$("#prod").on("taphold",function(){
+		  window.location = '/producto.php';
+		  alert(a);
+		});
 	</script>
+	
 	
 </head>
 <body>
@@ -66,14 +76,14 @@
                     <div class="row">
                         <div class="col-md-4 col-sm-4 col-xs-6">
                             <div class="logo">
-                                <h1><a href="#" title="Dreri">ScrapLife</a></h1>
+                                <a href="/index.php#home" title="Dreri"><img src="/img/scraplife-logo.jpg" class="img-circle"></a>
                             </div> 
                         </div> 
                         <div class="col-md-8 col-sm-8 col-xs-6">
                             <div class="menu text-right hidden-sm hidden-xs">
                                 <ul>
                                     <li><a href="#home">Home</a></li>
-									<li><a class="pointer" onclick="OpenInNewTab('/producto.php')">Productos</a></li>
+									<li><a class="pointer" id='prod' onclick="OpenInNewTab('/producto.php')" onmouseup="OpenInNewTab('/producto.php')">Productos</a></li>
 									<li><a href="#services">Servicios</a></li>
                                     <li><a href="#portfolio">Galeria</a></li>
                                     <li><a href="#about">Sobre nosotros</a></li>
@@ -115,7 +125,15 @@
                 <div class="flex-caption">
                     <h2>Paso 2</h2>
                     <span></span>
-                    <p>Breve descripcion de paso 1.<br>Breve descripcion de paso 2.</p>
+                    <p>Breve descripcion de paso 2.<br>Breve descripcion de paso 2.</p>
+                </div>
+            </li>
+			<li>
+                <img src="images/banner03.jpg" alt="">
+                <div class="flex-caption">
+                    <h2>Paso 3</h2>
+                    <span></span>
+                    <p>Breve descripcion de paso 3.<br>Breve descripcion de paso 3.</p>
                 </div>
             </li>
         </ul>

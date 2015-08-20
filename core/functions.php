@@ -124,7 +124,6 @@ function deleteItem(){
 		$id_unique = $_GET['deleteItem'];
 		$carrito = new Carrito();
 		$carrito->remove_producto("$id_unique");
-		header('Location: /producto.php');
 	}
 }
 

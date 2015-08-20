@@ -151,7 +151,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 0.4s ease-in-out;
 }
 .main-header .logo {
-  margin-top: 5px;
+  margin-top: -23px;
 }
 .main-header .logo h1 {
   font-size: 28px;

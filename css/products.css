@@ -4,8 +4,8 @@ div.clear{
 
 div.main {
 	position: absolute;
-	margin: 0px 95px;
-	width: 1160px;
+	margin: -66px 95px;
+	width: 100%;
 }
 
 div.main>span>h1 {
@@ -121,7 +121,7 @@ div.carrito-compras {
 div.carrito-compras>span {
 	padding: 30px 40px;
 	display: inline-block;
-	width: 440px;
+	width: 520px;
 }
 
 div.carrito-compras>span>div>h3.title {
