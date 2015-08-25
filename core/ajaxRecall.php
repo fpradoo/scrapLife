@@ -1,5 +1,6 @@
 <?php
 
+require_once $_SERVER['DOCUMENT_ROOT'].'/core/init.php';
 include_once ($_SERVER['DOCUMENT_ROOT']."/core/classCarrito.php");
 if(isset($_GET['func'])&&!empty($_GET['func'])){
 	
@@ -21,7 +22,7 @@ if(isset($_GET['func'])&&!empty($_GET['func'])){
 
 function showProductoSelect(){
 
-	$db = iniciarBD();
+	$db = callDb();
 	
 	if(isset($_GET['q'])&&!empty($_GET['q'])){
 		
@@ -123,7 +124,9 @@ function showProductoSelect(){
 			}
 			echo"</div>
 					<h5>Total: $$total </h5>
-				<input type='submit' value='Aceptar Pago'>
+					<form action='/includes/processBuy.php' method='POST'>
+						<input type='submit' value='Aceptar Pago'>
+					</form>
 				";
 		}else{
 			echo"		
@@ -140,7 +143,7 @@ function showProductoSelect(){
 
 function getProductosParaSelect($prod_id){
 	
-	$db = iniciarBD();
+	$db = callDb();
 	
 	$get_all_productos = 'Select * FROM productos order by Titulo';
 	$run_productos = mysqli_query($db, $get_all_productos);
@@ -165,7 +168,7 @@ function getProductosParaSelect($prod_id){
 
 function showCategoriaByProduct($producto_edit){
 	
-	$db = iniciarBD();
+	$db = callDb();
 	$id_prod_padre = $producto_edit;
 	
 	$get_categorias = "Select * FROM categorias WHERE id_producto = $id_prod_padre AND tipo_cat = 1";
@@ -269,7 +272,7 @@ function showCategoriaByProduct($producto_edit){
 
 
 function changeImagenBySubcat(){
-	$db = iniciarBD();
+	$db = callDb();
 	
 	if(isset($_GET['q'])&&!empty($_GET['q'])){
 		$producto_edit = (int)$_GET['q'];
@@ -309,21 +312,6 @@ function changeImagenBySubcat(){
 			}		
 	    }
 	}
-}
-
-function iniciarBD(){
-	$server = 'localhost';
-	$user = 'root';
-	$pass = '';
-	$bd = 'scraplife';
-	
-	$db = mysqli_connect("$server","$user","$pass","$bd");
-	if(mysqli_connect_errno()){
-		echo 'La conexion con la base de datos ha fallado con los siguientes errores: '. mysqli_connect_error();
-		die();
-	}
-	
-	return $db;
 }
 
 function cleanText($string){

@@ -1,5 +1,7 @@
 <?php
 
+require_once $_SERVER['DOCUMENT_ROOT'].'/core/init.php';
+
 if(isset($_GET['func'])&&!empty($_GET['func'])){
 	
 	$nroFuncion = (int)$_GET['func'];
@@ -20,7 +22,7 @@ if(isset($_GET['func'])&&!empty($_GET['func'])){
 
 function changeSeccionesCategorias(){
 
-	$db = iniciarBD();
+	$db = callDb();
 	
 	if(isset($_GET['q'])&&!empty($_GET['q'])){
 		
@@ -146,7 +148,7 @@ function changeSeccionesCategorias(){
 
 function changeCategoriaPorProducto(){
 	
-	$db = iniciarBD();
+	$db = callDb();
 	
 	if(isset($_GET['q'])&&!empty($_GET['q'])){
 		
@@ -186,7 +188,7 @@ function changeCategoriaPorProducto(){
 }
 
 function changeSeccionSubcategoriaPorCategoria(){
-	$db = iniciarBD();
+	$db = callDb();
 	
 	if(isset($_GET['q'])&&!empty($_GET['q'])){
 		
@@ -241,21 +243,6 @@ function changeSeccionSubcategoriaPorCategoria(){
 		</div>		
 		";
 	}	
-}
-
-function iniciarBD(){
-	$server = 'localhost';
-	$user = 'root';
-	$pass = '';
-	$bd = 'scraplife';
-	
-	$db = mysqli_connect("$server","$user","$pass","$bd");
-	if(mysqli_connect_errno()){
-		echo 'La conexion con la base de datos ha fallado con los siguientes errores: '. mysqli_connect_error();
-		die();
-	}
-	
-	return $db;
 }
 
 //Seguridad

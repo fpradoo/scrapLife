@@ -1,6 +1,6 @@
 <?php
 
-	include_once $_SERVER['DOCUMENT_ROOT'].'/core/init.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/core/init.php';
 	
 function getProductos(){
 	if(!isset($_GET['edit']) && !isset($_POST['add_submit'])){	

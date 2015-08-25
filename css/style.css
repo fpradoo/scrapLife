@@ -148,7 +148,8 @@ input[type="submit"] { /* Suscribite: Input Boton */
 	padding-left: 10px;
 	padding-right: 10px;
 	font-size: 1em;
-	float:right;
+	float:left;
+	margin-top:15px;
 }
 
 span.siguienteForm { /* Suscribite: Input Boton */

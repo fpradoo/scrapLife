@@ -1,7 +1,6 @@
 <?php
 	include_once $_SERVER['DOCUMENT_ROOT'].'/admin/includes/db_connect.php';
-	include_once $_SERVER['DOCUMENT_ROOT'].'/admin/includes/psl-config.php';
- 
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/init.php';
 $error_msg = "";
  
 if (isset($_POST['username'], $_POST['email'], $_POST['p'])) {
