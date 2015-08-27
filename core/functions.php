@@ -152,13 +152,16 @@ function echoProducts(){
 		
 		$titulo_prod = $row_prod['titulo'];
 		$id_prod = $row_prod['id'];
+		$img_prod = $row_prod['imagen'];
 		
 		echo"
-		<li>
-			<div class='progress'>
-				<div class='progress-bar' role='progressbar' aria-valuenow='100' aria-valuemin='0' aria-valuemax='100' style='width: 100%;'><a class='white' href='/producto.php?id=$id_prod'>$titulo_prod</a></div>
-			</div>
-		</li>
+		
+		<div class='circProd'>
+			<a href='/producto.php?id=$id_prod'>
+				<img class='circProd img-circle' src='/admin/imagesUpload/$img_prod'>
+				<h3 class='subtit'>$titulo_prod</h3>
+			</a>
+		</div>
 		";	
 	}
 }

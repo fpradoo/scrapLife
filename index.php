@@ -140,19 +140,19 @@
     </div>
 	
 	<div id="productos" class="section-cotent">
-        <div class="container text-center">
+        <center class="container text-center">
             <div class="title-section text-center">
                 <h2>Productos</h2>
                 <span></span>
 				<h3 class="subtit">Comienzá ahora a armar tu scrap-life</h3>
             </div>
-            <img class='circProd img-circle' src="/img/index-buy-3.jpg">
-			<img class='circProd img-circle' src="/img/index-buy-3.jpg">
-			<img class='circProd img-circle' src="/img/index-buy-3.jpg">
-			<img class='circProd img-circle' src="/img/index-buy-3.jpg">
-			<img class='circProd img-circle' src="/img/index-buy-3.jpg">
-			<img class='circProd img-circle' src="/img/index-buy-3.jpg">
-        </div>
+			<?php
+				echoProducts();
+			?>
+			<p>Lorem ipsum ad his scripta blandit partiendo, eum fastidii accumsan euripidis in, eum liber hendrerit an. Qui ut wisi vocibus suscipiantur, quo dicit ridens inciderint id. Quo mundi lobortis reformidans eu, legimus senserit definiebas an eos. Eu sit tincidunt incorrupte definitionem, vis mutat affert percipit cu, eirmod consectetuer signiferumque eu per. In usu latine equidem dolores. Quo no falli viris intellegam, ut fugit veritus placerat per.
+			Ius id vidit volumus mandamus, vide veritus democritum te nec, ei eos debet libris consulatu. No mei ferri graeco dicunt, ad cum veri accommodare. Sed at malis omnesque delicata, usu et iusto zzril meliore. Dicunt maiorum eloquentiam cum cu, sit summo dolor essent te. Ne quodsi nusquam legendos has, ea dicit voluptua eloquentiam pro, ad sit quas qualisque. Eos vocibus deserunt quaestio ei.
+			</p>
+        </center>
     </div>
 
     <div id="services" class="section-cotent">
@@ -310,16 +310,10 @@
                 <span></span>
             </div> <!-- /.title-section -->
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-8 widthComplete">
                     <h4 class="widget-title">Estilos para usted</h4>
                     <p>Scrap Life es un taller de encuadernación artesanal que realiza todo tipo de encuadernaciones cosidas a mano combinando papeles y telas especiales. Realizamos álbumes de Recuerdos en impresión digital. Los álbumes de recuerdos realizados por SCRAP LIFE están hechos con diseño original, utilizando la técnica del Scrapbook. El scrapbook se define como un libro de recortes, es decir, la técnica de personalizar álbumes de fotografías preservando para siempre esos instantes que creamos con nuestra cámara de fotos. SCRAP LIFE adapta esta técnica al formato digital,con diseños exclusivos para armar tu álbum de Recuerdos. Impreso en papel ilustración, cosidos a mano y encuadernados artesanalmente.
 					<br><br>Tenemos muchos diseños para adaptarlos a tus momentos y lo mejor es que podés agregarles una leyenda, una frase, una historia y así crear una composición de memorias... Es fácil, elegís las fotos, contás el momento y te armamos el álbum. Conservá tus recuerdos!!! Puedes visitar nuestro taller para apreciar todos los materiales que utilizamos y ver nuestros productos terminados.</p>
-                </div> <!-- /.col-md-3 -->
-                <div class="col-md-4 our-skills">
-                    <h4 class="widget-title">Nuestros productos</h4>
-                    <ul class="progess-bars">
-						<?php echoProducts(); ?>
-                    </ul>
                 </div> <!-- /.col-md-3 -->
             </div> <!-- /.row -->
             <div class="row">

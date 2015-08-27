@@ -665,7 +665,19 @@ h3.subtit{
 }
 
 img.circProd{
-	width: 15%;
+	width: 95%;
 	margin-left: 4%;
 	margin-right: 4%;
+}
+
+div.circProd{
+	width: 14%;
+	margin-left: 5%;
+	margin-right: 5%;
+	display: inline-block;
+	margin-bottom: 5%;
+}
+
+div.widthComplete{
+	width:100%;
 }
