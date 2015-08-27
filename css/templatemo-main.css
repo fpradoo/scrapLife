@@ -97,7 +97,7 @@ h1, h2, h3, h4, h5, h6 {
   list-style: none;
 }
 
-#services, #portfolio, #about, #contact {
+#services, #portfolio, #about, #contact, #productos{
   padding-top: 120px;
 }
 
@@ -280,6 +280,25 @@ h1, h2, h3, h4, h5, h6 {
   margin-right: 25px;
 }
 #services .service-item .service-header h3 {
+  font-size: 18px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/*------------------------------------------------------
+	Productos Styles 
+--------------------------------------------------------*/
+#productos .service-item .service-header {
+  padding-bottom: 20px;
+  clear: both;
+}
+#productos .service-item .service-header i {
+  color: #ff9999;
+  font-size: 24px;
+  float: left;
+  margin-right: 25px;
+}
+#productos .service-item .service-header h3 {
   font-size: 18px;
   text-transform: uppercase;
   font-weight: 600;
@@ -636,4 +655,17 @@ a.black{
 
 a.white{
 	color:white;
+}
+
+h3.subtit{
+	font-size: 16px;
+	color: #00B2CA;
+	margin-top: 12px;
+	text-transform: uppercase;
+}
+
+img.circProd{
+	width: 15%;
+	margin-left: 4%;
+	margin-right: 4%;
 }

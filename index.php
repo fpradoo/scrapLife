@@ -83,7 +83,7 @@
                             <div class="menu text-right hidden-sm hidden-xs">
                                 <ul>
                                     <li><a href="#home">Home</a></li>
-									<li><a class="pointer" id='prod' onclick="OpenInNewTab('/producto.php')" onmouseup="OpenInNewTab('/producto.php')">Productos</a></li>
+									<li><a href="#productos">Productos</a></li>
 									<li><a href="#services">Servicios</a></li>
                                     <li><a href="#portfolio">Galeria</a></li>
                                     <li><a href="#about">Sobre nosotros</a></li>
@@ -97,7 +97,7 @@
                         <div class="menu">
                             <ul>
                                 <li><a href="#home">Home</a></li>
-								<li><a href="/producto.php" target="_blank">Productos</a></li>
+								<li><a href="#productos">Productos</a></li>
 								<li><a href="#services">Servicios</a></li>
 								<li><a href="#portfolio">Galeria</a></li>
 								<li><a href="#about">Sobre nosotros</a></li>
@@ -137,6 +137,22 @@
                 </div>
             </li>
         </ul>
+    </div>
+	
+	<div id="productos" class="section-cotent">
+        <div class="container text-center">
+            <div class="title-section text-center">
+                <h2>Productos</h2>
+                <span></span>
+				<h3 class="subtit">Comienzá ahora a armar tu scrap-life</h3>
+            </div>
+            <img class='circProd img-circle' src="/img/index-buy-3.jpg">
+			<img class='circProd img-circle' src="/img/index-buy-3.jpg">
+			<img class='circProd img-circle' src="/img/index-buy-3.jpg">
+			<img class='circProd img-circle' src="/img/index-buy-3.jpg">
+			<img class='circProd img-circle' src="/img/index-buy-3.jpg">
+			<img class='circProd img-circle' src="/img/index-buy-3.jpg">
+        </div>
     </div>
 
     <div id="services" class="section-cotent">

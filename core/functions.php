@@ -115,7 +115,6 @@ function deleteSession(){
 	if(isset($_GET['deleteShopCar'])){
 		$carrito = new Carrito();
 		$carrito->destroy();
-		header('Location: /producto.php');
 	}
 }
 
@@ -140,7 +139,6 @@ function addItem(){
 			"uniqueId"      =>      $idUnique
 		);
 		$carrito->addItem($articulo);
-		header('Location: /producto.php');
 	}
 }
 
