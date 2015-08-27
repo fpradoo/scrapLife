@@ -681,3 +681,13 @@ div.circProd{
 div.widthComplete{
 	width:100%;
 }
+
+
+@media screen and (max-width: 400px) {
+   div.circProd { 
+    float: none;
+    margin-right:0;
+    width:auto;
+    border:0;
+  }
+}
