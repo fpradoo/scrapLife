@@ -172,14 +172,6 @@ function getSeccionProductosById(){
 		
 		$id_prod = $_GET['id'];
 		echo"
-		<div id='main' class='main'>
-			<select id='products' class='productosList' name='products' onchange='showProductoSelect(this.value)'>
-		";
-		getProductosParaSelect();
-		echo"			
-		</select>
-				
-		</div>
 		<script>
 			showProductoSelect($id_prod);
 		</script>

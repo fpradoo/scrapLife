@@ -1,6 +1,6 @@
 function showProductoSelect(str) {
     if (str == "") {
-        document.getElementById("main").innerHTML = "";
+        document.getElementById("productoCompleto").innerHTML = "";
         return;
     } else {
         if (window.XMLHttpRequest) {
@@ -12,7 +12,7 @@ function showProductoSelect(str) {
         }
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                document.getElementById("main").innerHTML = xmlhttp.responseText;
+                document.getElementById("productoCompleto").innerHTML = xmlhttp.responseText;
             }
         }
 		console.log(xmlhttp.responseText);
@@ -69,4 +69,39 @@ function changeImagenCategoria(str, imgId, checkState, type) {
         xmlhttp.open("GET","/core/ajaxRecall.php?q="+str+"&func=3&viejoCod="+viejoCodigo+"&checkState="+checkState+"&type="+type,true);
         xmlhttp.send();
     }
+}
+
+function cambiarCategoria(value,name){
+	var valSig;
+	valSig = value - 1;
+	
+	if($('input:checkbox[name="'+name+'"]:checked').length == 0){
+		$('#error').show('fast');
+	}else{
+		$('#error').hide('slow');
+		$('#'+valSig).hide('slow');
+		$('#'+value).show('slow');
+	}
+	
+	
+	
+}
+
+function finalEdicion(){
+	if (window.XMLHttpRequest) {
+		// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp = new XMLHttpRequest();
+	} else {
+		// code for IE6, IE5
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			document.getElementById("opcinesCompleto").innerHTML = xmlhttp.responseText;
+		}
+	}
+	console.log(xmlhttp.responseText);
+	xmlhttp.open("GET","/core/ajaxRecall.php?func=4",true);
+	xmlhttp.send();
+	
 }
