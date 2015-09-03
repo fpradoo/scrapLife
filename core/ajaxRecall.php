@@ -11,14 +11,14 @@ if(isset($_GET['func'])&&!empty($_GET['func'])){
     case 1:
         showProductoSelect();
         break;
-    case 2:
-        showCategoriaByProduct();
-        break;
 	case 3:
 		changeImagenBySubcat();
 		break;
 	case 4:
 		mensajeFinal();
+		break;
+	case 5:
+		actualizarCarrito();
 		break;
 	}
 }
@@ -30,8 +30,8 @@ function showProductoSelect(){
 	if(isset($_GET['q'])&&!empty($_GET['q'])){
 		
 		$producto_edit = (int)$_GET['q'];
-		$producto_edit = sanitize($producto_edit);		
-		
+		$producto_edit = sanitize($producto_edit);
+
 		$get_producto = "Select * FROM productos WHERE id = $producto_edit";
 		$run_productos = mysqli_query($db, $get_producto);
 		
@@ -40,6 +40,31 @@ function showProductoSelect(){
 			$productos_titulo = ucfirst($row_productos['titulo']);
 			$productos_descripcion = ucfirst($row_productos['descripcion']);
 			$productos_imagen = $row_productos['imagen'];
+			$productos_precio = $row_productos['precio'];
+			
+			$carrito = new Carrito();
+			
+			$carro = $carrito->get_content();
+			if($carro)
+			{	
+				foreach($carro as $producto){
+					if($producto['unique_id'] != md5($producto_edit)){
+						
+					$articulo = array(
+						"id"			=>		$producto_edit,
+						"cantidad"		=>		1,
+						"precio"		=>		$productos_precio,
+						"nombre"		=>		$productos_titulo,
+						"opciones"      =>      array(),
+						"uniqueId"      =>      $producto_edit,
+						"imagen"		=>      $productos_imagen
+					);
+					
+					$carrito->add($articulo);
+							
+					}
+				}
+			}
 			
 			//Seleccion de producto
 			echo"
@@ -191,55 +216,72 @@ function generarCarrito(){
 					<h3 class='title pedido'>Pedido</h3>
 					<img src='/img/carrito-compras.png' />
 				</div>
-				<hr class='negro'>
+		";
+	
+	//Consigo el contenido del carrito	
+	$carrito = new Carrito();
+	$carro = $carrito->get_content();
+	if($carro)
+	{	
+		foreach($carro as $producto)
+		{
+			$pro_tit = $producto["nombre"];
+			$pro_img = $producto["imagen"];
+			//Seccion cabecera del producto
+			echo"
+			<hr class='negro'>
 				<div>
-					<h2 class='titProd'>Titulo</h3>
-					<img src='/admin/imagesUpload/1193259330_f.jpg' class='img-circle imgSize2'>
+					<h2 class='titProd'>$pro_tit</h3>
+					<img src='/admin/imagesUpload/$pro_img' class='img-circle imgSize2'>
 				</div>
+			";
+			
+			//Seccion opciones del producto
+			
+			if(empty($producto["opciones"])){
+				echo"
 				<hr class='negro'>				
-				<center>
-					<div class='mas'>
-						+
-					</div>
-					<div class='circProd elementCarrito'>
-						<img class='circProd img-circle imgSize3' src='/admin/imagesUpload/1193259330_f.jpg'>
-						<h3 class='text-center titCatCarrito'>Titulo</h3>
-						<h4 class='text-center'>Precio</h4>
-					</div>
-					<div class='mas'>
-						+
-					</div>
-					<div class='circProd elementCarrito'>
-						<img class='circProd img-circle imgSize3' src='/admin/imagesUpload/1193259330_f.jpg'>
-						<h3 class='text-center titCatCarrito'>Titulo</h3>
-						<h4 class='text-center'>Precio</h4>
-					</div>
-					<div class='mas'>
-						+
-					</div>
-					<div class='circProd elementCarrito'>
-						<img class='circProd img-circle imgSize3' src='/admin/imagesUpload/1193259330_f.jpg'>
-						<h3 class='text-center titCatCarrito'>Titulo</h3>
-						<h4 class='text-center'>Precio</h4>
-					</div>
-					<div class='mas'>
-						+
-					</div>
-					<div class='circProd elementCarrito'>
-						<img class='circProd img-circle imgSize3' src='/admin/imagesUpload/1193259330_f.jpg'>
-						<h3 class='text-center titCatCarrito'>Titulo</h3>
-						<h4 class='text-center'>Precio</h4>
-					</div>
-					<div class='mas'>
-						+
-					</div>
-					<div class='circProd elementCarrito'>
-						<img class='circProd img-circle imgSize3' src='/admin/imagesUpload/1193259330_f.jpg'>
-						<h3 class='text-center titCatCarrito'>Titulo</h3>
-						<h4 class='text-center'>Precio</h4>
-					</div>					
-				</center>
-				<hr class='negro clear'>
+					<center id='opcionesSeleccionadas'>
+						<h2 class='titProd'>Aun no hay opciones seleccionadas</h3>
+					</center>
+				";	
+			}else{
+				echo"
+					<hr class='negro'>				
+					<center id='opcionesSeleccionadas'>
+				";
+				
+				foreach($producto["opciones"] as $subCat){
+					$db = callDb();
+					$get_subCat = "Select * FROM detalles_categorias WHERE id = $subCat";
+					$run_subCat = mysqli_query($db, $get_subCat);
+				
+					while($row_subCat=mysqli_fetch_array($run_subCat)){
+						$productos_titulo = ucfirst($row_subCat['titulo']);
+						$productos_imagen = $row_subCat['imagen'];
+						$productos_precio = $row_subCat['precio_adicional'];
+						
+						echo"
+							<div class='mas'>
+								+
+							</div>
+							<div class='circProd elementCarrito'>
+								<img class='circProd img-circle imgSize3' src='/admin/imagesUpload/$productos_imagen'>
+								<h3 class='text-center titCatCarrito'>$productos_titulo</h3>
+								<h4 class='text-center'>$productos_precio</h4>
+							</div>
+						";						
+					}		
+				}
+				echo"	
+					</center>
+				";
+			}
+		}
+	}
+	
+	echo"
+		<hr class='negro clear'>
 				<h5 class='total'>Total: 330</h5>
 				<hr class='negro clear'>
 				<input type='submit' value='Pagar'>
@@ -247,117 +289,64 @@ function generarCarrito(){
 		</div>
 	</div>
 	";
-	
 }
 
 function mensajeFinal(){
 	echo"
-	<h3>La edición del producto esta finalizada</h3>
+	<h3 style='color:blue;'>La edición del producto esta finalizada</h3>
 	";
 }
 
-function showCategoriaByProduct($producto_edit){
+function actualizarCarrito(){
 	
-	$db = callDb();
-	$id_prod_padre = $producto_edit;
-	
-	$get_categorias = "Select * FROM categorias WHERE id_producto = $id_prod_padre AND tipo_cat = 1";
-	$run_categorias = mysqli_query($db, $get_categorias);
-	
-	echo"
-	<h2 class='categorias tituloProducto'>Externas</h2>
-	";
-	
-	while($row_categorias=mysqli_fetch_array($run_categorias)){
-		
-		$categoria_titulo = ucfirst($row_categorias['Titulo']);
-		$categoria_id = $row_categorias['Id'];
-		$categoria_operacion = $row_categorias['tipo_op'];
-		
-		echo"
-		<hr>
-			<span class='categorias'>
-			<div>						
-				<div class='check'>
-				<h3 class='pri choise'>$categoria_titulo</h3>
-		";		
-		
-		$get_subcategorias = "Select * FROM detalles_categorias WHERE cat_id = $categoria_id";
-		$run_subcategorias = mysqli_query($db, $get_subcategorias);
-	
-		while($row_subcategorias=mysqli_fetch_array($run_subcategorias)){
+	if(isset($_GET['q'])&&!empty($_GET['q'])){
+		$opciones = array();
+		array_push($opciones, $_GET['q']);
 			
-			$subcategoria_id = $row_subcategorias['id'];
-			$subcategoria_titulo = ucfirst($row_subcategorias['titulo']);
-			if($categoria_operacion == 1){
-				echo"
-				<span><input type='radio' name='$categoria_id' value='$subcategoria_id' onchange='changeImagenCategoria($subcategoria_id, $categoria_id, this.checked, this.type)' /><p>$subcategoria_titulo</p></span>
-				";
-				}else{
-				echo"
-				<span><input type='checkbox' name='$subcategoria_id' value='$subcategoria_id' onchange='changeImagenCategoria($subcategoria_id, $categoria_id, this.checked, this.type)' /><p>$subcategoria_titulo</p></span>	
-				";	
-			}	
+		$carrito = new Carrito();
+			$articulo = array(
+				"id"			=>		null,
+				"cantidad"		=>		1,
+				"precio"		=>		null,
+				"nombre"		=>		null,
+				"opciones"      =>      $opciones,
+				"uniqueId"      =>      intval($_GET['idPadre']),
+				"imagen"		=>      null
+			);
+		
+		$carrito->addOption($articulo);
+		
+
+		$carro = $carrito->get_content();
+		if($carro)
+		{	
+			foreach($carro as $producto)
+			{		
+				foreach($producto["opciones"] as $subCat){
+					$db = callDb();
+					$get_subCat = "Select * FROM detalles_categorias WHERE id = $subCat";
+					$run_subCat = mysqli_query($db, $get_subCat);
+				
+					while($row_subCat=mysqli_fetch_array($run_subCat)){
+						$productos_titulo = ucfirst($row_subCat['titulo']);
+						$productos_imagen = $row_subCat['imagen'];
+						$productos_precio = $row_subCat['precio_adicional'];
+						
+						echo"
+							<div class='mas'>
+								+
+							</div>
+							<div class='circProd elementCarrito'>
+								<img class='circProd img-circle imgSize3' src='/admin/imagesUpload/$productos_imagen'>
+								<h3 class='text-center titCatCarrito'>$productos_titulo</h3>
+								<h4 class='text-center'>$productos_precio</h4>
+							</div>
+						";						
+					}		
+				}
+			}
 		}
-		
-		echo"
-			</div>
-				<div id='$categoria_id' class='imageOptionDiv'>
-				</div>
-			</div>
-			</span>
-		";
 	}
-	
-	$get_categorias = "Select * FROM categorias WHERE id_producto = $id_prod_padre AND tipo_cat = 2";
-	$run_categorias = mysqli_query($db, $get_categorias);
-	
-	echo"
-	<h2 class='categorias tituloProducto'>Internas</h2>
-	";
-	
-	while($row_categorias=mysqli_fetch_array($run_categorias)){
-		
-		$categoria_titulo = ucfirst($row_categorias['Titulo']);
-		$categoria_id = $row_categorias['Id'];
-		$categoria_operacion = $row_categorias['tipo_op'];
-		
-		echo"
-		<hr>
-			<span class='categorias'>
-			<div>						
-				<div class='check'>
-				<h3 class='pri choise'>$categoria_titulo</h3>
-		";		
-		
-		$get_subcategorias = "Select * FROM detalles_categorias WHERE cat_id = $categoria_id";
-		$run_subcategorias = mysqli_query($db, $get_subcategorias);
-	
-		while($row_subcategorias=mysqli_fetch_array($run_subcategorias)){
-			
-			$subcategoria_id = $row_subcategorias['id'];
-			$subcategoria_titulo = ucfirst($row_subcategorias['titulo']);
-			if($categoria_operacion == 1){
-				echo"
-				<span><input type='radio' name='$categoria_id' value='$subcategoria_id' onchange='changeImagenCategoria($subcategoria_id, $categoria_id, this.checked, this.type)' /><p>$subcategoria_titulo</p></span>
-				";
-				}else{
-				echo"
-				<span><input type='checkbox' name='$subcategoria_id' value='$subcategoria_id' onchange='changeImagenCategoria($subcategoria_id, $categoria_id, this.checked, this.type)' /><p>$subcategoria_titulo</p></span>	
-				";	
-			}	
-		}
-		
-		echo"
-			</div>
-				<div id='$categoria_id' class='imageOptionDiv'>
-				</div>
-			</div>
-			</span>
-		";
-	}
-	
-	
 }
 
 

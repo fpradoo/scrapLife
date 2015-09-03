@@ -22,31 +22,6 @@ function showProductoSelect(str) {
 }
 
 
-function showCategoriasDeProducto(str) {
-    if (str == "") {
-        document.getElementById("categoria").innerHTML = "";
-        return;
-    } else {
-        if (window.XMLHttpRequest) {
-            // code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp = new XMLHttpRequest();
-        } else {
-            // code for IE6, IE5
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                document.getElementById("categoria").innerHTML = xmlhttp.responseText;
-            }
-        }
-		
-		var idProductoPadre = document.getElementById("products").value;
-		console.log(xmlhttp.responseText);
-        xmlhttp.open("GET","/core/ajaxRecall.php?q="+str+"&func=2&idpadre="+idProductoPadre,true);
-        xmlhttp.send();
-    }
-}
-
 function changeImagenCategoria(str, imgId, checkState, type) {
     if (str == "") {
         document.getElementById(imgId).innerHTML = "";
@@ -81,10 +56,8 @@ function cambiarCategoria(value,name){
 		$('#error').hide('slow');
 		$('#'+valSig).hide('slow');
 		$('#'+value).show('slow');
+		cargarOpcion($('input:checkbox[name="'+name+'"]:checked').val(), $('#products').val());
 	}
-	
-	
-	
 }
 
 function finalEdicion(){
@@ -102,6 +75,25 @@ function finalEdicion(){
 	}
 	console.log(xmlhttp.responseText);
 	xmlhttp.open("GET","/core/ajaxRecall.php?func=4",true);
+	xmlhttp.send();
+	
+}
+
+function cargarOpcion(str, idPadre){
+	if (window.XMLHttpRequest) {
+		// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp = new XMLHttpRequest();
+	} else {
+		// code for IE6, IE5
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			document.getElementById("opcionesSeleccionadas").innerHTML = xmlhttp.responseText;
+		}
+	}
+	console.log(xmlhttp.responseText);
+	xmlhttp.open("GET","/core/ajaxRecall.php?q="+str+"&idPadre="+idPadre+"&func=5",true);
 	xmlhttp.send();
 	
 }
