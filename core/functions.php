@@ -3,6 +3,19 @@
 require_once $_SERVER['DOCUMENT_ROOT'].'/core/init.php';
 include_once ($_SERVER['DOCUMENT_ROOT']."/core/classCarrito.php");
 
+function checkProductosFinalizado(){
+	$carrito = new Carrito();
+	$carro = $carrito->get_content();
+	if($carro){	
+		foreach($carro as $producto){
+			if($producto["finalizado"] == false){
+				$carrito = new Carrito();
+				$carrito->remove_producto($producto["unique_id"]);
+			}
+		}			
+	}
+}
+/*
 function getProductosParaSelect(){
 	
 	$db = callDb();
@@ -110,6 +123,7 @@ function armarCarrito(){
 		}
 	}
 }
+*/
 
 function deleteSession(){
 	if(isset($_GET['deleteShopCar'])){
@@ -117,7 +131,7 @@ function deleteSession(){
 		$carrito->destroy();
 	}
 }
-
+/*
 function deleteItem(){
 	if(isset($_GET['deleteItem'])){		
 		$id_unique = $_GET['deleteItem'];
@@ -141,7 +155,7 @@ function addItem(){
 		$carrito->addItem($articulo);
 	}
 }
-
+*/
 function echoProducts(){
 	$db = callDb();
 	
@@ -176,8 +190,30 @@ function getSeccionProductosById(){
 			showProductoSelect($id_prod);
 		</script>
 		";
-	}
+	}else{
+		
+		$carrito = new Carrito();
+		$carro = $carrito->get_content();
+		
+		if(is_null($carro)){
+			$db = callDb();
+		
+			$get_all_productos = 'Select * FROM productos LIMIT 1';
+			$run_productos = mysqli_query($db, $get_all_productos);
+			
+			while($row_productos=mysqli_fetch_array($run_productos)){
+				$productos_id = $row_productos['id'];
+
+				echo"
+					<script>
+						showProductoSelect($productos_id);
+					</script>
+					";
+			}
+		}
+	}	
 }
+
 
 
 ?>

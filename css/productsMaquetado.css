@@ -160,6 +160,14 @@ div.carrito-compras>span>input[type="submit"] {
 	float:right;
 }
 
+div.carrito-compras>span>button[type="button"] {
+	width: 25%;
+	text-transform: uppercase;
+	height: 25px;
+	margin: 10px 0px;
+	float:right;
+}
+
 span.opSig {
 	width: 158px;
 	text-transform: uppercase;
@@ -468,4 +476,10 @@ h3.titCatCarrito{
 h5.total{
 	float:right;
 }
+
+img.borrarCarrito{
+	float:right; 
+	width:5%;
+}
+
 

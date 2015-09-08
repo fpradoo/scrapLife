@@ -148,6 +148,19 @@ input[type="submit"] { /* Suscribite: Input Boton */
 	margin-top:15px;
 }
 
+button[type="button"] { /* Suscribite: Input Boton */
+	background: #FF9999;
+	border: 0;
+	color: #fff;
+	font-family: calibri;
+	text-transform: uppercase;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 1em;
+	float:left;
+	margin-top:15px;
+}
+
 span.siguienteForm { /* Suscribite: Input Boton */
 	background: #FF9999;
 	border: 0;

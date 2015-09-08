@@ -138,7 +138,6 @@ class Carrito
  
 		//creamos la id única para el producto
 		$articulo["unique_id"] = $unique_id;
-		
 		//si no está vacío el carrito lo recorremos 
 		if(!empty($this->carrito))
 		{
@@ -160,12 +159,16 @@ class Carrito
 					}
 					$articulo["opciones"] = $row["opciones"];
 					
+					if($row["finalizado"]){
+						$articulo["finalizado"] = $row["finalizado"];
+					}
 				}
 			}
 		}
 	    		
 		///ahora añadimos el producto al carrito
 		$_SESSION["carrito"][$unique_id]["opciones"] = $articulo["opciones"];
+		$_SESSION["carrito"][$unique_id]["finalizado"] = $articulo["finalizado"];
 		
 	    //actualizamos el carrito
 	    $this->update_carrito();		
