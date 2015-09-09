@@ -36,7 +36,7 @@
                         <div class="col-md-6 col-sm-6">
                             <div class="right-header text-right">
                                 <ul class="social-icons">
-                                    <li><a href="#" class="fa fa-facebook"></a></li>
+                                    <li><a href="https://www.facebook.com/Scrap.Life?fref=ts" class="fa fa-facebook"></a></li>
                                     <li><a href="#" class="fa fa-instagram"></a></li>
                                     <li><a href="#" class="fa fa-twitter"></a></li>
                                     <li><a href="#" class="fa fa-google-plus"></a></li>

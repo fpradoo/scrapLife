@@ -283,6 +283,26 @@ class Carrito
 		return true;
 	}
 	
+	//para eliminar un producto debemos pasar la clave única
+	//que contiene cada uno de ellos
+	public function get_producto($unique_id)
+	{
+		//si no existe el carrito
+		if($this->carrito === null)
+		{
+			throw new Exception("El carrito no existe!", 1);
+		}
+ 
+		//si no existe la id única del producto en el carrito
+		if(!isset($this->carrito[$unique_id]))
+		{
+			throw new Exception("La unique_id $unique_id no existe!", 1);
+		}
+		
+		return $_SESSION["carrito"][$unique_id];
+	}
+	
+	
 	//eliminamos el contenido del carrito por completo
 	public function destroy()
 	{

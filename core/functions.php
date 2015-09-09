@@ -129,6 +129,7 @@ function deleteSession(){
 	if(isset($_GET['deleteShopCar'])){
 		$carrito = new Carrito();
 		$carrito->destroy();
+		getSeccionProductosById();
 	}
 }
 /*
@@ -159,7 +160,7 @@ function addItem(){
 function echoProducts(){
 	$db = callDb();
 	
-	$get_prod = "SELECT * from productos";
+	$get_prod = "SELECT p.titulo, p.id, p.imagen from productos p inner join categorias c ON c.id_producto = p.id GROUP BY p.titulo";
 	$run_prod = mysqli_query($db, $get_prod);
 	
 	while($row_prod=mysqli_fetch_array($run_prod)){
@@ -198,7 +199,7 @@ function getSeccionProductosById(){
 		if(is_null($carro)){
 			$db = callDb();
 		
-			$get_all_productos = 'Select * FROM productos LIMIT 1';
+			$get_all_productos = 'SELECT p.titulo, p.id from productos p inner join categorias c ON c.id_producto = p.id GROUP BY p.titulo LIMIT 1';
 			$run_productos = mysqli_query($db, $get_all_productos);
 			
 			while($row_productos=mysqli_fetch_array($run_productos)){

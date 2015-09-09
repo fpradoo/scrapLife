@@ -24,6 +24,19 @@ if(isset($_GET['func'])&&!empty($_GET['func'])){
 }
 
 function showProductoSelect(){
+	
+	//Borro si existen productos incompletos en sesion
+	$carrito = new Carrito();
+	$carro = $carrito->get_content();
+	if($carro){	
+		foreach($carro as $producto){
+			if($producto["finalizado"] == false){
+				$carrito = new Carrito();
+				$carrito->remove_producto($producto["unique_id"]);
+			}
+		}			
+	}
+
 
 	$db = callDb();
 	
@@ -116,7 +129,7 @@ function showProductoSelect(){
 			
 			generarOpcionesEditables($producto_edit, $productos_descripcion);
 			echo"
-			<div id='carrito-compras' class='carrito-compras'>
+			<div style='margin-bottom:2%;'  id='carrito-compras' class='carrito-compras'>
 			";
 			generarCarrito();
 			echo"
@@ -131,7 +144,7 @@ function getProductosParaSelect($prod_id){
 	
 	$db = callDb();
 	
-	$get_all_productos = 'Select * FROM productos order by Titulo';
+	$get_all_productos = 'SELECT p.titulo, p.id from productos p inner join categorias c ON c.id_producto = p.id GROUP BY p.titulo';
 	$run_productos = mysqli_query($db, $get_all_productos);
 	
 	while($row_productos=mysqli_fetch_array($run_productos)){
@@ -156,13 +169,24 @@ function generarOpcionesEditables($idProd, $prod_desc){
 	
 	echo"
 	<div id='submain' class='main'>
-		<div class='seccOp'>
+		<div style='margin-bottom:2%;' class='seccOp'>
 			<span class='description'>
 				<p>$prod_desc</p>			
 			</span>
 			<div id='opcinesCompleto'>
 	";
 	
+	$carrito = new Carrito();
+	$carro = $carrito->get_producto(md5($idProd));
+	
+	if($carro["finalizado"] == true){
+		echo"
+				<h3 style='color:blue;'>La edición del producto esta finalizada</h3>
+			</div>
+		</div>
+		";
+	}else{
+		
 	$contador = 1;
 	$db = callDb();
 	
@@ -203,7 +227,7 @@ function generarOpcionesEditables($idProd, $prod_desc){
 			
 			echo"
 				<div class='circProd auto'>
-					<img class='circProd img-circle imgSize1' src='/admin/imagesUpload/$subcat_imagen'>
+					<a class='fancybox' rel='group' href='/admin/imagesUpload/$subcat_imagen'><img class='circProd img-circle imgSize1' src='/admin/imagesUpload/$subcat_imagen'></a>
 					<h3 class='text-center subCatTitle'>$subcat_titulo</h3>
 					<h4 class='text-center'>$subcat_precio</h4>
 			";
@@ -243,7 +267,7 @@ function generarOpcionesEditables($idProd, $prod_desc){
 			</div>
 		</div>
 	";
-	
+	}
 }
 
 function generarCarrito(){
@@ -277,13 +301,6 @@ function generarCarrito(){
 					<img src='/admin/imagesUpload/$pro_img' class='img-circle imgSize2'>
 				</div>
 			";
-			
-			if($finalizado){
-				echo"<h1>true</h1>";				
-			}else{
-				echo"<h1>false</h1>";		
-			}
-			
 			
 			//Seccion opciones del producto
 			
@@ -362,7 +379,7 @@ function mensajeFinal(){
 		$carrito->addOption($articulo);
 	
 	echo"
-		<div class='seccOp'>
+		<div style='margin-bottom:2%;' class='seccOp'>
 			<span class='description'>
 				<p>aaaa</p>			
 			</span>
@@ -373,7 +390,7 @@ function mensajeFinal(){
 	";}
 	
 	echo"
-		<div id='carrito-compras' class='carrito-compras'>
+		<div style='margin-bottom:2%;' id='carrito-compras' class='carrito-compras'>
 		";
 		generarCarrito();
 		echo"
