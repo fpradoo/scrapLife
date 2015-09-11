@@ -15,115 +15,6 @@ function checkProductosFinalizado(){
 		}			
 	}
 }
-/*
-function getProductosParaSelect(){
-	
-	$db = callDb();
-	
-	$get_all_productos = 'Select * FROM productos order by Titulo';
-	$run_productos = mysqli_query($db, $get_all_productos);
-	
-	while($row_productos=mysqli_fetch_array($run_productos)){
-		
-		$productos_id = $row_productos['id'];
-		$productos_titulo = ucfirst($row_productos['titulo']);
-		
-		echo "		
-		<option value='$productos_id'>$productos_titulo</option>
-		";
-	}	
-}
-
-function getProductosParaNavigation(){
-	
-	$db = callDb();
-	
-	$get_all_productos = 'Select * FROM productos order by Titulo';
-	$run_productos = mysqli_query($db, $get_all_productos);
-	
-	while($row_productos=mysqli_fetch_array($run_productos)){
-		
-		$productos_id = $row_productos['id'];
-		$productos_titulo = ucfirst($row_productos['titulo']);
-		
-		echo "		
-		<li><a href='/producto.php?idProd=$productos_id'>$productos_titulo</a></li>
-		";
-	}	
-}
-
-function getSeccionProductos(){
-	if(!isset($_GET['id'])){	
-		echo"
-		<div id='main' class='main'>
-			<select id='products' class='productosList' name='products' onchange='showProductoSelect(this.value)'>
-		";
-		getProductosParaSelect();
-		echo"			
-		</select>
-				
-		</div>
-		<script>
-			showProductoSelect( $('#products').val() );
-		</script>
-		";
-	}
-}
-
-function armarCarrito(){
-	$carrito = new Carrito();	
-	if(isset($_POST['submit'])){
-		$en = "(";
-		foreach($_POST as $value){
-			if($value != 0 && $value != '0'){
-				$en .= $value.",";
-				$id = intval($value);
-			}		
-		}
-		$en .= ")";
-		$en = substr_replace($en, '', -2, -1);
-		
-		$db = callDb();
-		
-		$get_subcat = "SELECT dc.id as subcatId, dc.titulo as subcatTitulo, dc.precio_adicional as subcatPrecio, c.Id as idCat, c.Titulo as tituloCat FROM detalles_categorias dc INNER JOIN categorias c ON dc.cat_id = c.Id WHERE dc.id in $en";
-		$run_subcat = mysqli_query($db, $get_subcat);
-		$opciones = array();
-		$opcionesUniqueId = array();
-		$idUnique = 0;
-		
-		while($row_subcat=mysqli_fetch_array($run_subcat)){
-			$opciones[ $row_subcat['subcatId'] ][] = $row_subcat;
-			$opcionesUniqueId[ $row_subcat['subcatId'] ] = $row_subcat['subcatId'];
-		}
-		
-		natsort($opcionesUniqueId);
-		
-		foreach($opcionesUniqueId as $number){
-			$idUnique += intval($number);
-		}
-		
-		$get_prod = "SELECT p.id as prodId, p.titulo as tituloProd, p.precio as precioProd FROM detalles_categorias dc INNER JOIN categorias c ON dc.cat_id = c.Id INNER JOIN productos p ON c.id_producto = p.id WHERE dc.id = $id";
-		$run_prod = mysqli_query($db, $get_prod);
-		
-		while($row_prod=mysqli_fetch_array($run_prod)){
-			
-			$productos_id = $row_prod['prodId'];
-			$productos_titulo = ucfirst($row_prod['tituloProd']);
-			$productos_precio = ucfirst($row_prod['precioProd']);
-			
-			$articulo = array(
-				"id"			=>		$idUnique,
-				"cantidad"		=>		1,
-				"precio"		=>		$productos_precio,
-				"nombre"		=>		"$productos_titulo",
-				"opciones"      =>      $opciones,
-				"uniqueId"      =>      $idUnique
-			);
-		$carrito->add($articulo);
-		}
-	}
-}
-*/
 
 function deleteSession(){
 	if(isset($_GET['deleteShopCar'])){
@@ -132,31 +23,7 @@ function deleteSession(){
 		getSeccionProductosById();
 	}
 }
-/*
-function deleteItem(){
-	if(isset($_GET['deleteItem'])){		
-		$id_unique = $_GET['deleteItem'];
-		$carrito = new Carrito();
-		$carrito->remove_producto("$id_unique");
-	}
-}
 
-function addItem(){
-	if(isset($_GET['addItem'])){		
-		$idUnique = intval($_GET['addItem']);
-		$carrito = new Carrito();
-		$articulo = array(
-			"id"			=>		null,
-			"cantidad"		=>		1,
-			"precio"		=>		null,
-			"nombre"		=>		null,
-			"opciones"      =>      null,
-			"uniqueId"      =>      $idUnique
-		);
-		$carrito->addItem($articulo);
-	}
-}
-*/
 function echoProducts(){
 	$db = callDb();
 	
@@ -215,6 +82,74 @@ function getSeccionProductosById(){
 	}	
 }
 
+function generarMP($nombre, $apellido){
+	$mp = new MP('8992299227915757', 'mKhyUgOgwVsrZLcPLNC6lWBelo7PIoQL');
 
+	$preference_data = array(
+		"items" => array(
+			array(
+				"title" => "Donación para CLUBNIVA.COM",
+				"currency_id" => "ARS",
+				"picture_url" =>"http://www.clubniva.com/images/logos/logo.jpg",
+				"category_id" => "Donación",
+				"quantity" => 1,
+				"unit_price" => 100
+			)
+		),
+		"payer" => array(
+			"name" => $nombre,
+			"surname" => $apellido
+		)	
+	);
+	
+	$preference = $mp->create_preference($preference_data);	
+	$href = $preference['response']['init_point'];
+	
+	echo"
+	<div style='position:absolute'>	
+		<a href='$href'>Pagar con Mercado Pago</a>
+	</div>
+	";
+	
+}
+
+function generarPayU($nombre, $apellido, $email){
+
+	//$carrito = new Carrito();
+	$total = 10;
+	//echo $total;
+	$referenceCode = "SCR".date("hsi");
+	//ApiKey~merchantId~referenceCode~amount~currency
+	$signature = md5("6u39nqhq8ftd0hlvnjfs66eh8c~500238~$referenceCode~$total~ARS");
+	$nombreApellido = $nombre . ' ' . $apellido;
+
+	echo"
+	
+	<form class='pagar datos' method='post' action='https://stg.gateway.payulatam.com/ppp-web-gateway/'>
+		<input name='payerFullName' type='hidden'  value='$nombreApellido' > 
+		<input name='buyerEmail'  	type='hidden'  value='$email' > 
+		<input name='merchantId'    type='hidden'  value='500238' >
+		<input name='accountId'     type='hidden'  value='509171' >
+		<input name='description'   type='hidden'  value='Productos' >
+		<input name='referenceCode' type='hidden'  value='$referenceCode' >
+		<input name='amount'        type='hidden'  value='$total' >
+		<input name='tax'           type='hidden'  value='21'  >
+		<input name='taxReturnBase' type='hidden'  value='0' >
+		<input name='currency'      type='hidden'  value='ARS' >
+		<input name='signature'     type='hidden'  value='$signature'>
+		<input name='test'          type='hidden'  value='1' >
+		<input name='buyerEmail'    type='hidden'  value='test@test.com' >
+		<input name='responseUrl'   type='hidden'  value='http://45.55.71.214/payUResponse.php' >
+		<input name='ApiLogin'    	type='hidden'  value='11959c415b33d0c' >		
+		<input name='ApiKey'    	type='hidden'  value='6u39nqhq8ftd0hlvnjfs66eh8c' >
+		<input name='Submit'        type='submit'  value='Pagar con PAYU' >
+	</form>
+	";	
+}
+
+function convenirConVendedor(){
+	echo "aaaaaaaa";
+	
+}
 
 ?>

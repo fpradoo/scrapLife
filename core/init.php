@@ -7,7 +7,7 @@
 	
 	define("HOST", "$server");
 	define("USER", "$user");
-	define("PASSWORD", "");
+	define("PASSWORD", "$pass");
 	define("DATABASE", "$bd");
 	 
 	define("CAN_REGISTER", "any");

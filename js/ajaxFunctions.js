@@ -105,3 +105,11 @@ function finalEdicion(name){
 	xmlhttp.send();
 	
 }
+
+function mostrarOcultar(id){
+	if($("#"+id).is(':visible')){
+		$("#"+id).slideUp();
+	}else{
+		$("#"+id).slideDown();
+	}	
+}

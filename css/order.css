@@ -1,0 +1,68 @@
+h2.prdDisTitle{
+	float:none;
+}
+
+div.productDisplay1 {
+    width: 75%;
+}
+
+div.productDisplay2 {
+    margin-left: 10%;
+}
+
+h2.titProd {
+    color: #e38690;
+    float: left;
+    font-size: 15px;
+    font-weight: normal;
+    margin-bottom: 2%;
+    margin-right: 5%;
+    margin-top: 3%;
+    text-transform: uppercase;
+}
+
+img.imgSize2 {
+    height: 50px !important;
+    width: 50px !important;
+}
+
+div.carrito-compras {
+    width: 30%;
+}
+
+div.seccOp {
+    width: 60%;
+}
+
+h2.prdDisTitleBlue {
+    color: #00B2CA;
+    float: none;
+    font-size: 21px;
+    font-weight: normal;
+    margin-bottom: 2%;
+    text-transform: uppercase;
+}
+
+input[type="text"] {
+    border: 1px solid #cccccc;
+    color: #555555;
+    height: 34px;
+}
+
+div.radio, div.check {
+    float: left;
+    margin-top: 8px;
+    width: 100%;
+}
+
+div.productDisplay6 {
+    width: 15%;
+}
+
+span.description {
+    margin-top: 0;
+}
+
+img.creditLogo{
+	width:5%;
+}

@@ -1,19 +1,26 @@
 <?php
-	require_once ($_SERVER['DOCUMENT_ROOT']."/mp/lib/mercadopago.php");
+	
 
 	$mp = new MP('8992299227915757', 'mKhyUgOgwVsrZLcPLNC6lWBelo7PIoQL');
 
 	$preference_data = array(
 		"items" => array(
 			array(
-				"title" => "Multicolor kite",
+				"title" => "Donación para CLUBNIVA.COM",
+				"currency_id" => "ARS",
+				"picture_url" =>"http://www.clubniva.com/images/logos/logo.jpg",
+				"category_id" => "Donación",
 				"quantity" => 1,
-				"currency_id" => "ARS", // Available currencies at: https://api.mercadopago.com/currencies
-				"unit_price" => 10.00
+				"unit_price" => 100
 			)
-		)
+		),s
+		"payer" => array(
+				"name" => "Juan",
+				"surname" => "Perez",
+				"email" => "email@email.com"
+		)	
 	);
-
+		
 	$preference = $mp->create_preference($preference_data);
 	?>
 
