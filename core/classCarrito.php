@@ -154,9 +154,59 @@ class Carrito
 				
 				if($row["unique_id"] === $unique_id)
 				{
-					foreach($articulo["opciones"] as $nuevaOpcion){
-						array_push($row["opciones"], $nuevaOpcion);
+					array_push($row["opciones"], $articulo["opciones"]);
+					
+					$articulo["opciones"] = $row["opciones"];
+					
+					if($row["finalizado"]){
+						$articulo["finalizado"] = $row["finalizado"];
 					}
+				}
+			}
+		}
+	    		
+		///ahora añadimos el producto al carrito
+		$_SESSION["carrito"][$unique_id]["opciones"] = $articulo["opciones"];
+		$_SESSION["carrito"][$unique_id]["finalizado"] = $articulo["finalizado"];
+		
+	    //actualizamos el carrito
+	    $this->update_carrito();		
+		$this->update_precio_cantidad();
+	}
+	
+	public function deleteOption($articulo = array())
+	{
+		//primero comprobamos el articulo a añadir, si está vacío o no es un 
+		//array lanzamos una excepción y cortamos la ejecución
+		if(!is_array($articulo) || empty($articulo))
+		{
+			throw new Exception("Error, el articulo no es un array!", 1);	
+		}
+ 
+		 
+		//debemos crear un identificador único para cada producto
+		$unique_id = md5($articulo["uniqueId"]);
+ 
+		//creamos la id única para el producto
+		$articulo["unique_id"] = $unique_id;
+		//si no está vacío el carrito lo recorremos 
+		if(!empty($this->carrito))
+		{
+			foreach ($this->carrito as $row) 
+			{
+				//comprobamos si este producto ya estaba en el 
+				//carrito para actualizar el producto o insertar
+				//un nuevo producto	
+				if($row["unique_id"] === $unique_id)
+				{
+					//si ya estaba sumamos la cantidad
+					$articulo["cantidad"] = $row["cantidad"] + $articulo["cantidad"];
+				}
+				
+				if($row["unique_id"] === $unique_id)
+				{
+					unset($row["opciones"][count($row["opciones"])-1]);
+					
 					$articulo["opciones"] = $row["opciones"];
 					
 					if($row["finalizado"]){

@@ -1,3 +1,8 @@
+<?php 
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/init.php';
+	include_once ($_SERVER['DOCUMENT_ROOT']."/core/classCarrito.php"); 
+?>
+
 <!DOCTYPE html>
 <html class="js flexbox rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent"><head>
     <title>Scrap Life - Pagá tu compra!</title>
@@ -73,48 +78,63 @@
 						<img src="/img/carrito-compras.png">
 					</div>
 					<hr class="negro">
-					<div>
-						<h2 class="titProd">Albumés</h2>
-						<img src="/admin/imagesUpload/1253369367805_f.jpg" class="img-circle imgSize2">
-						<span onclick='mostrarOcultar(9);' style='float:right;'>V<span>
-						<span style='float:right;'>&nbsp;<span>
-						<span style='float:right;'>X<span>
-					</div>				
-					<center style='display:none' id="9">
-						<hr class="negro">	
-						<div class="circProd elementCarrito">
-							<img class="circProd img-circle imgSize3" src="/admin/imagesUpload/producto3.png">
-							<h3 class="text-center titCatCarrito">10 x 15</h3>
-							<h4 class="text-center">45</h4>
-						</div>
-						<div class="circProd elementCarrito">
-							<img class="circProd img-circle imgSize3" src="/admin/imagesUpload/producto3.png">
-							<h3 class="text-center titCatCarrito">Anillada</h3>
-							<h4 class="text-center">23</h4>
-						</div>
-					</center>
-					<hr class="negro">
-					<div>
-						<h2 class="titProd">Albumés</h2>
-						<img src="/admin/imagesUpload/1253369367805_f.jpg" class="img-circle imgSize2">
-						<span onclick='mostrarOcultar(10);' style='float:right;'>V<span>
-						<span style='float:right;'>&nbsp;<span>
-						<span style='float:right;'>X<span>
-					</div>				
-					<center style='display:none' id="10">
-						<hr class="negro">	
-						<div class="circProd elementCarrito">
-							<img class="circProd img-circle imgSize3" src="/admin/imagesUpload/producto3.png">
-							<h3 class="text-center titCatCarrito">10 x 15</h3>
-							<h4 class="text-center">45</h4>
-						</div>
-						<div class="circProd elementCarrito">
-							<img class="circProd img-circle imgSize3" src="/admin/imagesUpload/producto3.png">
-							<h3 class="text-center titCatCarrito">Anillada</h3>
-							<h4 class="text-center">23</h4>
-						</div>
-					</center>
-					<hr class="negro clear">
+					<?php
+					$carrito = new Carrito();
+					$carro = $carrito->get_content();
+					if($carro){
+						foreach($carro as $producto){
+						$pro_tit = $producto["nombre"];
+						$pro_img = $producto["imagen"];
+						$pro_id = $producto["id"];
+						
+							
+						//Seccion opciones del producto
+						
+							if(empty($producto["opciones"])){
+								echo"
+								";	
+							}else{
+								echo"
+								<div>
+									<h2 class='titProd'>$pro_tit</h2>
+									<img src='/admin/imagesUpload/$pro_img' class='img-circle imgSize2'>
+									<span style='float:right;'>X</span>
+									<span style='float:right;'>&nbsp;</span>
+									<span onclick='mostrarOcultar($pro_id)' style='float:right'>V</span>
+								</div>
+								<center style='display:none' id='$pro_id'>
+								<hr class='negro'>	
+								";
+									
+								foreach($producto["opciones"] as $arraySubCat){
+									foreach($arraySubCat as $subCat){
+										$db = callDb();
+										$get_subCat = "Select * FROM detalles_categorias WHERE id = $subCat";
+										$run_subCat = mysqli_query($db, $get_subCat);
+									
+										while($row_subCat=mysqli_fetch_array($run_subCat)){
+											$productos_titulo = ucfirst($row_subCat['titulo']);
+											$productos_imagen = $row_subCat['imagen'];
+											$productos_precio = $row_subCat['precio_adicional'];
+											
+											echo"
+											<div class='circProd elementCarrito' style='width:auto;'>
+												<img class='circProd img-circle imgSize3' src='/admin/imagesUpload/$productos_imagen'>
+												<h3 class='text-center titCatCarrito'>$productos_titulo</h3>
+												<h4 class='text-center'>$$productos_precio</h4>
+											</div>
+											";						
+										}
+									}		
+								}
+								echo"	
+									</center>
+									<hr class='negro'>
+								";
+							}
+						}
+					}
+					?>
 					<h5 class="total">Total: 330</h5>
 					<hr class="negro clear">					
 				</span>	

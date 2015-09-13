@@ -20,6 +20,9 @@ if(isset($_GET['func'])&&!empty($_GET['func'])){
 	case 5:
 		actualizarCarrito();
 		break;
+	case 6:
+		borrarUltimaOpcion();
+		break;
 	}
 }
 
@@ -252,6 +255,11 @@ function generarOpcionesEditables($idProd, $prod_desc){
 			</center>
 			<span class='description descCartel'>
 			";
+			
+			if($contador - 1 != 1){
+				echo"<span class='descCartelTexto' style='cursor:pointer; float:left; margin-left:2%;' onclick='retrocederCategoria($contador, $categoria_id)'> < Paso anterior </span>";
+			}	
+			
 			if($contador - 1 == $totalCategorias){
 				echo"<span class='descCartelTexto' style='cursor:pointer;' onclick='finalEdicion($categoria_id)'>Siguiente paso ></span>";
 			}else{
@@ -309,6 +317,9 @@ function generarCarrito(){
 				<div>
 					<h2 class='titProd'>$pro_tit</h3>
 					<img src='/admin/imagesUpload/$pro_img' class='img-circle imgSize2'>
+					<span style='float:right;'>X</span>
+					<span style='float:right;'>&nbsp;</span>
+					<span onclick='mostrarOcultar(111$pro_id)' style='float:right'>V</span>
 				</div>
 			";
 			
@@ -317,36 +328,46 @@ function generarCarrito(){
 			if(empty($producto["opciones"])){
 				echo"
 				<hr class='negro'>				
-					<center id='$pro_id'>
+					<center id='111$pro_id'>
 						<h2 class='titProd'>Aun no hay opciones seleccionadas</h3>
 					</center>
 				";	
 			}else{
+				if($edicionTerminada){
+					echo"<center style='display:none;' id='111$pro_id'>";	
+				}else{
+					echo"<center id='111$pro_id'>";
+				}
+				
 				echo"
-					<hr class='negro'>				
-					<center id='$pro_id'>
+					<hr class='negro'>	
 				";
 				
-				foreach($producto["opciones"] as $subCat){
-					$db = callDb();
-					$get_subCat = "Select * FROM detalles_categorias WHERE id = $subCat";
-					$run_subCat = mysqli_query($db, $get_subCat);
-				
-					while($row_subCat=mysqli_fetch_array($run_subCat)){
-						$productos_titulo = ucfirst($row_subCat['titulo']);
-						$productos_imagen = $row_subCat['imagen'];
-						$productos_precio = $row_subCat['precio_adicional'];
-						
-						echo"
-							<div class='mas'>
-								+
-							</div>
-							<div class='circProd elementCarrito'>
-								<img class='circProd img-circle imgSize3' src='/admin/imagesUpload/$productos_imagen'>
-								<h3 class='text-center titCatCarrito'>$productos_titulo</h3>
-								<h4 class='text-center'>$productos_precio</h4>
-							</div>
-						";						
+				foreach($producto["opciones"] as $arraySubCat){
+					foreach($arraySubCat as $subCat){
+						$db = callDb();
+						$get_subCat = "Select dc.*, c.Titulo as categoriaTitulo FROM detalles_categorias dc left outer join categorias c ON dc.cat_id = c.Id WHERE dc.id = $subCat";
+						$run_subCat = mysqli_query($db, $get_subCat);
+					
+						while($row_subCat=mysqli_fetch_array($run_subCat)){
+							$sucCat_titulo = ucfirst($row_subCat['titulo']);
+							$sucCat_imagen = $row_subCat['imagen'];
+							$sucCat_precio = $row_subCat['precio_adicional'];
+							$cat_titulo = ucfirst($row_subCat['categoriaTitulo']);
+							
+							echo"
+								<div style='display:inline; width:auto;'>
+									<div class='circProd elementCarrito' style='width:48%;'>
+										<div style='display:inline'>
+											<span>+</span>
+											<img class='circProd img-circle imgSize3' src='/admin/imagesUpload/$sucCat_imagen'>
+										</div>
+										<h3 class='text-center titCatCarrito'><span>$cat_titulo</span> / $sucCat_titulo</h3>
+										<h4 class='text-center'>$$sucCat_precio</h4>
+									</div>
+								</div>
+							";						
+						}
 					}		
 				}
 				echo"	
@@ -360,13 +381,17 @@ function generarCarrito(){
 		<hr class='negro clear'>
 				<h5 class='total'>Total: 330</h5>
 				<hr class='negro clear'>				
-				<a href='/#'><button style='float:right;' type='button' disabled>Pagar </button></a>
+				
 		";
 		if($edicionTerminada){
 			echo"
+			<a href='/order.php'><button style='float:right;' type='button'>Pagar </button></a>
 			<a href='/index.php#productos'><button type='button' style='margin-right:1%; float:right;' >Elegir otro producto </button> </a>
 			";
 		}else{
+			echo"
+			<a href='/#'><button style='float:right;' type='button' disabled>Pagar </button></a>
+			";
 			echo'
 			<a onclick=alert("Todavia&nbsp;no&nbsp;finalizo&nbsp;la&nbsp;edicion&nbsp;del&nbsp;producto")><button type="button" style="margin-right:1%; float:right;" >Elegir otro producto </button> </a>
 			';	
@@ -455,6 +480,27 @@ function actualizarCarrito(){
 		generarCarrito();
 	}
 }
+
+function borrarUltimaOpcion(){
+	$carrito = new Carrito();
+		$articulo = array(
+			"id"			=>		null,
+			"cantidad"		=>		1,
+			"precio"		=>		null,
+			"nombre"		=>		null,
+			"opciones"      =>      null,
+			"uniqueId"      =>      intval($_GET['idPadre']),
+			"imagen"		=>      null,
+			"finalizado"    =>		false
+		);
+	
+	$carrito->deleteOption($articulo);
+	
+	generarCarrito();
+}
+
+
+
 
 //Seguridad
 function sanitize($dirty){

@@ -482,4 +482,9 @@ img.borrarCarrito{
 	width:5%;
 }
 
+center>div>div{
+	margin-left:0 !important;
+	margin-right:0 !important;
+}
+
 

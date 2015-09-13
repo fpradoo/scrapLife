@@ -64,6 +64,38 @@ function cambiarCategoria(value,name){
 	}
 }
 
+function retrocederCategoria(value,name){
+	var valSig;
+	
+	valSig = value - 2;
+	value = value - 1;
+	
+	$('#error').hide('slow');
+	$('#'+value).hide('slow');
+	$('#'+valSig).show('slow');
+		
+	borrarUltimaSubcat($('#products').val());
+}
+
+
+function borrarUltimaSubcat(idPadre){
+	if (window.XMLHttpRequest) {
+		// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp = new XMLHttpRequest();
+	} else {
+		// code for IE6, IE5
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			document.getElementById("carrito-compras").innerHTML = xmlhttp.responseText;
+		}
+	}
+	console.log(xmlhttp.responseText);
+	xmlhttp.open("GET","/core/ajaxRecall.php?idPadre="+idPadre+"&func=6",true);
+	xmlhttp.send();
+}
+
 function cargarOpcion(str, idPadre){
 	if (window.XMLHttpRequest) {
 		// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -107,6 +139,7 @@ function finalEdicion(name){
 }
 
 function mostrarOcultar(id){
+	console.log(id);
 	if($("#"+id).is(':visible')){
 		$("#"+id).slideUp();
 	}else{
