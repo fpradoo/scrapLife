@@ -34,5 +34,7 @@
 			$(".fancybox").fancybox();
 		});
 	</script>
+	<link rel="stylesheet" href="css/sweetalert.css">
+	<script src="js/sweetalert-dev.js"></script>
 	 
 </head>

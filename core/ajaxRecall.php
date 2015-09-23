@@ -11,17 +11,17 @@ if(isset($_GET['func'])&&!empty($_GET['func'])){
     case 1:
         showProductoSelect();
         break;
-	case 3:
-		changeImagenBySubcat();
-		break;
-	case 4:
+	case 2:
 		mensajeFinal();
 		break;
-	case 5:
+	case 3:
 		actualizarCarrito();
 		break;
-	case 6:
+	case 4:
 		borrarUltimaOpcion();
+		break;
+	case 5:
+		eliminarProducto();
 		break;
 	}
 }
@@ -33,13 +33,13 @@ function showProductoSelect(){
 	$carro = $carrito->get_content();
 	if($carro){	
 		foreach($carro as $producto){
-			if($producto["finalizado"] == false){
+			//var_dump($producto);
+			if($producto["finalizado"] == false && $producto["productofinal"] != 1){
 				$carrito = new Carrito();
 				$carrito->remove_producto($producto["unique_id"]);
 			}
 		}			
 	}
-
 
 	$db = callDb();
 	
@@ -47,7 +47,7 @@ function showProductoSelect(){
 		$producto_edit = (int)$_GET['q'];
 		$producto_edit = sanitize($producto_edit);
 
-		$get_producto = "Select * FROM productos WHERE id = $producto_edit";
+		$get_producto = "Select * FROM productos WHERE id = $producto_edit AND activo = 1";
 		$run_productos = mysqli_query($db, $get_producto);
 		
 		while($row_productos=mysqli_fetch_array($run_productos)){
@@ -56,11 +56,14 @@ function showProductoSelect(){
 			$productos_descripcion = ucfirst($row_productos['descripcion']);
 			$productos_imagen = $row_productos['imagen'];
 			$productos_precio = $row_productos['precio'];
+			$productoFinal = ($row_productos['productofinal'] == 1) ? true : false;
+			$finalizado = ($productoFinal) ? true : false;
 			
 			$carrito = new Carrito();
 			
 			$carro = $carrito->get_content();
-			
+	
+			//Inicio para productos simples y con opciones si el carrito esta vacio
 			if(is_null($carro)){
 				$articulo = array(
 					"id"			=>		$producto_edit,
@@ -70,7 +73,8 @@ function showProductoSelect(){
 					"opciones"      =>      array(),
 					"uniqueId"      =>      $producto_edit,
 					"imagen"		=>      $productos_imagen,
-					"finalizado"    =>		false
+					"finalizado"    =>		$finalizado,
+					"productofinal" =>		$productoFinal
 				);	
 				
 				$carrito->add($articulo);
@@ -79,11 +83,10 @@ function showProductoSelect(){
 			$carrito = new Carrito();			
 			$carro = $carrito->get_content();
 						
-			if($carro)
-			{	
+			//Se agrega el producto con opciones			
+			if($carro){	
 				foreach($carro as $producto){
-									
-					if($producto['unique_id'] != md5($producto_edit)){
+					if($producto['unique_id'] != md5($producto_edit) && !$productoFinal){
 					$articulo = array(
 						"id"			=>		$producto_edit,
 						"cantidad"		=>		1,
@@ -92,11 +95,33 @@ function showProductoSelect(){
 						"opciones"      =>      array(),
 						"uniqueId"      =>      $producto_edit,
 						"imagen"		=>      $productos_imagen,
-						"finalizado"    =>		false
+						"finalizado"    =>		false,
+						"productofinal" =>		0
 					);
 					
 					$carrito->add($articulo);
 							
+					}
+				}
+			}
+			
+			//Se agrega producto sin opciones
+			if($carro){
+				foreach($carro as $producto){
+					if($producto['unique_id'] != md5($producto_edit)){
+						if($productoFinal){
+							$articulo = array(
+								"id"			=>		$producto_edit,
+								"cantidad"		=>		1,
+								"precio"		=>		$productos_precio,
+								"nombre"		=>		$productos_titulo,
+								"uniqueId"      =>      $producto_edit,
+								"imagen"		=>      $productos_imagen,
+								"finalizado"    =>		true,
+								"productofinal" =>		1
+							);
+						}
+						$carrito->add($articulo);							
 					}
 				}
 			}
@@ -116,8 +141,20 @@ function showProductoSelect(){
 						<img src='/admin/imagesUpload/$productos_imagen' class='img-circle img-prd'>
 					</div>
 					<div class='productDisplay5'>
-						<select id='products' class='productosList selectProduct' name='products' onChange='showProductoSelect(this.value)'>
-			";		
+			";
+			$carrito = new Carrito();
+			$carro = $carrito->get_content();
+			if($carro){	
+				foreach($carro as $producto){
+					$finalizado = $producto["finalizado"];
+					$edicionTerminada = ($finalizado)? true : false;
+				}
+				if($edicionTerminada){
+					echo"<select id='products' class='productosList selectProduct' name='products' onChange='showProductoSelect(this.value)'>";
+				}else{
+					echo"<select id='products' class='productosList selectProduct' name='products' onChange='alertaPersonalizada(this.value)'>";
+				}
+			}
 			getProductosParaSelect($producto_edit);
 			echo"			
 						</select>
@@ -138,7 +175,7 @@ function showProductoSelect(){
 			echo"
 				</div>
 			</div>
-			";	
+			";
 		}
 	}	
 }
@@ -147,7 +184,7 @@ function getProductosParaSelect($prod_id){
 	
 	$db = callDb();
 	
-	$get_all_productos = 'SELECT p.titulo, p.id from productos p inner join categorias c ON c.id_producto = p.id GROUP BY p.titulo';
+	$get_all_productos = 'SELECT p.titulo, p.id from productos p inner join categorias c ON c.id_producto = p.id WHERE p.activo = 1 AND c.activo = 1 GROUP BY p.titulo';
 	$run_productos = mysqli_query($db, $get_all_productos);
 	
 	while($row_productos=mysqli_fetch_array($run_productos)){
@@ -163,8 +200,26 @@ function getProductosParaSelect($prod_id){
 			echo "		
 				<option value='$productos_id'>$productos_titulo</option>
 			";			
-		}
+		}		
+	}
+	
+	$get_all_productos = "SELECT * from productos where productofinal = 1 AND activo = 1";
+	$run_productos = mysqli_query($db, $get_all_productos);
+	
+	while($row_productos=mysqli_fetch_array($run_productos)){
 		
+		$productos_id = $row_productos['id'];
+		$productos_titulo = ucfirst($row_productos['titulo']);
+		
+		if($prod_id == $productos_id ){
+			echo "		
+				<option value='$productos_id' selected>$productos_titulo</option>
+			";
+		}else{
+			echo "		
+				<option value='$productos_id'>$productos_titulo</option>
+			";			
+		}		
 	}	
 }
 
@@ -193,7 +248,7 @@ function generarOpcionesEditables($idProd, $prod_desc){
 	$contador = 1;
 	$db = callDb();
 	
-	$get_categorias = "Select * FROM categorias where id_producto = $idProd";
+	$get_categorias = "Select c.Id, c.Titulo FROM categorias c INNER JOIN detalles_categorias dc ON dc.cat_id = c.Id where id_producto = $idProd and c.activo = 1 and dc.activo = 1 GROUP BY c.Id, c.Titulo ORDER BY c.orden DESC";
 	$run_categorias = mysqli_query($db, $get_categorias);
 	$totalCategorias = mysqli_num_rows($run_categorias);
 	
@@ -218,7 +273,7 @@ function generarOpcionesEditables($idProd, $prod_desc){
 			
 			";
 			$contador++;
-			$get_subcategorias = "SELECT dc.*, C.tipo_op FROM detalles_categorias dc INNER JOIN categorias C ON C.Id = dc.cat_id WHERE dc.cat_id = $categoria_id";
+			$get_subcategorias = "SELECT dc.*, C.tipo_op FROM detalles_categorias dc INNER JOIN categorias C ON C.Id = dc.cat_id WHERE dc.cat_id = $categoria_id and c.activo = 1 and dc.activo = 1";
 			$run_subcategorias = mysqli_query($db, $get_subcategorias);
 			
 			
@@ -295,21 +350,18 @@ function generarCarrito(){
 	$carro = $carrito->get_content();
 	$edicionTerminada = true;
 	
-	if($carro)
-	{	
-		
-		foreach($carro as $producto)
-		{
+	if(is_null($carro)){
+		echo"<hr class='negro'><h2 class='sinProdTitle sinProdTitleEmptyCar'>El carrito esta vacio, por favor seleccione un <a class='linkProd' href='index.php#productos'>producto</a></h3>";
+	}
+	
+	if($carro){	
+		foreach($carro as $producto){
 			$pro_tit = $producto["nombre"];
 			$pro_img = $producto["imagen"];
 			$finalizado = $producto["finalizado"];
 			$pro_id = $producto["id"];
-			
-			if($finalizado){
-				$edicionTerminada = true;
-			}else{
-				$edicionTerminada = false;
-			}
+			$edicionTerminada = ($finalizado)? true : false;
+			$producto_final = $producto["productofinal"];
 			
 			//Seccion cabecera del producto
 			echo"
@@ -317,22 +369,31 @@ function generarCarrito(){
 				<div>
 					<h2 class='titProd'>$pro_tit</h3>
 					<img src='/admin/imagesUpload/$pro_img' class='img-circle imgSize2'>
-					<span style='float:right;'>X</span>
+					<span onclick='eliminarProducto($pro_id)' style='float:right;'>X</span>
 					<span style='float:right;'>&nbsp;</span>
-					<span onclick='mostrarOcultar(111$pro_id)' style='float:right'>V</span>
+			";
+			
+			
+			
+			
+			if(!$producto_final){
+				echo"<span onclick='mostrarOcultar(111$pro_id)' style='float:right'>V</span>";
+			}
+					
+			echo"
 				</div>
 			";
 			
 			//Seccion opciones del producto
 			
-			if(empty($producto["opciones"])){
-				echo"
-				<hr class='negro'>				
+			if(empty($producto["opciones"]) && !$producto_final){
+				echo"		
 					<center id='111$pro_id'>
-						<h2 class='titProd'>Aun no hay opciones seleccionadas</h3>
+						<hr class='negro'>
+						<h2 class='sinProdTitle'>Aun no hay opciones seleccionadas</h3>
 					</center>
 				";	
-			}else{
+			}else if(!empty($producto["opciones"])){
 				if($edicionTerminada){
 					echo"<center style='display:none;' id='111$pro_id'>";	
 				}else{
@@ -346,7 +407,7 @@ function generarCarrito(){
 				foreach($producto["opciones"] as $arraySubCat){
 					foreach($arraySubCat as $subCat){
 						$db = callDb();
-						$get_subCat = "Select dc.*, c.Titulo as categoriaTitulo FROM detalles_categorias dc left outer join categorias c ON dc.cat_id = c.Id WHERE dc.id = $subCat";
+						$get_subCat = "Select dc.*, c.Titulo as categoriaTitulo FROM detalles_categorias dc left outer join categorias c ON dc.cat_id = c.Id WHERE dc.id = $subCat and c.activo = 1 and dc.activo = 1";
 						$run_subCat = mysqli_query($db, $get_subCat);
 					
 						while($row_subCat=mysqli_fetch_array($run_subCat)){
@@ -393,7 +454,7 @@ function generarCarrito(){
 			<a href='/#'><button style='float:right;' type='button' disabled>Pagar </button></a>
 			";
 			echo'
-			<a onclick=alert("Todavia&nbsp;no&nbsp;finalizo&nbsp;la&nbsp;edicion&nbsp;del&nbsp;producto")><button type="button" style="margin-right:1%; float:right;" >Elegir otro producto </button> </a>
+			<a onclick=alertaPersonalizada("a")><button type="button" style="margin-right:1%; float:right;" >Elegir otro producto </button> </a>
 			';	
 		}
 
@@ -427,7 +488,7 @@ function mensajeFinal(){
 		$carrito->addOption($articulo);
 		
 		$db = callDb();
-		$get_prod_desc = "Select descripcion FROM productos WHERE id = $idPadre";
+		$get_prod_desc = "Select descripcion FROM productos WHERE id = $idPadre AND activo = 1";
 		$run_qu = mysqli_query($db, $get_prod_desc);
 		
 		while($row_qu=mysqli_fetch_array($run_qu)){
@@ -495,12 +556,69 @@ function borrarUltimaOpcion(){
 		);
 	
 	$carrito->deleteOption($articulo);
-	
 	generarCarrito();
 }
 
-
-
+function eliminarProducto(){
+	if(isset($_GET['q'])){
+		$carrito = new Carrito();
+		$id_enc = md5($_GET['q']);
+		$carrito->remove_producto($id_enc);
+		
+		$carrito = new Carrito();
+		$carro = $carrito->get_content();
+		
+		if(!empty($carro)){
+			foreach($carro as $producto){
+				$idPadre = $producto['id'];
+			}
+			
+			$db = callDb();
+			$get_prod_desc = "Select descripcion FROM productos WHERE id = $idPadre AND activo = 1";
+			$run_qu = mysqli_query($db, $get_prod_desc);
+			
+			while($row_qu=mysqli_fetch_array($run_qu)){
+				$productos_desc = ucfirst($row_qu['descripcion']);
+				echo"
+				<div style='margin-bottom:2%;' class='seccOp'>
+					<span class='description'>
+						<p>$productos_desc</p>			
+					</span>
+					<div id='opcinesCompleto'>
+						<h3 style='color:blue;'>La edición del producto esta finalizada</h3>
+					</div>
+				</div>
+				";
+			}
+			
+			echo"
+			<div style='margin-bottom:2%;' id='carrito-compras' class='carrito-compras'>
+			";
+			generarCarrito();
+			echo"
+				</div>
+			</div>
+			";
+		}else{
+			echo"
+				<div style='margin-bottom:2%;' class='seccOp'>
+					<span class='description'>
+						<h2 class='sinProdTitle sinProdTitleEmptyCar'>Su carrito esta vacio, por favor seleccione un <a class='linkProd' href='index.php#productos'>producto</a></h2>			
+					</span>
+				</div>
+			";
+			echo"
+			<div style='margin-bottom:2%;' id='carrito-compras' class='carrito-compras'>
+			";
+			generarCarrito();
+			echo"
+				</div>
+			</div>
+			";	
+		}
+				
+	}
+}
 
 //Seguridad
 function sanitize($dirty){

@@ -71,3 +71,27 @@ center>div>div{
 	margin-left:0;
 	margin-right:0;
 }
+div.datos>div>div{
+	width:30%;
+	margin-right:2%;
+	float:left;
+}
+div.datos>div>div>span{
+	font-weight: bold;
+}
+div.datos>div{
+	display:inline;
+}
+
+div.detalles{
+	margin-bottom:13%;
+}
+
+button.irMP{
+	background: #e38690 none repeat scroll 0 0;
+    border: medium none #e38690;
+    color: white;
+    margin-bottom: 5%;
+    padding-left: 2%;
+    padding-right: 2%
+}

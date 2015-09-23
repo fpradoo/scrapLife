@@ -261,8 +261,8 @@ class MP {
             $uri .= (strpos($uri, "?") === false) ? "?" : "&";
             $uri .= $this->build_query($params);            
         }
-
         $result = MPRestClient::get($uri);
+		
         return $result;
     }
 
@@ -392,7 +392,7 @@ class MPRestClient {
         if ($data) {
             self::set_data($connect, $data, $content_type);
         }
-
+		
         $api_result = curl_exec($connect);
         $api_http_code = curl_getinfo($connect, CURLINFO_HTTP_CODE);
 

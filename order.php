@@ -1,6 +1,7 @@
 <?php 
 	require_once $_SERVER['DOCUMENT_ROOT'].'/core/init.php';
-	include_once ($_SERVER['DOCUMENT_ROOT']."/core/classCarrito.php"); 
+	include_once ($_SERVER['DOCUMENT_ROOT']."/core/classCarrito.php");
+	require_once ($_SERVER['DOCUMENT_ROOT']."/core/functions.php");	
 ?>
 
 <!DOCTYPE html>
@@ -92,6 +93,12 @@
 						
 							if(empty($producto["opciones"])){
 								echo"
+								<div>
+									<h2 class='titProd'>$pro_tit</h2>
+									<img src='/admin/imagesUpload/$pro_img' class='img-circle imgSize2'>
+									<span style='float:right;'>X</span>
+									<hr class='negro'>	
+								</div>
 								";	
 							}else{
 								echo"
@@ -109,19 +116,20 @@
 								foreach($producto["opciones"] as $arraySubCat){
 									foreach($arraySubCat as $subCat){
 										$db = callDb();
-										$get_subCat = "Select * FROM detalles_categorias WHERE id = $subCat";
+										$get_subCat = "Select dc.*, c.Titulo as categoriaTitulo FROM detalles_categorias dc left outer join categorias c ON dc.cat_id = c.Id WHERE dc.id = $subCat";
 										$run_subCat = mysqli_query($db, $get_subCat);
 									
 										while($row_subCat=mysqli_fetch_array($run_subCat)){
-											$productos_titulo = ucfirst($row_subCat['titulo']);
-											$productos_imagen = $row_subCat['imagen'];
-											$productos_precio = $row_subCat['precio_adicional'];
+											$subCat_titulo = ucfirst($row_subCat['titulo']);
+											$subCat_imagen = $row_subCat['imagen'];
+											$subCat_precio = $row_subCat['precio_adicional'];
+											$categoria_titulo = ucfirst($row_subCat['categoriaTitulo']);
 											
 											echo"
 											<div class='circProd elementCarrito' style='width:auto;'>
-												<img class='circProd img-circle imgSize3' src='/admin/imagesUpload/$productos_imagen'>
-												<h3 class='text-center titCatCarrito'>$productos_titulo</h3>
-												<h4 class='text-center'>$$productos_precio</h4>
+												<img class='circProd img-circle imgSize3' src='/admin/imagesUpload/$subCat_imagen'>
+												<h3 class='text-center titCatCarrito'>$categoria_titulo / $subCat_titulo</h3>
+												<h4 class='text-center'>$$subCat_precio</h4>
 											</div>
 											";						
 										}
@@ -139,56 +147,87 @@
 					<hr class="negro clear">					
 				</span>	
 			</div>
-			<div style="margin-bottom:2%;" class="seccOp">
-				<span class="description">
-					<h2 class="prdDisTitleBlue">Formulario de compra</h2>			
+			
+			<?php
+			if(isset($_POST["optionOrder"])){
+				switch ($_POST["optionOrder"]){
+					case "seleccionEnvio":
+						seleccionarEnvio($_POST["nombre"], $_POST["apellido"], $_POST["tel"], $_POST["email"], $_POST["dire"], $_POST["nroDire"], $_POST["ciudad"], $_POST["codPostal"], $_POST["provincia"], $_POST["pais"]);
+						break;
+					case "generarResumen":
+						generarResumen($_POST["nombre"], $_POST["apellido"], $_POST["tel"], $_POST["email"], $_POST["dire"], $_POST["nroDire"], $_POST["ciudad"], $_POST["codPostal"], $_POST["provincia"], $_POST["pais"], $_POST["shippingOption"]);
+						break;
+				}		
+			}else{
+				echo"
+				<div style='margin-bottom:2%;' class='seccOp'>
+				<span class='description'>
+					<h2 class='prdDisTitleBlue'>Formulario de compra</h2>			
 				</span>
-				<form action='/crearCompra.php' method='POST'>
+				<form action='/order.php' method='POST'>
 					<div id='form'>
-						<div class="form-group">
-							<label for="nombre">Nombre:</label>
-							<input type="text" name='nombre' class="form-control" id="nombre" required>
+						<div class='form-group'>
+							<label for='nombre'>Nombre:</label>
+							<input type='text' name='nombre' class='form-control' id='nombre' required>
 						</div>
-						<div class="form-group">
-							<label for="apellido">Apellido:</label>
-							<input type="text" name='apellido' class="form-control" id="apellido" required>
+						<div class='form-group'>
+							<label for='apellido'>Apellido:</label>
+							<input type='text' name='apellido' class='form-control' id='apellido' required>
 						</div>
-						<div class="form-group">
-							<label for="email">Email:</label>
-							<input name="email" type="email" class="form-control" id="email" required>
+						<div class='form-group'>
+							<label for='tel'>Telefono:</label>
+							<input name='tel' type='text' class='form-control' id='tel' required>
+						</div>						
+						<div class='form-group'>
+							<label for='email'>Email:</label>
+							<input name='email' type='email' class='form-control' id='email' required>
 						</div>
-						<div class="radio">
-							<label><input name="opcionDeCompra" type="radio" value="mercado" required>Mercado Pago</label>
-							<img class="creditLogo" src="https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/visa@2x.png" alt="" title=""   />
-							<img class="creditLogo" src="https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/mastercard@2x.png" alt="" title=""   />
-							<img class="creditLogo" src="https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/amex@2x.png" alt="" title=""   />
-							<img class="creditLogo" src="https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/ar/cabal@2x.png" alt="" title=""   />
-							<img class="creditLogo" src="https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/ar/tarjeta-naranja@2x.png" alt="" title=""   />
-							<img class="creditLogo" src="https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/ar/tarjeta-shopping@2x.png" alt="" title=""   />
-							<img class="creditLogo" src="https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/ar/banelco@2x.png" alt="" title=""   />
-							<img class="creditLogo" src="https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/ar/pagofacil@2x.png" alt="" title=""   />
-							<img class="creditLogo" src="https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/ar/rapipago@2x.png" alt="" title=""   />
-							<img class="creditLogo" src="https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/mercadopago@2x.png" alt="" title=""   />
+						<div class='form-group'>
+							<label for='dire'>Nombre calle de envio:</label>
+							<input name='dire' type='text' class='form-control' id='dire' required>
 						</div>
-						<div class="radio">
-							<label><input name="opcionDeCompra" type="radio" value="payu" required>Payu</label>
-							<img class="creditLogo" src="https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/visa@2x.png" alt="" title=""   />
-							<img class="creditLogo" src="https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/mastercard@2x.png" alt="" title=""   />
-							<img class="creditLogo" src="https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/amex@2x.png" alt="" title=""   />
-							<img class="creditLogo" src="https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/ar/cabal@2x.png" alt="" title=""   />
-							<img class="creditLogo" src="https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/ar/tarjeta-naranja@2x.png" alt="" title=""   />
-							<img class="creditLogo" src="https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/ar/tarjeta-shopping@2x.png" alt="" title=""   />
-							<img class="creditLogo" src="https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/ar/pagofacil@2x.png" alt="" title=""   />
-							<img class="creditLogo" src="https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/ar/rapipago@2x.png" alt="" title=""   />
-							<img class="creditLogo" src="https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/dineromail@2x.png" alt="" title=""   />
+						<div class='form-group'>
+							<label for='nroDire'>Número calle de envio:</label>
+							<input name='nroDire' type='text' class='form-control' id='nroDire' required>
 						</div>
-						<div class="radio">
-							<label><input name="opcionDeCompra" type="radio" value="convenir" required>A convenir con un vendedor</label>
+						<div class='form-group'>
+							<label for='ciudad'>Ciudad:</label>
+							<input name='ciudad' type='text' class='form-control' id='ciudad' required>
 						</div>
-						<button type="submit" class="btn btn-default">Aceptar</button>
+						<div class='form-group'>
+							<label for='codPostal'>Codigo Postal:</label>
+							<input name='codPostal' type='text' class='form-control' id='codPostal' required>
+						</div>
+						<div class='form-group'>
+							<label for='provincia'>Provincia:</label>
+							<input name='provincia' type='text' class='form-control' id='provincia' required>
+						</div>
+						<div class='form-group'>
+							<label for='pais'>País:</label>
+							<input name='pais' type='text' class='form-control' id='pais' required>
+						</div>						
+						<div class='form-group'>
+							<label>Mercado Pago</label>
+							<img class='creditLogo' src='https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/visa@2x.png' alt='' title=''   />
+							<img class='creditLogo' src='https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/mastercard@2x.png' alt='' title=''   />
+							<img class='creditLogo' src='https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/amex@2x.png' alt='' title=''   />
+							<img class='creditLogo' src='https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/ar/cabal@2x.png' alt='' title=''   />
+							<img class='creditLogo' src='https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/ar/tarjeta-naranja@2x.png' alt='' title=''   />
+							<img class='creditLogo' src='https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/ar/tarjeta-shopping@2x.png' alt='' title=''   />
+							<img class='creditLogo' src='https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/ar/banelco@2x.png' alt='' title=''   />
+							<img class='creditLogo' src='https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/ar/pagofacil@2x.png' alt='' title=''   />
+							<img class='creditLogo' src='https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/ar/rapipago@2x.png' alt='' title=''   />
+							<img class='creditLogo' src='https://d26lpennugtm8s.cloudfront.net/assets/common/img/logos/payment/mercadopago@2x.png' alt='' title=''   />
+						</div>
+						<input type='hidden' value='seleccionEnvio' name='optionOrder' />
+						<button type='submit' class='btn btn-default'>Aceptar</button>
 					</div>
 				</form>
 			</div>
+			";
+			}
+			?>
+			
 		</div>
 	</div>
 	<footer>

@@ -145,6 +145,7 @@ function showEditProducto(){
 			$producto_descripcion = ucfirst($row_producto['descripcion']);
 			$producto_precio = $row_producto['precio'];
 			$activo = ($row_producto['activo'] == 1) ? 'checked' : '';
+			$producto_final = ($row_producto['productofinal'] == 1) ? 'checked' : '';
 			$imagen = $row_producto['imagen'];
 			
 			echo"
@@ -169,6 +170,9 @@ function showEditProducto(){
 					</div>
 					<div class='checkbox'>
 						<label><input name='activo' id='activo' type='checkbox' $activo> Activo</label>
+					</div>
+					<div class='checkbox'>
+						<label><input name='productoFinal' id='productoFinal' type='checkbox' $producto_final> Producto Final</label>
 					</div>
 					<input type='hidden' name='producto_id' value='$producto_id'>
 					<button name='edit_producto' type='submit' class='btn btn-default'>Guardar</button>
@@ -208,6 +212,9 @@ function showAddProducto(){
 				<div class='form-group'>
 					<input name='activo' id='activo' type='checkbox'> Activo
 				</div>
+				<div class='form-group'>
+					<input name='productoFinal' id='productoFinal' type='checkbox'> Producto Final</label>
+				</div>
 				<button name='add_producto' type='submit' class='btn btn-default'>Guardar</button>
 			</form>
 		</div>
@@ -239,6 +246,7 @@ function addProducto(){
 		}
 		
 		(int)$activo = (isset($_POST['activo'])) ? '1' : '0';
+		(int)$producto_final = (isset($_POST['productoFinal'])) ? '1' : '0';
 		
 		//Si ya existe en bd
 		$sql = "SELECT * FROM productos where Titulo = '$titulo_producto'";
@@ -287,7 +295,7 @@ function addProducto(){
 		if(!empty($errores)){
 			echo mostrarErrores($errores);
 			}else{
-			$sql = "INSERT INTO productos (titulo, descripcion, precio, imagen, activo ) VALUES ('$titulo_producto', '$descripcion_producto', '$precio_producto', '$nombreDeLaImagen', $activo)";
+			$sql = "INSERT INTO productos (titulo, descripcion, precio, imagen, activo, productofinal) VALUES ('$titulo_producto', '$descripcion_producto', '$precio_producto', '$nombreDeLaImagen', $activo, $producto_final)";
 			$db->query($sql);
 		}
 			
@@ -309,6 +317,7 @@ function editProducto(){
 		$descripcion_producto = sanitize($_POST['descripcion']);
 		$precio_producto = sanitize($_POST['precio']);
 		(int)$activo = (isset($_POST['activo'])) ? '1' : '0';
+		(int)$producto_final = (isset($_POST['productoFinal'])) ? '1' : '0';
 		$id_producto = $_POST['producto_id'];
 		
 		$nombreDeLaImagen = '';
@@ -355,9 +364,9 @@ function editProducto(){
 			echo mostrarErrores($errores);
 			}else{
 				if($nombreDeLaImagen != ''){
-					$sql = "UPDATE productos SET titulo='$titulo_producto', precio='$precio_producto', descripcion='$descripcion_producto', imagen='$nombreDeLaImagen', activo=$activo WHERE id = '$id_producto'";
+					$sql = "UPDATE productos SET titulo='$titulo_producto', precio='$precio_producto', descripcion='$descripcion_producto', imagen='$nombreDeLaImagen', activo=$activo, productofinal=$producto_final WHERE id = '$id_producto'";
 				}else{
-					$sql = "UPDATE productos SET titulo='$titulo_producto', precio='$precio_producto', descripcion='$descripcion_producto', activo=$activo WHERE id = '$id_producto'";
+					$sql = "UPDATE productos SET titulo='$titulo_producto', precio='$precio_producto', descripcion='$descripcion_producto', activo=$activo, productofinal=$producto_final WHERE id = '$id_producto'";
 				}
 			
 			$db->query($sql);
@@ -455,6 +464,7 @@ function showEditCategoria(){
 			$categoria_tipo = $row_categoria['tipo_cat'];
 			$categoria_operacion = $row_categoria['tipo_op'];
 			$activo = ($row_categoria['activo'] == 1) ? 'checked' : '';
+			$orden = ($row_categoria['orden'] == null) ? 0 : $row_categoria['orden'];
 			
 			echo"
 				<h1>Editar categoria </h1>
@@ -482,6 +492,10 @@ function showEditCategoria(){
 					</div>
 					<div class='checkbox'>
 						<label><input name='activo' id='activo' type='checkbox' $activo> Activo</label>
+					</div>
+					<div class='form-group'>
+						<label for='orden'>Orden:</label>
+						<input name='orden' type='number' class='form-control' id='orden' value='$orden'>
 					</div>
 					<input type='hidden' name='categoria_id' value='$categoria_id'>
 					<button name='edit_categoria' type='submit' class='btn btn-default'>Guardar</button>
@@ -535,10 +549,13 @@ function showAddCategoria(){
 						<option value='1'>Simple</option>
 						<option value='2'>Multiple</option>
 					</select>
-				</div>
-				
+				</div>				
 				<div class='checkbox'>
 					<label><input name='activo' id='activo' type='checkbox'> Activo</label>
+				</div>
+				<div class='form-group'>
+					<label for='orden'>Orden:</label>
+					<input name='orden' type='number' class='form-control' id='orden'>
 				</div>
 				<input type='hidden' name='categoria_id' value=''>
 				<button name='add_categoria' type='submit' class='btn btn-default'>Guardar</button>
@@ -560,9 +577,10 @@ function addCategoria(){
 		
 		$id_producto_padre = $_POST['id_producto'];
 		$tipo_cat = $_POST['tip_cat'];
-		$tipo_op = $_POST['tip_op'];		
+		$tipo_op = $_POST['tip_op'];	
+		$orden = ($_POST['orden'] == 0) ? null : $_POST['orden'];
 				
-		$sql = "INSERT INTO categorias (Titulo, tipo_cat, tipo_op, id_producto, activo) VALUES ('$titulo_categoria', '$tipo_cat', '$tipo_op', '$id_producto_padre', $activo)";
+		$sql = "INSERT INTO categorias (Titulo, tipo_cat, tipo_op, id_producto, activo, orden) VALUES ('$titulo_categoria', '$tipo_cat', '$tipo_op', '$id_producto_padre', $activo, '$orden')";
 		$db->query($sql);
 
 		echo"
@@ -591,9 +609,10 @@ function editCategoria(){
 		$tipo_categoria = $_POST['tip_cat'];
 		$operacion_categoria = $_POST['tip_op'];		
 		(int)$activo = (isset($_POST['activo'])) ? '1' : '0';
+		$orden = ($_POST['orden'] == 0) ? null : $_POST['orden'];
 		
 		
-		$sql = "UPDATE categorias SET titulo='$titulo_categoria', tipo_cat='$tipo_categoria', tipo_op='$operacion_categoria', activo=$activo WHERE id = '$id_categoria'";
+		$sql = "UPDATE categorias SET titulo='$titulo_categoria', tipo_cat='$tipo_categoria', tipo_op='$operacion_categoria', activo=$activo, orden=$orden WHERE id = '$id_categoria'";
 		$db->query($sql);
 		
 		echo"

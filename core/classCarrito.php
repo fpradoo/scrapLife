@@ -1,9 +1,10 @@
 <?php
 session_start();
+
  
 class Carrito
 {
- 
+	
 	//aquí guardamos el contenido del carrito
 	private $carrito = array();
  
@@ -289,7 +290,7 @@ class Carrito
  
 	//este método retorna el contenido del carrito
 	public function get_content()
-	{
+	{	
 		//asignamos el carrito a una variable
 		$carrito = $this->carrito;
 		//debemos eliminar del carrito el número de artículos

@@ -75,7 +75,7 @@
 			if(isset($_POST)){
 				switch ($_POST["opcionDeCompra"]) {
 					case "mercado":
-						generarMP($_POST["nombre"], $_POST["apellido"]);
+						mercado($_POST["codPostal"]);
 						break;
 					case "payu":
 						generarPayU($_POST["nombre"], $_POST["apellido"], $_POST["email"]);
