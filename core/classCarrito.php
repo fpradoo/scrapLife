@@ -49,7 +49,7 @@ class Carrito
 				if($row["unique_id"] === $unique_id)
 				{
 					//si ya estaba sumamos la cantidad
-					$articulo["cantidad"] = $row["cantidad"] + $articulo["cantidad"];
+					$articulo["cantidad"] = $articulo["cantidad"];
 				}
 			}
 		}
@@ -104,7 +104,7 @@ class Carrito
 				if($row["unique_id"] === $unique_id)
 				{
 					//si ya estaba sumamos la cantidad
-					$articulo["cantidad"] = $row["cantidad"] + $articulo["cantidad"];
+					$articulo["cantidad"] = $articulo["cantidad"];
 				}
 			}
 		}
@@ -150,7 +150,7 @@ class Carrito
 				if($row["unique_id"] === $unique_id)
 				{
 					//si ya estaba sumamos la cantidad
-					$articulo["cantidad"] = $row["cantidad"] + $articulo["cantidad"];
+					$articulo["cantidad"] = $articulo["cantidad"];
 				}
 				
 				if($row["unique_id"] === $unique_id)
@@ -158,7 +158,7 @@ class Carrito
 					array_push($row["opciones"], $articulo["opciones"]);
 					
 					$articulo["opciones"] = $row["opciones"];
-					
+					//var_dump($articulo["opciones"]);
 					if($row["finalizado"]){
 						$articulo["finalizado"] = $row["finalizado"];
 					}
@@ -201,7 +201,7 @@ class Carrito
 				if($row["unique_id"] === $unique_id)
 				{
 					//si ya estaba sumamos la cantidad
-					$articulo["cantidad"] = $row["cantidad"] + $articulo["cantidad"];
+					$articulo["cantidad"] = $articulo["cantidad"];
 				}
 				
 				if($row["unique_id"] === $unique_id)

@@ -49,6 +49,13 @@ function echoProducts(){
 		";	
 	}
 	
+	echo"
+		<div class='title-section text-center'>
+			<span class='separador'></span>
+			<h3 class='subtit'>Elegí tu paquete armado</h3>
+		</div>
+	";
+	
 	$get_prod = "SELECT * from productos where productofinal = 1 and activo = 1";
 	$run_prod = mysqli_query($db, $get_prod);
 	
@@ -62,7 +69,7 @@ function echoProducts(){
 		
 		<div class='circProd'>
 			<a href='/producto.php?id=$id_prod'>
-				<img class='circProd img-circle' src='/admin/imagesUpload/$img_prod'>
+				<img class='squareProd img-circle' src='/admin/imagesUpload/$img_prod'>
 				<h3 class='subtit'>$titulo_prod</h3>
 			</a>
 		</div>

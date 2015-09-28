@@ -29,9 +29,9 @@ function changeSeccionesCategorias(){
 		$producto_edit = (int)$_GET['q'];
 		$producto_edit = sanitize($producto_edit);		
 		
-		$get_all_categorias_by_producto_and_interna = "Select * FROM categorias c INNER JOIN tipo_cat tc ON tc.id = c.tipo_cat where id_producto = '$producto_edit' AND tc.tipo_cat = 'interna' ORDER BY Titulo";
+		$get_all_categorias_by_producto_and_interna = "Select * FROM categorias c INNER JOIN tipo_cat tc ON tc.id = c.tipo_cat where id_producto = '$producto_edit' AND tc.tipo_cat = 'interna' ORDER BY orden DESC";
 		$run_categorias_internas = mysqli_query($db, $get_all_categorias_by_producto_and_interna);
-		$get_all_categorias_by_producto_and_externa = "Select * FROM categorias c INNER JOIN tipo_cat tc ON tc.id = c.tipo_cat where id_producto = '$producto_edit' AND tc.tipo_cat = 'externa' ORDER BY Titulo";
+		$get_all_categorias_by_producto_and_externa = "Select * FROM categorias c INNER JOIN tipo_cat tc ON tc.id = c.tipo_cat where id_producto = '$producto_edit' AND tc.tipo_cat = 'externa' ORDER BY orden DESC";
 		$run_categorias_externas = mysqli_query($db, $get_all_categorias_by_producto_and_externa);
 		
 		while($categoria_interna=mysqli_fetch_array($run_categorias_internas)){
@@ -53,6 +53,9 @@ function changeSeccionesCategorias(){
 						Titulo
 						</th>
 						<th>
+						Orden
+						</th>
+						<th>
 						Editar
 						</th>
 						<th>
@@ -66,11 +69,15 @@ function changeSeccionesCategorias(){
 			foreach ($arrayCategoriasInternas as $row_categoria) {
 				$categorias_id = $row_categoria['Id'];
 				$categorias_titulo = ucfirst($row_categoria['Titulo']);
+				$categorias_orden = $row_categoria['orden'];
 				
 				echo "
 				<tr>
 					<td>
 						$categorias_titulo
+					</td>
+					<td>
+						$categorias_orden
 					</td>
 					<td>
 						<a href='categorias.php?edit=$categorias_id' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-pencil'></span></a>
@@ -99,6 +106,9 @@ function changeSeccionesCategorias(){
 						Titulo
 						</th>
 						<th>
+						Orden
+						</th>
+						<th>
 						Editar
 						</th>
 						<th>
@@ -112,11 +122,15 @@ function changeSeccionesCategorias(){
 			foreach ($arrayCategoriasExternas as $row_categoria) {
 				$categorias_id = $row_categoria['Id'];
 				$categorias_titulo = ucfirst($row_categoria['Titulo']);
+				$categorias_orden = $row_categoria['orden'];
 				
 				echo "
 				<tr>
 					<td>
 						$categorias_titulo
+					</td>
+					<td>
+						$categorias_orden
 					</td>
 					<td>
 						<a href='categorias.php?edit=$categorias_id' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-pencil'></span></a>

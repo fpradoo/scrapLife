@@ -242,6 +242,11 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 auto;
 }
 
+.title-section span.separador {
+  width: 700px;
+  height: 1px;
+}
+
 .widget-title {
   font-size: 18px;
   font-weight: 600;
@@ -684,6 +689,14 @@ img.circProd{
 	height : 80px;
 	width : 80px;
 	border-radius:50%;
+	margin-left: 4%;
+}
+
+img.squareProd{
+	border-radius:0 !important;
+	margin-right: 4%;
+	height : 80px;
+	width : 80px;
 	margin-left: 4%;
 }
 

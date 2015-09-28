@@ -273,7 +273,7 @@ function generarOpcionesEditables($idProd, $prod_desc){
 			
 			";
 			$contador++;
-			$get_subcategorias = "SELECT dc.*, C.tipo_op FROM detalles_categorias dc INNER JOIN categorias C ON C.Id = dc.cat_id WHERE dc.cat_id = $categoria_id and c.activo = 1 and dc.activo = 1";
+			$get_subcategorias = "SELECT dc.*, C.tipo_op FROM detalles_categorias dc INNER JOIN categorias C ON C.Id = dc.cat_id WHERE dc.cat_id = $categoria_id and C.activo = 1 and dc.activo = 1";
 			$run_subcategorias = mysqli_query($db, $get_subcategorias);
 			
 			
@@ -349,7 +349,7 @@ function generarCarrito(){
 	$carrito = new Carrito();
 	$carro = $carrito->get_content();
 	$edicionTerminada = true;
-	
+	$sumaSubproductos = 0;
 	if(is_null($carro)){
 		echo"<hr class='negro'><h2 class='sinProdTitle sinProdTitleEmptyCar'>El carrito esta vacio, por favor seleccione un <a class='linkProd' href='index.php#productos'>producto</a></h3>";
 	}
@@ -360,6 +360,7 @@ function generarCarrito(){
 			$pro_img = $producto["imagen"];
 			$finalizado = $producto["finalizado"];
 			$pro_id = $producto["id"];
+			$pro_precio = $producto["precio"];
 			$edicionTerminada = ($finalizado)? true : false;
 			$producto_final = $producto["productofinal"];
 			
@@ -367,7 +368,7 @@ function generarCarrito(){
 			echo"
 			<hr class='negro'>
 				<div>
-					<h2 class='titProd'>$pro_tit</h3>
+					<h2 class='titProd'>$pro_tit - $$pro_precio</h3>
 					<img src='/admin/imagesUpload/$pro_img' class='img-circle imgSize2'>
 					<span onclick='eliminarProducto($pro_id)' style='float:right;'>X</span>
 					<span style='float:right;'>&nbsp;</span>
@@ -409,13 +410,13 @@ function generarCarrito(){
 						$db = callDb();
 						$get_subCat = "Select dc.*, c.Titulo as categoriaTitulo FROM detalles_categorias dc left outer join categorias c ON dc.cat_id = c.Id WHERE dc.id = $subCat and c.activo = 1 and dc.activo = 1";
 						$run_subCat = mysqli_query($db, $get_subCat);
-					
+						
 						while($row_subCat=mysqli_fetch_array($run_subCat)){
 							$sucCat_titulo = ucfirst($row_subCat['titulo']);
 							$sucCat_imagen = $row_subCat['imagen'];
 							$sucCat_precio = $row_subCat['precio_adicional'];
 							$cat_titulo = ucfirst($row_subCat['categoriaTitulo']);
-							
+							$sumaSubproductos += intval($sucCat_precio);	
 							echo"
 								<div style='display:inline; width:auto;'>
 									<div class='circProd elementCarrito' style='width:48%;'>
@@ -438,25 +439,26 @@ function generarCarrito(){
 		}
 	}
 	
-	echo"
-		<hr class='negro clear'>
-				<h5 class='total'>Total: 330</h5>
-				<hr class='negro clear'>				
-				
+	echo"<hr class='negro clear'>
+			<h5 class='total'>Total:";
+	$carrito = new Carrito();
+	echo $carrito->precio_total() + $sumaSubproductos;
+	echo"</h5>
+			<hr class='negro clear'>";
+			
+	if($edicionTerminada){
+		echo"
+		<a href='/order.php'><button style='float:right;' type='button'>Pagar </button></a>
+		<a href='/index.php#productos'><button type='button' style='margin-right:1%; float:right;' >Elegir otro producto </button> </a>
 		";
-		if($edicionTerminada){
-			echo"
-			<a href='/order.php'><button style='float:right;' type='button'>Pagar </button></a>
-			<a href='/index.php#productos'><button type='button' style='margin-right:1%; float:right;' >Elegir otro producto </button> </a>
-			";
-		}else{
-			echo"
-			<a href='/#'><button style='float:right;' type='button' disabled>Pagar </button></a>
-			";
-			echo'
-			<a onclick=alertaPersonalizada("a")><button type="button" style="margin-right:1%; float:right;" >Elegir otro producto </button> </a>
-			';	
-		}
+	}else{
+		echo"
+		<a href='/#'><button style='float:right;' type='button' disabled>Pagar </button></a>
+		";
+		echo'
+		<a onclick=alertaPersonalizada("a")><button type="button" style="margin-right:1%; float:right;" >Elegir otro producto </button> </a>
+		';	
+	}
 
 		
 	echo"	
@@ -517,20 +519,31 @@ function mensajeFinal(){
 }
 
 function actualizarCarrito(){
-	
+	$db = callDb();
 	if(isset($_GET['q']) && !empty($_GET['q'])){
 		$opciones = array();
-		
+		$opcionesConPrecio = array();
 		$myString = $_GET['q'];
 		$opciones = explode(',', $myString);
+		
+		foreach($opciones as $opcion){
 			
+			$get_price = "Select precio_adicional from detalles_categorias where id = $opcion";
+			$run_price = mysqli_query($db, $get_price);
+			while($row_price=mysqli_fetch_array($run_price)){
+				$precioAdicional = $row_price['precio_adicional'];
+				array_push($opcionesConPrecio, $opcion);
+				array_push($opcionesConPrecio, $precioAdicional);
+			}			
+		}
+		
 		$carrito = new Carrito();
 			$articulo = array(
 				"id"			=>		null,
 				"cantidad"		=>		1,
 				"precio"		=>		null,
 				"nombre"		=>		null,
-				"opciones"      =>      $opciones,
+				"opciones"      =>      $opcionesConPrecio,
 				"uniqueId"      =>      intval($_GET['idPadre']),
 				"imagen"		=>      null,
 				"finalizado"    =>		false
