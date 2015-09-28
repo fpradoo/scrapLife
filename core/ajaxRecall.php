@@ -71,6 +71,7 @@ function showProductoSelect(){
 					"precio"		=>		$productos_precio,
 					"nombre"		=>		$productos_titulo,
 					"opciones"      =>      array(),
+					"opcionesPrecio" =>		array(),
 					"uniqueId"      =>      $producto_edit,
 					"imagen"		=>      $productos_imagen,
 					"finalizado"    =>		$finalizado,
@@ -93,6 +94,7 @@ function showProductoSelect(){
 						"precio"		=>		$productos_precio,
 						"nombre"		=>		$productos_titulo,
 						"opciones"      =>      array(),
+						"opcionesPrecio" =>		array(),
 						"uniqueId"      =>      $producto_edit,
 						"imagen"		=>      $productos_imagen,
 						"finalizado"    =>		false,
@@ -470,10 +472,21 @@ function mensajeFinal(){
 	
 	if(isset($_GET['q'])&&!empty($_GET['q'])){
 		$opciones = array();
+		$opcionesPrecio = array();
 		
 		$myString = $_GET['q'];
 		$opciones = explode(',', $myString);
 		$idPadre = $_GET['idPadre'];
+		
+		foreach($opciones as $opcion){
+			
+			$get_price = "Select precio_adicional from detalles_categorias where id = $opcion";
+			$run_price = mysqli_query($db, $get_price);
+			while($row_price=mysqli_fetch_array($run_price)){
+				$precioAdicional = intval($row_price['precio_adicional']);
+				array_push($opcionesPrecio, $precioAdicional);
+			}			
+		}
 		
 		$carrito = new Carrito();
 			$articulo = array(
@@ -482,6 +495,7 @@ function mensajeFinal(){
 				"precio"		=>		null,
 				"nombre"		=>		null,
 				"opciones"      =>      $opciones,
+				"opcionesPrecio" =>		$opcionesPrecio,
 				"uniqueId"      =>      intval($idPadre),
 				"imagen"		=>      null,
 				"finalizado"    =>		true
@@ -522,7 +536,7 @@ function actualizarCarrito(){
 	$db = callDb();
 	if(isset($_GET['q']) && !empty($_GET['q'])){
 		$opciones = array();
-		$opcionesConPrecio = array();
+		$opcionesPrecio = array();
 		$myString = $_GET['q'];
 		$opciones = explode(',', $myString);
 		
@@ -531,9 +545,8 @@ function actualizarCarrito(){
 			$get_price = "Select precio_adicional from detalles_categorias where id = $opcion";
 			$run_price = mysqli_query($db, $get_price);
 			while($row_price=mysqli_fetch_array($run_price)){
-				$precioAdicional = $row_price['precio_adicional'];
-				array_push($opcionesConPrecio, $opcion);
-				array_push($opcionesConPrecio, $precioAdicional);
+				$precioAdicional = intval($row_price['precio_adicional']);
+				array_push($opcionesPrecio, $precioAdicional);
 			}			
 		}
 		
@@ -543,7 +556,8 @@ function actualizarCarrito(){
 				"cantidad"		=>		1,
 				"precio"		=>		null,
 				"nombre"		=>		null,
-				"opciones"      =>      $opcionesConPrecio,
+				"opciones"      =>      $opciones,
+				"opcionesPrecio" =>		$opcionesPrecio,
 				"uniqueId"      =>      intval($_GET['idPadre']),
 				"imagen"		=>      null,
 				"finalizado"    =>		false
@@ -563,6 +577,7 @@ function borrarUltimaOpcion(){
 			"precio"		=>		null,
 			"nombre"		=>		null,
 			"opciones"      =>      null,
+			"opcionesPrecio" =>		null,
 			"uniqueId"      =>      intval($_GET['idPadre']),
 			"imagen"		=>      null,
 			"finalizado"    =>		false

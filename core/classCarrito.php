@@ -156,9 +156,19 @@ class Carrito
 				if($row["unique_id"] === $unique_id)
 				{
 					array_push($row["opciones"], $articulo["opciones"]);
+					array_push($row["opcionesPrecio"], $articulo["opcionesPrecio"]);
 					
 					$articulo["opciones"] = $row["opciones"];
-					//var_dump($articulo["opciones"]);
+					
+					$suma = 0;
+					foreach($articulo["opcionesPrecio"] as $price){
+						$suma += $price;
+					}
+					
+					$articulo["opcionesPrecio"] = $row["opcionesPrecio"];
+					$articulo["precio"] = 0;
+					$articulo["precio"] = $row["precio"] + $suma;
+					
 					if($row["finalizado"]){
 						$articulo["finalizado"] = $row["finalizado"];
 					}
@@ -168,7 +178,9 @@ class Carrito
 	    		
 		///ahora añadimos el producto al carrito
 		$_SESSION["carrito"][$unique_id]["opciones"] = $articulo["opciones"];
+		$_SESSION["carrito"][$unique_id]["opcionesPrecio"] = $articulo["opcionesPrecio"];
 		$_SESSION["carrito"][$unique_id]["finalizado"] = $articulo["finalizado"];
+		$_SESSION["carrito"][$unique_id]["precio"] = $articulo["precio"];	
 		
 	    //actualizamos el carrito
 	    $this->update_carrito();		
@@ -207,8 +219,18 @@ class Carrito
 				if($row["unique_id"] === $unique_id)
 				{
 					unset($row["opciones"][count($row["opciones"])-1]);
-					
 					$articulo["opciones"] = $row["opciones"];
+					
+					$suma = 0;					
+					foreach($row["opcionesPrecio"][count($row["opcionesPrecio"])-1] as $price){
+						$suma += $price;
+					}
+					
+					unset($row["opcionesPrecio"][count($row["opcionesPrecio"])-1]);
+					$articulo["opcionesPrecio"] = $row["opcionesPrecio"];
+					
+					$articulo["precio"] = 0;
+					$articulo["precio"] = $row["precio"] - $suma;
 					
 					if($row["finalizado"]){
 						$articulo["finalizado"] = $row["finalizado"];
@@ -219,7 +241,9 @@ class Carrito
 	    		
 		///ahora añadimos el producto al carrito
 		$_SESSION["carrito"][$unique_id]["opciones"] = $articulo["opciones"];
+		$_SESSION["carrito"][$unique_id]["opcionesPrecio"] = $articulo["opcionesPrecio"];
 		$_SESSION["carrito"][$unique_id]["finalizado"] = $articulo["finalizado"];
+		$_SESSION["carrito"][$unique_id]["precio"] = $articulo["precio"];	
 		
 	    //actualizamos el carrito
 	    $this->update_carrito();		
