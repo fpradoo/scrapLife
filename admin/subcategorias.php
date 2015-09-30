@@ -25,6 +25,7 @@
 		include $_SERVER['DOCUMENT_ROOT'].'/admin/includes/footer.php';
 	} else {
 		echo 'No está autorizado para acceder a esta página. Por favor, inicie su sesión';
+		header('Location:/admin/login.php');
 	}
 	
 ?>

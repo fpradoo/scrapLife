@@ -33,7 +33,6 @@ function showProductoSelect(){
 	$carro = $carrito->get_content();
 	if($carro){	
 		foreach($carro as $producto){
-			//var_dump($producto);
 			if($producto["finalizado"] == false && $producto["productofinal"] != 1){
 				$carrito = new Carrito();
 				$carrito->remove_producto($producto["unique_id"]);
@@ -58,11 +57,13 @@ function showProductoSelect(){
 			$productos_precio = $row_productos['precio'];
 			$productoFinal = ($row_productos['productofinal'] == 1) ? true : false;
 			$finalizado = ($productoFinal) ? true : false;
+			$yaExiste = false;
 			
 			$carrito = new Carrito();
 			
 			$carro = $carrito->get_content();
-	
+			
+			//Agregar diferentes tipos de productos con el carro vacio
 			//Inicio para productos simples y con opciones si el carrito esta vacio
 			if(is_null($carro)){
 				$articulo = array(
@@ -81,50 +82,50 @@ function showProductoSelect(){
 				$carrito->add($articulo);
 			}
 			
+			//Agregar diferentes tipos de productos con el carro con elementos
+			//Si el producto ya existe en el carro seteo una variable para que no se sobreescriba
 			$carrito = new Carrito();			
 			$carro = $carrito->get_content();
-						
-			//Se agrega el producto con opciones			
 			if($carro){	
 				foreach($carro as $producto){
-					if($producto['unique_id'] != md5($producto_edit) && !$productoFinal){
+					if($producto['unique_id'] == md5($producto_edit)){
+						$yaExiste = true;
+					}
+				}
+			}
+			
+			//Si el producto no existe y no es un producto final lo agrego al carro
+			if(!$yaExiste && !$productoFinal){
+				$articulo = array(
+					"id"			=>		$producto_edit,
+					"cantidad"		=>		1,
+					"precio"		=>		$productos_precio,
+					"nombre"		=>		$productos_titulo,
+					"opciones"      =>      array(),
+					"opcionesPrecio" =>		array(),
+					"uniqueId"      =>      $producto_edit,
+					"imagen"		=>      $productos_imagen,
+					"finalizado"    =>		false,
+					"productofinal" =>		0
+				);
+				
+				$carrito->add($articulo);							
+			}
+			
+			//Si el producto es final lo agrego
+			if($carro){
+				if($productoFinal){
 					$articulo = array(
 						"id"			=>		$producto_edit,
 						"cantidad"		=>		1,
 						"precio"		=>		$productos_precio,
 						"nombre"		=>		$productos_titulo,
-						"opciones"      =>      array(),
-						"opcionesPrecio" =>		array(),
 						"uniqueId"      =>      $producto_edit,
 						"imagen"		=>      $productos_imagen,
-						"finalizado"    =>		false,
-						"productofinal" =>		0
+						"finalizado"    =>		true,
+						"productofinal" =>		1
 					);
-					
-					$carrito->add($articulo);
-							
-					}
-				}
-			}
-			
-			//Se agrega producto sin opciones
-			if($carro){
-				foreach($carro as $producto){
-					if($producto['unique_id'] != md5($producto_edit)){
-						if($productoFinal){
-							$articulo = array(
-								"id"			=>		$producto_edit,
-								"cantidad"		=>		1,
-								"precio"		=>		$productos_precio,
-								"nombre"		=>		$productos_titulo,
-								"uniqueId"      =>      $producto_edit,
-								"imagen"		=>      $productos_imagen,
-								"finalizado"    =>		true,
-								"productofinal" =>		1
-							);
-						}
-						$carrito->add($articulo);							
-					}
+					$carrito->add($articulo);					
 				}
 			}
 			
@@ -418,7 +419,6 @@ function generarCarrito(){
 							$sucCat_imagen = $row_subCat['imagen'];
 							$sucCat_precio = $row_subCat['precio_adicional'];
 							$cat_titulo = ucfirst($row_subCat['categoriaTitulo']);
-							$sumaSubproductos += intval($sucCat_precio);	
 							echo"
 								<div style='display:inline; width:auto;'>
 									<div class='circProd elementCarrito' style='width:48%;'>
@@ -444,7 +444,7 @@ function generarCarrito(){
 	echo"<hr class='negro clear'>
 			<h5 class='total'>Total:";
 	$carrito = new Carrito();
-	echo $carrito->precio_total() + $sumaSubproductos;
+	echo $carrito->precio_total();
 	echo"</h5>
 			<hr class='negro clear'>";
 			
@@ -478,6 +478,7 @@ function mensajeFinal(){
 		$opciones = explode(',', $myString);
 		$idPadre = $_GET['idPadre'];
 		
+		$db = callDb();
 		foreach($opciones as $opcion){
 			
 			$get_price = "Select precio_adicional from detalles_categorias where id = $opcion";
@@ -589,6 +590,19 @@ function borrarUltimaOpcion(){
 
 function eliminarProducto(){
 	if(isset($_GET['q'])){
+		
+		//Borro si existen productos incompletos en sesion
+		$carrito = new Carrito();
+		$carro = $carrito->get_content();
+		if($carro){	
+			foreach($carro as $producto){
+				if($producto["finalizado"] == false && $producto["productofinal"] != 1){
+					$carrito = new Carrito();
+					$carrito->remove_producto($producto["unique_id"]);
+				}
+			}			
+		}
+		
 		$carrito = new Carrito();
 		$id_enc = md5($_GET['q']);
 		$carrito->remove_producto($id_enc);

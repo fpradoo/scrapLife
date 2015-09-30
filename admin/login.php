@@ -41,7 +41,7 @@ if (login_check($mysqli) == true) {
 				</div>
 				<div class='form-group'>
 					<label for='password'>Contraseña:</label>
-					<input class='form-control' type="password" name="password" id="password" required />
+					<input onkeydown="javascript: if(window.event.keyCode == 13) formhash(this.form, this.form.password); else window.event.keyCode = null;" class='form-control' type="password" name="password" id="password" required />
 				</div>
 				<input class="btn btn-default" type="button" type="button" value="Login" onclick="formhash(this.form, this.form.password);">
 			</form>

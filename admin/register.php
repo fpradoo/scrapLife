@@ -68,6 +68,7 @@ if (login_check($mysqli) == true) {
 
 } else {
     echo 'No está autorizado para acceder a esta página. Por favor, inicie su sesión';
+	header('Location:/admin/login.php');
 }
 
 ?>
